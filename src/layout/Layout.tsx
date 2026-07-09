@@ -117,16 +117,9 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
                 <a href="#/about" onClick={() => setActiveTab('About')}>About Us</a>
               </div>
               <div className={styles.linksCol}>
-                <h4>Legal & Support</h4>
-                <a href="#/contact" onClick={() => setActiveTab('Contact')}>Contact</a>
+                <h4>Legal Policies</h4>
                 <a href="#/privacy" onClick={() => setActiveTab('Privacy')}>Privacy Policy</a>
                 <a href="#/terms" onClick={() => setActiveTab('Terms')}>Terms of Service</a>
-              </div>
-              <div className={styles.linksCol}>
-                <h4>SEO & Discovery</h4>
-                <a href="#/sitemap" onClick={() => setActiveTab('Sitemap')}>Sitemap</a>
-                <a href="/sitemap.xml" target="_blank" rel="noreferrer">Sitemap XML</a>
-                <a href="/robots.txt" target="_blank" rel="noreferrer">robots.txt</a>
               </div>
             </div>
           </div>
