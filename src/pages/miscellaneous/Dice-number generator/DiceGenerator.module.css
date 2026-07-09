@@ -27,9 +27,6 @@
   flex-direction: column;
   gap: 2rem;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  height: fit-content;
-  position: sticky;
-  top: 2rem;
 }
 
 .controlGroup {
@@ -131,6 +128,7 @@
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
+  margin-top: auto;
 }
 
 .rollBtn:hover:not(:disabled) {
@@ -144,14 +142,16 @@
 }
 
 .resultsArea {
-  background: rgba(0,0,0,0.15);
+  background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 2rem;
+  padding: 1.5rem;
   min-height: 500px;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   overflow-y: auto;
 }
 
