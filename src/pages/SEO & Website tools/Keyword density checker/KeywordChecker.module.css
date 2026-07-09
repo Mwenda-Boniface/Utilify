@@ -3,6 +3,9 @@
   flex-direction: column;
   gap: 2rem;
   animation: fadeIn 0.4s ease;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .toolHeader {
@@ -34,14 +37,36 @@
   color: var(--text-muted);
 }
 
-.layout {
+.workspace {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   gap: 2rem;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  align-items: stretch !important;
+}
+
+.inputSection,
+.resultSection {
+  height: 100%;
+  min-height: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 1000px) {
-  .layout { grid-template-columns: 1fr; }
+  .workspace { 
+    grid-template-columns: 1fr; 
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .inputSection,
+  .resultSection {
+    height: auto !important;
+    overflow: visible !important;
+  }
 }
 
 .card {
@@ -50,6 +75,7 @@
   border-radius: var(--radius-xl);
   padding: 1.5rem;
   height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -70,7 +96,7 @@
 
 .textarea {
   width: 100%;
-  min-height: 400px;
+  min-height: 120px;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -133,11 +159,31 @@
   color: var(--text-dim);
   padding: 4rem;
   text-align: center;
+  height: 100%;
 }
 
 .statsList {
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.statsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.statsList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.statsList::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 3px;
 }
 
 .statsHeader {
