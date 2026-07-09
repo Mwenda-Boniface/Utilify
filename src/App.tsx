@@ -1,83 +1,64 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from './layout/Layout';
 import Dashboard from './pages/Dashboard';
-
-interface HistoryState {
-  tab: string;
-  toolId: string | null;
-}
 
 function App() {
   const [activeTab, setActiveTab] = useState('Tools');
   const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
 
-  // History stack management
-  const [history, setHistory] = useState<HistoryState[]>([{ tab: 'Tools', toolId: null }]);
-  const [historyIndex, setHistoryIndex] = useState(0);
-  const isNavigatingStack = useRef(false);
-
-  // Sync state transitions to the history stack
+  // Sync state changes to browser hash
   useEffect(() => {
-    if (isNavigatingStack.current) {
-      isNavigatingStack.current = false;
-      return;
+    let targetHash = '#/tools';
+    if (activeTab === 'History') {
+      targetHash = '#/history';
+    } else if (activeTab === 'About') {
+      targetHash = '#/about';
+    } else if (activeTab === 'Tools' && selectedToolId) {
+      targetHash = `#/tools/${selectedToolId}`;
     }
-
-    const current = history[historyIndex];
-    if (current && current.tab === activeTab && current.toolId === selectedToolId) {
-      return;
+    
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
     }
-
-    // Truncate any forward history and push new state
-    const cleanHistory = history.slice(0, historyIndex + 1);
-    setHistory([...cleanHistory, { tab: activeTab, toolId: selectedToolId }]);
-    setHistoryIndex(cleanHistory.length);
   }, [activeTab, selectedToolId]);
 
-  const goBack = () => {
-    if (historyIndex > 0) {
-      const prevIndex = historyIndex - 1;
-      const targetState = history[prevIndex];
-      isNavigatingStack.current = true;
-      setHistoryIndex(prevIndex);
-      setActiveTab(targetState.tab);
-      setSelectedToolId(targetState.toolId);
-    }
-  };
+  // Listen to browser back/forward clicks (hash changes)
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#/tools/')) {
+        const toolId = hash.replace('#/tools/', '');
+        setActiveTab('Tools');
+        setSelectedToolId(toolId);
+      } else if (hash === '#/history') {
+        setActiveTab('History');
+        setSelectedToolId(null);
+      } else if (hash === '#/about') {
+        setActiveTab('About');
+        setSelectedToolId(null);
+      } else {
+        setActiveTab('Tools');
+        setSelectedToolId(null);
+      }
+    };
 
-  const goForward = () => {
-    if (historyIndex < history.length - 1) {
-      const nextIndex = historyIndex + 1;
-      const targetState = history[nextIndex];
-      isNavigatingStack.current = true;
-      setHistoryIndex(nextIndex);
-      setActiveTab(targetState.tab);
-      setSelectedToolId(targetState.toolId);
-    }
-  };
+    window.addEventListener('hashchange', handleHashChange);
+    
+    // Parse current hash on page mount/load
+    handleHashChange();
 
-  const handleRefresh = () => {
-    window.location.reload();
-  };
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     setSelectedToolId(null);
   };
 
-  const canGoBack = historyIndex > 0;
-  const canGoForward = historyIndex < history.length - 1;
-
   return (
-    <Layout 
-      activeTab={activeTab} 
-      setActiveTab={handleTabChange}
-      onBack={goBack}
-      onForward={goForward}
-      onRefresh={handleRefresh}
-      canGoBack={canGoBack}
-      canGoForward={canGoForward}
-    >
+    <Layout activeTab={activeTab} setActiveTab={handleTabChange}>
       <Dashboard 
         activeTab={activeTab} 
         setActiveTab={handleTabChange}

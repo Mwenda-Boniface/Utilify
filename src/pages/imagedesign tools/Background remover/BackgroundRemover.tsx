@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Scissors, Upload, Download, RefreshCw } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Scissors, Upload, Download, RefreshCw, Pipette } from 'lucide-react';
 import styles from './BackgroundRemover.module.css';
 
 const BackgroundRemover: React.FC = () => {
@@ -9,11 +9,54 @@ const BackgroundRemover: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // Draw the uploaded image to the canvas immediately on upload
+  useEffect(() => {
+    if (!image || !canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+    };
+    img.src = image;
+  }, [image]);
+
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (event) => setImage(event.target?.result as string);
       reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor(((e.clientX - rect.left) / rect.width) * canvas.width);
+    const y = Math.floor(((e.clientY - rect.top) / rect.height) * canvas.height);
+
+    try {
+      const pixel = ctx.getImageData(x, y, 1, 1).data;
+      const r = pixel[0];
+      const g = pixel[1];
+      const b = pixel[2];
+      
+      const hex = '#' + [r, g, b].map(v => {
+        const h = v.toString(16);
+        return h.length === 1 ? '0' + h : h;
+      }).join('');
+      
+      setTargetColor(hex);
+    } catch (err) {
+      console.error('Error picking color from canvas:', err);
     }
   };
 
@@ -81,8 +124,13 @@ const BackgroundRemover: React.FC = () => {
             </label>
           ) : (
             <div className={styles.previewWrapper}>
-              <canvas ref={canvasRef} className={styles.mainCanvas} />
-              <img src={image} style={{ display: 'none' }} alt="Source" />
+              <canvas 
+                ref={canvasRef} 
+                className={styles.mainCanvas} 
+                onClick={handleCanvasClick}
+                title="Click anywhere on the image to pick background color"
+                style={{ cursor: 'crosshair' }}
+              />
             </div>
           )}
         </div>
@@ -99,6 +147,10 @@ const BackgroundRemover: React.FC = () => {
               />
               <span>{targetColor.toUpperCase()}</span>
             </div>
+            <p className={styles.hintText}>
+              <Pipette size={14} style={{ marginRight: '4px', verticalAlign: 'middle' }} />
+              Or click directly on the image to pick color
+            </p>
           </div>
 
           <div className={styles.controlGroup}>
@@ -117,7 +169,14 @@ const BackgroundRemover: React.FC = () => {
             <button className={styles.downloadBtn} onClick={download} disabled={!image}>
               <Download size={18} /> Download PNG
             </button>
-            <button className={styles.resetBtn} onClick={() => { setImage(null); const ctx = canvasRef.current?.getContext('2d'); ctx?.clearRect(0, 0, 10000, 10000); }}>Reset</button>
+            <button 
+              className={styles.resetBtn} 
+              onClick={() => { 
+                setImage(null); 
+              }}
+            >
+              Reset
+            </button>
           </div>
         </div>
       </div>
