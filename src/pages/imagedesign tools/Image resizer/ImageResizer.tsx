@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Maximize, Download, Upload, Lock, Unlock } from 'lucide-react';
 import styles from './ImageResizer.module.css';
 
@@ -28,38 +28,46 @@ const ImageResizer: React.FC = () => {
   };
 
   const updateWidth = (w: number) => {
-    const newW = Math.max(1, w);
+    const sanitized = isNaN(w) || w <= 0 ? 1 : w;
     if (locked) {
-      setTargetSize({ w: newW, h: Math.round(newW / ratio) });
+      setTargetSize({ w: sanitized, h: Math.round(sanitized / ratio) });
     } else {
-      setTargetSize({ ...targetSize, w: newW });
+      setTargetSize({ ...targetSize, w: sanitized });
     }
   };
 
   const updateHeight = (h: number) => {
-    const newH = Math.max(1, h);
+    const sanitized = isNaN(h) || h <= 0 ? 1 : h;
     if (locked) {
-      setTargetSize({ w: Math.round(newH * ratio), h: newH });
+      setTargetSize({ w: Math.round(sanitized * ratio), h: sanitized });
     } else {
-      setTargetSize({ ...targetSize, h: newH });
+      setTargetSize({ ...targetSize, h: sanitized });
     }
   };
 
-  const download = () => {
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !image) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
     const img = new Image();
     img.onload = () => {
       canvas.width = targetSize.w;
       canvas.height = targetSize.h;
-      ctx?.drawImage(img, 0, 0, targetSize.w, targetSize.h);
-      const link = document.createElement('a');
-      link.download = `resized_image.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      ctx.clearRect(0, 0, targetSize.w, targetSize.h);
+      ctx.drawImage(img, 0, 0, targetSize.w, targetSize.h);
     };
     img.src = image;
+  }, [image, targetSize.w, targetSize.h]);
+
+  const download = () => {
+    const canvas = canvasRef.current;
+    if (!canvas || !image) return;
+    const link = document.createElement('a');
+    link.download = `resized_image.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
   };
 
   return (
@@ -74,7 +82,7 @@ const ImageResizer: React.FC = () => {
             </label>
           ) : (
             <div className={styles.previewContainer}>
-              <img src={image} alt="Preview" className={styles.previewImg} />
+              <canvas ref={canvasRef} className={styles.canvasPreview} />
               <div className={styles.overlay}>
                 {targetSize.w} x {targetSize.h}
               </div>
@@ -88,8 +96,8 @@ const ImageResizer: React.FC = () => {
               <label>Width (px)</label>
               <input 
                 type="number" 
-                value={targetSize.w} 
-                onChange={(e) => updateWidth(parseInt(e.target.value) || 0)}
+                value={targetSize.w || ''} 
+                onChange={(e) => updateWidth(parseInt(e.target.value))}
               />
             </div>
             <button className={styles.lockBtn} onClick={() => setLocked(!locked)}>
@@ -99,8 +107,8 @@ const ImageResizer: React.FC = () => {
               <label>Height (px)</label>
               <input 
                 type="number" 
-                value={targetSize.h} 
-                onChange={(e) => updateHeight(parseInt(e.target.value) || 0)}
+                value={targetSize.h || ''} 
+                onChange={(e) => updateHeight(parseInt(e.target.value))}
               />
             </div>
           </div>
@@ -119,7 +127,6 @@ const ImageResizer: React.FC = () => {
           )}
         </div>
       </div>
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
     </div>
   );
 };
