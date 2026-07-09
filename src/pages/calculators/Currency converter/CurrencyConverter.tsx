@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DollarSign, RefreshCw, ArrowRightLeft, TrendingUp } from 'lucide-react';
 import styles from '../Calculators.module.css';
 
@@ -211,15 +211,11 @@ const CurrencyConverter: React.FC = () => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '1rem', alignItems: 'flex-end' }}>
             <div className={styles.field}>
               <label>From</label>
-              <select 
-                className={styles.select}
-                value={fromCurrency.code}
-                onChange={(e) => setFromCurrency(CURRENCIES.find(c => c.code === e.target.value) || CURRENCIES[0])}
-              >
-                {CURRENCIES.map(c => (
-                  <option key={c.code} value={c.code}>{c.code} - {c.name}</option>
-                ))}
-              </select>
+              <SearchableDropdown 
+                value={fromCurrency} 
+                onChange={setFromCurrency} 
+                currencies={CURRENCIES} 
+              />
             </div>
 
             <button className={styles.btnSecondary} onClick={swap} style={{ marginBottom: '0.25rem', padding: '0.75rem' }}>
@@ -228,15 +224,11 @@ const CurrencyConverter: React.FC = () => {
 
             <div className={styles.field}>
               <label>To</label>
-              <select 
-                className={styles.select}
-                value={toCurrency.code}
-                onChange={(e) => setToCurrency(CURRENCIES.find(c => c.code === e.target.value) || CURRENCIES[1])}
-              >
-                {CURRENCIES.map(c => (
-                  <option key={c.code} value={c.code}>{c.code} - {c.name}</option>
-                ))}
-              </select>
+              <SearchableDropdown 
+                value={toCurrency} 
+                onChange={setToCurrency} 
+                currencies={CURRENCIES} 
+              />
             </div>
           </div>
 
@@ -271,6 +263,90 @@ const CurrencyConverter: React.FC = () => {
           )}
         </div>
       </div>
+    </div>
+  );
+};
+
+interface SearchableDropdownProps {
+  value: typeof CURRENCIES[number];
+  onChange: (val: typeof CURRENCIES[number]) => void;
+  currencies: typeof CURRENCIES;
+}
+
+const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ value, onChange, currencies }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSearchQuery('');
+    }
+  }, [isOpen]);
+
+  const filtered = currencies.filter(c => 
+    c.code.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    c.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className={styles.dropdownWrapper} ref={dropdownRef}>
+      <button 
+        type="button" 
+        className={styles.dropdownButton} 
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span>{value.code} - {value.name}</span>
+        <span className={styles.dropdownArrow}>▼</span>
+      </button>
+
+      {isOpen && (
+        <div className={styles.dropdownMenu}>
+          <div className={styles.searchWrapper}>
+            <input 
+              type="text"
+              className={styles.searchInput}
+              placeholder="Search currency..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus
+            />
+          </div>
+          <div className={styles.optionsList}>
+            {filtered.length > 0 ? (
+              filtered.map(c => (
+                <button
+                  key={c.code}
+                  type="button"
+                  className={`${styles.optionItem} ${c.code === value.code ? styles.optionItemActive : ''}`}
+                  onClick={() => {
+                    onChange(c);
+                    setIsOpen(false);
+                  }}
+                >
+                  <span className={styles.optionCode}>{c.code}</span>
+                  <span className={styles.optionName}>{c.name}</span>
+                  <span className={styles.optionSymbol}>{c.symbol}</span>
+                </button>
+              ))
+            ) : (
+              <div className={styles.noResults}>No matches</div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
