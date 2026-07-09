@@ -275,6 +275,7 @@ interface SearchableDropdownProps {
 
 const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ value, onChange, currencies }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [openUpward, setOpenUpward] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -296,6 +297,20 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ value, onChange
     }
   }, [isOpen]);
 
+  const toggleDropdown = () => {
+    if (!isOpen && dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      // Dropdown menu max height is 250px + search box height + border is ~300px.
+      if (spaceBelow < 300 && rect.top > spaceBelow) {
+        setOpenUpward(true);
+      } else {
+        setOpenUpward(false);
+      }
+    }
+    setIsOpen(!isOpen);
+  };
+
   const filtered = currencies.filter(c => 
     c.code.toLowerCase().includes(searchQuery.toLowerCase()) || 
     c.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -306,14 +321,14 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ value, onChange
       <button 
         type="button" 
         className={styles.dropdownButton} 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleDropdown}
       >
         <span>{value.code} - {value.name}</span>
         <span className={styles.dropdownArrow}>▼</span>
       </button>
 
       {isOpen && (
-        <div className={styles.dropdownMenu}>
+        <div className={openUpward ? styles.dropdownMenuUp : styles.dropdownMenu}>
           <div className={styles.searchWrapper}>
             <input 
               type="text"
