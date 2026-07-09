@@ -39,6 +39,31 @@ const BackgroundRemover: React.FC = () => {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
+
+      // Auto detect background color from the 4 corners of the image
+      try {
+        const W = canvas.width;
+        const H = canvas.height;
+        const pTL = ctx.getImageData(0, 0, 1, 1).data;
+        const pTR = ctx.getImageData(W - 1, 0, 1, 1).data;
+        const pBL = ctx.getImageData(0, H - 1, 1, 1).data;
+        const pBR = ctx.getImageData(W - 1, H - 1, 1, 1).data;
+
+        // Calculate average RGB values from the 4 corners
+        const avgR = Math.round((pTL[0] + pTR[0] + pBL[0] + pBR[0]) / 4);
+        const avgG = Math.round((pTL[1] + pTR[1] + pBL[1] + pBR[1]) / 4);
+        const avgB = Math.round((pTL[2] + pTR[2] + pBL[2] + pBR[2]) / 4);
+
+        // Convert RGB to Hex color code
+        const hex = '#' + [avgR, avgG, avgB].map(v => {
+          const h = v.toString(16);
+          return h.length === 1 ? '0' + h : h;
+        }).join('');
+
+        setTargetColor(hex);
+      } catch (err) {
+        console.error('Error auto-detecting background color:', err);
+      }
     };
     img.src = image;
   }, [image]);
