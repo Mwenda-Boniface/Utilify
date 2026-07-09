@@ -7,6 +7,7 @@ const BackgroundRemover: React.FC = () => {
   const [tolerance, setTolerance] = useState(20);
   const [targetColor, setTargetColor] = useState('#ffffff');
   const [removeMode, setRemoveMode] = useState<'contiguous' | 'global'>('contiguous');
+  const [seedPoint, setSeedPoint] = useState<{ x: number; y: number } | null>(null);
   const [loading, setLoading] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -29,7 +30,10 @@ const BackgroundRemover: React.FC = () => {
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
-      reader.onload = (event) => setImage(event.target?.result as string);
+      reader.onload = (event) => {
+        setImage(event.target?.result as string);
+        setSeedPoint(null);
+      };
       reader.readAsDataURL(e.target.files[0]);
     }
   };
@@ -56,6 +60,7 @@ const BackgroundRemover: React.FC = () => {
       }).join('');
       
       setTargetColor(hex);
+      setSeedPoint({ x, y });
     } catch (err) {
       console.error('Error picking color from canvas:', err);
     }
@@ -106,33 +111,30 @@ const BackgroundRemover: React.FC = () => {
           return isMatch(idx);
         };
 
-        // Push edge pixels to queue
-        for (let x = 0; x < W; x++) {
-          if (isMatchXY(x, 0)) {
-            const idx = 0 * W + x;
-            visited[idx] = 1;
-            queue.push(idx);
+        const pushSeed = (x: number, y: number) => {
+          if (x >= 0 && x < W && y >= 0 && y < H) {
+            const idx = y * W + x;
+            if (!visited[idx] && isMatchXY(x, y)) {
+              visited[idx] = 1;
+              queue.push(idx);
+            }
           }
-          if (isMatchXY(x, H - 1)) {
-            const idx = (H - 1) * W + x;
-            visited[idx] = 1;
-            queue.push(idx);
-          }
+        };
+
+        // 1. Seed from user clicked point
+        if (seedPoint) {
+          pushSeed(seedPoint.x, seedPoint.y);
         }
-        for (let y = 0; y < H; y++) {
-          if (isMatchXY(0, y)) {
-            const idx = y * W + 0;
-            if (!visited[idx]) {
-              visited[idx] = 1;
-              queue.push(idx);
-            }
+
+        // 2. Seed from edges with 3px depth margin to bypass outer borders/lines
+        for (let depth = 0; depth < 3; depth++) {
+          for (let x = 0; x < W; x++) {
+            pushSeed(x, depth);
+            pushSeed(x, H - 1 - depth);
           }
-          if (isMatchXY(W - 1, y)) {
-            const idx = y * W + (W - 1);
-            if (!visited[idx]) {
-              visited[idx] = 1;
-              queue.push(idx);
-            }
+          for (let y = 0; y < H; y++) {
+            pushSeed(depth, y);
+            pushSeed(W - 1 - depth, y);
           }
         }
 
@@ -273,6 +275,7 @@ const BackgroundRemover: React.FC = () => {
               className={styles.resetBtn} 
               onClick={() => { 
                 setImage(null); 
+                setSeedPoint(null);
               }}
             >
               Reset
