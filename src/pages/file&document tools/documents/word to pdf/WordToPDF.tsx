@@ -41,11 +41,44 @@ const WordToPDF: React.FC = () => {
       const arrayBuffer = await file.arrayBuffer();
       
       const doc = new jsPDF();
+      doc.setFont("Helvetica", "normal");
+      doc.setFontSize(11);
       
       // Local conversion for better performance and privacy
       const plainText = await mammoth.extractRawText({ arrayBuffer });
-      const splitText = doc.splitTextToSize(plainText.value, 180);
-      doc.text(splitText, 15, 20);
+      const paragraphs = plainText.value.split(/\r?\n/);
+      
+      const splitLines: string[] = [];
+      paragraphs.forEach((p) => {
+        // If the paragraph is empty but is followed by other paragraphs, preserve the spacing
+        if (p.trim() === '') {
+          splitLines.push('');
+          return;
+        }
+        const lines = doc.splitTextToSize(p, 180);
+        splitLines.push(...lines);
+        // Add paragraph spacing
+        splitLines.push('');
+      });
+      
+      const pageHeight = doc.internal.pageSize.height;
+      const marginX = 15;
+      const marginTop = 20;
+      const marginBottom = 20;
+      const lineHeight = 6; // 6mm line height
+      let cursorY = marginTop;
+
+      for (let i = 0; i < splitLines.length; i++) {
+        const line = splitLines[i];
+        if (cursorY + lineHeight > pageHeight - marginBottom) {
+          doc.addPage();
+          cursorY = marginTop;
+        }
+        if (line !== '') {
+          doc.text(line, marginX, cursorY);
+        }
+        cursorY += lineHeight;
+      }
       
       const blob = doc.output('blob');
       const url = URL.createObjectURL(blob);
