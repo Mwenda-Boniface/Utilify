@@ -42,6 +42,7 @@
   gap: 2rem;
   height: 100%;
   overflow: hidden;
+  align-items: stretch !important;
 }
 
 @media (max-width: 1000px) {
@@ -73,6 +74,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  align-self: stretch !important;
   background-image: 
     linear-gradient(45deg, var(--bg-surface) 25%, transparent 25%),
     linear-gradient(-45deg, var(--bg-surface) 25%, transparent 25%),
@@ -148,6 +150,7 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+  align-self: stretch !important;
 }
 
 .controls::-webkit-scrollbar {
