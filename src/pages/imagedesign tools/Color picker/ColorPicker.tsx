@@ -82,6 +82,7 @@ const hslToRgb = (h: number, s: number, l: number) => {
 const ColorPicker: React.FC = () => {
   const [color, setColor] = useState('#2563eb');
   const [copied, setCopied] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'harmonics' | 'tuning'>('harmonics');
 
   const { r, g, b } = hexToRgbValues(color);
   const { h, s, l } = rgbToHsl(r, g, b);
@@ -162,127 +163,136 @@ const ColorPicker: React.FC = () => {
               </button>
             </div>
           </div>
-
-          {/* Manual Tuning Sliders */}
-          <div className={styles.tunerSection}>
-            <div className={styles.tunerHeader}>
-              <Sliders size={18} />
-              <h4>Manual Tuning</h4>
-            </div>
-            
-            <div className={styles.tunerGroup}>
-              {/* RGB Channels */}
-              <div className={styles.tunerRow}>
-                <div className={styles.tunerLabel}>
-                  <span>Red</span>
-                  <strong>{r}</strong>
-                </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="255" 
-                  value={r} 
-                  style={{ '--slider-color': color } as React.CSSProperties}
-                  onChange={(e) => setColor(rgbToHex(Number(e.target.value), g, b))} 
-                />
-              </div>
-              <div className={styles.tunerRow}>
-                <div className={styles.tunerLabel}>
-                  <span>Green</span>
-                  <strong>{g}</strong>
-                </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="255" 
-                  value={g} 
-                  style={{ '--slider-color': color } as React.CSSProperties}
-                  onChange={(e) => setColor(rgbToHex(r, Number(e.target.value), b))} 
-                />
-              </div>
-              <div className={styles.tunerRow}>
-                <div className={styles.tunerLabel}>
-                  <span>Blue</span>
-                  <strong>{b}</strong>
-                </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="255" 
-                  value={b} 
-                  style={{ '--slider-color': color } as React.CSSProperties}
-                  onChange={(e) => setColor(rgbToHex(r, g, Number(e.target.value)))} 
-                />
-              </div>
-
-              {/* HSL Channels */}
-              <div className={styles.tunerRow}>
-                <div className={styles.tunerLabel}>
-                  <span>Hue</span>
-                  <strong>{h}°</strong>
-                </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="360" 
-                  value={h} 
-                  style={{ '--slider-color': color } as React.CSSProperties}
-                  onChange={(e) => {
-                    const rgb = hslToRgb(Number(e.target.value), s, l);
-                    setColor(rgbToHex(rgb.r, rgb.g, rgb.b));
-                  }} 
-                />
-              </div>
-              <div className={styles.tunerRow}>
-                <div className={styles.tunerLabel}>
-                  <span>Saturation</span>
-                  <strong>{s}%</strong>
-                </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="100" 
-                  value={s} 
-                  style={{ '--slider-color': color } as React.CSSProperties}
-                  onChange={(e) => {
-                    const rgb = hslToRgb(h, Number(e.target.value), l);
-                    setColor(rgbToHex(rgb.r, rgb.g, rgb.b));
-                  }} 
-                />
-              </div>
-              <div className={styles.tunerRow}>
-                <div className={styles.tunerLabel}>
-                  <span>Lightness</span>
-                  <strong>{l}%</strong>
-                </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="100" 
-                  value={l} 
-                  style={{ '--slider-color': color } as React.CSSProperties}
-                  onChange={(e) => {
-                    const rgb = hslToRgb(h, s, Number(e.target.value));
-                    setColor(rgbToHex(rgb.r, rgb.g, rgb.b));
-                  }} 
-                />
-              </div>
-            </div>
-          </div>
         </div>
 
         <div className={styles.paletteSection}>
-          <div className={styles.sectionHeader}>
-            <Palette size={18} />
-            <h4>Color Harmonics</h4>
+          <div className={styles.tabsHeader}>
+            <button 
+              className={`${styles.tabBtn} ${activeTab === 'harmonics' ? styles.activeTab : ''}`}
+              onClick={() => setActiveTab('harmonics')}
+            >
+              <Palette size={16} />
+              <span>Color Harmonics</span>
+            </button>
+            <button 
+              className={`${styles.tabBtn} ${activeTab === 'tuning' ? styles.activeTab : ''}`}
+              onClick={() => setActiveTab('tuning')}
+            >
+              <Sliders size={16} />
+              <span>Manual Tuning</span>
+            </button>
           </div>
-          <div className={styles.paletteGrid}>
-            {getHarmonics(color).map((c, i) => (
-              <div key={i} className={styles.paletteItem}>
-                <div className={styles.swatch} style={{ backgroundColor: c }} onClick={() => setColor(c)} />
-                <span className={styles.swatchText}>{c.toUpperCase()}</span>
+
+          <div className={styles.tabContent}>
+            {activeTab === 'harmonics' ? (
+              <div className={styles.paletteGrid}>
+                {getHarmonics(color).map((c, i) => (
+                  <div key={i} className={styles.paletteItem}>
+                    <div className={styles.swatch} style={{ backgroundColor: c }} onClick={() => setColor(c)} />
+                    <span className={styles.swatchText}>{c.toUpperCase()}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              <div className={styles.tunerGroup}>
+                {/* RGB Channels */}
+                <div className={styles.tunerRow}>
+                  <div className={styles.tunerLabel}>
+                    <span>Red</span>
+                    <strong>{r}</strong>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="255" 
+                    value={r} 
+                    style={{ '--slider-color': color } as React.CSSProperties}
+                    onChange={(e) => setColor(rgbToHex(Number(e.target.value), g, b))} 
+                  />
+                </div>
+                <div className={styles.tunerRow}>
+                  <div className={styles.tunerLabel}>
+                    <span>Green</span>
+                    <strong>{g}</strong>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="255" 
+                    value={g} 
+                    style={{ '--slider-color': color } as React.CSSProperties}
+                    onChange={(e) => setColor(rgbToHex(r, Number(e.target.value), b))} 
+                  />
+                </div>
+                <div className={styles.tunerRow}>
+                  <div className={styles.tunerLabel}>
+                    <span>Blue</span>
+                    <strong>{b}</strong>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="255" 
+                    value={b} 
+                    style={{ '--slider-color': color } as React.CSSProperties}
+                    onChange={(e) => setColor(rgbToHex(r, g, Number(e.target.value)))} 
+                  />
+                </div>
+
+                {/* HSL Channels */}
+                <div className={styles.tunerRow}>
+                  <div className={styles.tunerLabel}>
+                    <span>Hue</span>
+                    <strong>{h}°</strong>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="360" 
+                    value={h} 
+                    style={{ '--slider-color': color } as React.CSSProperties}
+                    onChange={(e) => {
+                      const rgb = hslToRgb(Number(e.target.value), s, l);
+                      setColor(rgbToHex(rgb.r, rgb.g, rgb.b));
+                    }} 
+                  />
+                </div>
+                <div className={styles.tunerRow}>
+                  <div className={styles.tunerLabel}>
+                    <span>Saturation</span>
+                    <strong>{s}%</strong>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="100" 
+                    value={s} 
+                    style={{ '--slider-color': color } as React.CSSProperties}
+                    onChange={(e) => {
+                      const rgb = hslToRgb(h, Number(e.target.value), l);
+                      setColor(rgbToHex(rgb.r, rgb.g, rgb.b));
+                    }} 
+                  />
+                </div>
+                <div className={styles.tunerRow}>
+                  <div className={styles.tunerLabel}>
+                    <span>Lightness</span>
+                    <strong>{l}%</strong>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="100" 
+                    value={l} 
+                    style={{ '--slider-color': color } as React.CSSProperties}
+                    onChange={(e) => {
+                      const rgb = hslToRgb(h, s, Number(e.target.value));
+                      setColor(rgbToHex(rgb.r, rgb.g, rgb.b));
+                    }} 
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
