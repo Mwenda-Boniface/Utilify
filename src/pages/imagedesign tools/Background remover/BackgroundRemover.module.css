@@ -74,6 +74,9 @@
 .previewWrapper {
   max-width: 100%;
   max-height: 600px;
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 .mainCanvas {
@@ -81,6 +84,32 @@
   max-height: 600px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
+  transition: filter 0.3s ease;
+  display: block;
+}
+
+.canvasBlur {
+  filter: blur(10px) brightness(0.6);
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  color: white;
+  font-weight: 700;
+  gap: 1rem;
+  z-index: 10;
+  font-size: 1.1rem;
+  animation: fadeIn 0.2s ease;
 }
 
 .controls {
@@ -227,6 +256,28 @@
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  margin-top: 0.5rem;
+  user-select: none;
+}
+
+.checkboxInput {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  cursor: pointer;
+  accent-color: var(--primary);
 }
 
 @keyframes fadeIn {

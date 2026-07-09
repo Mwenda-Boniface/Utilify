@@ -6,6 +6,8 @@ const BackgroundRemover: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const [tolerance, setTolerance] = useState(20);
   const [targetColor, setTargetColor] = useState('#ffffff');
+  const [replacementColor, setReplacementColor] = useState('#ffffff');
+  const [isTransparent, setIsTransparent] = useState(false);
   const [removeMode, setRemoveMode] = useState<'contiguous' | 'global'>('contiguous');
   const [seedPoint, setSeedPoint] = useState<{ x: number; y: number } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -70,117 +72,145 @@ const BackgroundRemover: React.FC = () => {
     if (!image || !canvasRef.current) return;
     setLoading(true);
     
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-    
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx?.drawImage(img, 0, 0);
+    // Slight delay to showcase the premium blur loading state
+    setTimeout(() => {
+      const canvas = canvasRef.current;
+      if (!canvas) {
+        setLoading(false);
+        return;
+      }
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
       
-      const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height);
-      if (!imageData) return;
-      
-      const { data } = imageData;
-      const W = canvas.width;
-      const H = canvas.height;
-      const targetR = parseInt(targetColor.slice(1, 3), 16);
-      const targetG = parseInt(targetColor.slice(3, 5), 16);
-      const targetB = parseInt(targetColor.slice(5, 7), 16);
-      
-      const isMatch = (idx: number) => {
-        if (data[idx + 3] === 0) return false;
-        const r = data[idx];
-        const g = data[idx + 1];
-        const b = data[idx + 2];
-        const dist = Math.sqrt(
-          Math.pow(r - targetR, 2) + 
-          Math.pow(g - targetG, 2) + 
-          Math.pow(b - targetB, 2)
-        );
-        return dist < tolerance;
-      };
-
-      if (removeMode === 'contiguous') {
-        const visited = new Uint8Array(W * H);
-        const queue: number[] = [];
-
-        const isMatchXY = (x: number, y: number) => {
-          const idx = (y * W + x) * 4;
-          return isMatch(idx);
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx?.drawImage(img, 0, 0);
+        
+        const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height);
+        if (!imageData) {
+          setLoading(false);
+          return;
+        }
+        
+        const { data } = imageData;
+        const W = canvas.width;
+        const H = canvas.height;
+        const targetR = parseInt(targetColor.slice(1, 3), 16);
+        const targetG = parseInt(targetColor.slice(3, 5), 16);
+        const targetB = parseInt(targetColor.slice(5, 7), 16);
+        
+        const repR = parseInt(replacementColor.slice(1, 3), 16);
+        const repG = parseInt(replacementColor.slice(3, 5), 16);
+        const repB = parseInt(replacementColor.slice(5, 7), 16);
+        
+        const isMatch = (idx: number) => {
+          if (data[idx + 3] === 0) return false;
+          const r = data[idx];
+          const g = data[idx + 1];
+          const b = data[idx + 2];
+          const dist = Math.sqrt(
+            Math.pow(r - targetR, 2) + 
+            Math.pow(g - targetG, 2) + 
+            Math.pow(b - targetB, 2)
+          );
+          return dist < tolerance;
         };
 
-        const pushSeed = (x: number, y: number) => {
-          if (x >= 0 && x < W && y >= 0 && y < H) {
-            const idx = y * W + x;
-            if (!visited[idx] && isMatchXY(x, y)) {
-              visited[idx] = 1;
-              queue.push(idx);
+        if (removeMode === 'contiguous') {
+          const visited = new Uint8Array(W * H);
+          const queue: number[] = [];
+
+          const isMatchXY = (x: number, y: number) => {
+            const idx = (y * W + x) * 4;
+            return isMatch(idx);
+          };
+
+          const pushSeed = (x: number, y: number) => {
+            if (x >= 0 && x < W && y >= 0 && y < H) {
+              const idx = y * W + x;
+              if (!visited[idx] && isMatchXY(x, y)) {
+                visited[idx] = 1;
+                queue.push(idx);
+              }
+            }
+          };
+
+          // 1. Seed from user clicked point
+          if (seedPoint) {
+            pushSeed(seedPoint.x, seedPoint.y);
+          }
+
+          // 2. Seed from edges with 3px depth margin to bypass outer borders/lines
+          for (let depth = 0; depth < 3; depth++) {
+            for (let x = 0; x < W; x++) {
+              pushSeed(x, depth);
+              pushSeed(x, H - 1 - depth);
+            }
+            for (let y = 0; y < H; y++) {
+              pushSeed(depth, y);
+              pushSeed(W - 1 - depth, y);
             }
           }
-        };
 
-        // 1. Seed from user clicked point
-        if (seedPoint) {
-          pushSeed(seedPoint.x, seedPoint.y);
-        }
+          // BFS loop
+          let head = 0;
+          while (head < queue.length) {
+            const currentIdx = queue[head++];
+            const cx = currentIdx % W;
+            const cy = Math.floor(currentIdx / W);
 
-        // 2. Seed from edges with 3px depth margin to bypass outer borders/lines
-        for (let depth = 0; depth < 3; depth++) {
-          for (let x = 0; x < W; x++) {
-            pushSeed(x, depth);
-            pushSeed(x, H - 1 - depth);
+            const neighbors = [
+              [cx + 1, cy],
+              [cx - 1, cy],
+              [cx, cy + 1],
+              [cx, cy - 1]
+            ];
+
+            for (const [nx, ny] of neighbors) {
+              if (nx >= 0 && nx < W && ny >= 0 && ny < H) {
+                const nIdx = ny * W + nx;
+                if (!visited[nIdx] && isMatchXY(nx, ny)) {
+                  visited[nIdx] = 1;
+                  queue.push(nIdx);
+                }
+              }
+            }
           }
-          for (let y = 0; y < H; y++) {
-            pushSeed(depth, y);
-            pushSeed(W - 1 - depth, y);
+
+          // Apply transparency or color replacement to visited pixels
+          for (let i = 0; i < queue.length; i++) {
+            const idx = queue[i] * 4;
+            if (isTransparent) {
+              data[idx + 3] = 0;
+            } else {
+              data[idx] = repR;
+              data[idx + 1] = repG;
+              data[idx + 2] = repB;
+              data[idx + 3] = 255;
+            }
           }
-        }
-
-        // BFS loop
-        let head = 0;
-        while (head < queue.length) {
-          const currentIdx = queue[head++];
-          const cx = currentIdx % W;
-          const cy = Math.floor(currentIdx / W);
-
-          const neighbors = [
-            [cx + 1, cy],
-            [cx - 1, cy],
-            [cx, cy + 1],
-            [cx, cy - 1]
-          ];
-
-          for (const [nx, ny] of neighbors) {
-            if (nx >= 0 && nx < W && ny >= 0 && ny < H) {
-              const nIdx = ny * W + nx;
-              if (!visited[nIdx] && isMatchXY(nx, ny)) {
-                visited[nIdx] = 1;
-                queue.push(nIdx);
+        } else {
+          // Global removal (Chroma key)
+          for (let i = 0; i < data.length; i += 4) {
+            if (isMatch(i)) {
+              if (isTransparent) {
+                data[i + 3] = 0;
+              } else {
+                data[i] = repR;
+                data[i + 1] = repG;
+                data[i + 2] = repB;
+                data[i + 3] = 255;
               }
             }
           }
         }
-
-        // Apply transparency to visited pixels
-        for (let i = 0; i < queue.length; i++) {
-          const idx = queue[i] * 4;
-          data[idx + 3] = 0;
-        }
-      } else {
-        // Global removal (Chroma key)
-        for (let i = 0; i < data.length; i += 4) {
-          if (isMatch(i)) {
-            data[i + 3] = 0;
-          }
-        }
-      }
-      
-      ctx?.putImageData(imageData, 0, 0);
-      setLoading(false);
-    };
-    img.src = image;
+        
+        ctx?.putImageData(imageData, 0, 0);
+        setLoading(false);
+      };
+      img.src = image;
+    }, 850);
   };
 
   const download = () => {
@@ -206,11 +236,17 @@ const BackgroundRemover: React.FC = () => {
             <div className={styles.previewWrapper}>
               <canvas 
                 ref={canvasRef} 
-                className={styles.mainCanvas} 
+                className={`${styles.mainCanvas} ${loading ? styles.canvasBlur : ''}`} 
                 onClick={handleCanvasClick}
                 title="Click anywhere on the image to pick background color"
                 style={{ cursor: 'crosshair' }}
               />
+              {loading && (
+                <div className={styles.loadingOverlay}>
+                  <RefreshCw className={styles.spinner} size={32} />
+                  <span>Processing Image...</span>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -239,7 +275,7 @@ const BackgroundRemover: React.FC = () => {
           </div>
 
           <div className={styles.controlGroup}>
-            <label>Select Background Color</label>
+            <label>Select Background Color (To Remove)</label>
             <div className={styles.colorPickerWrapper}>
               <input 
                 type="color" 
@@ -256,6 +292,29 @@ const BackgroundRemover: React.FC = () => {
           </div>
 
           <div className={styles.controlGroup}>
+            <label>New Replacement Background Color</label>
+            <div className={styles.colorPickerWrapper} style={{ opacity: isTransparent ? 0.4 : 1 }}>
+              <input 
+                type="color" 
+                value={replacementColor} 
+                onChange={(e) => setReplacementColor(e.target.value)}
+                className={styles.colorInput}
+                disabled={isTransparent}
+              />
+              <span>{replacementColor.toUpperCase()}</span>
+            </div>
+            <label className={styles.checkboxLabel}>
+              <input 
+                type="checkbox" 
+                checked={isTransparent}
+                onChange={(e) => setIsTransparent(e.target.checked)}
+                className={styles.checkboxInput}
+              />
+              <span>Transparent Background Instead</span>
+            </label>
+          </div>
+
+          <div className={styles.controlGroup}>
             <label>Tolerance Threshold: {tolerance}</label>
             <input 
               type="range" min="1" max="255" value={tolerance}
@@ -266,9 +325,9 @@ const BackgroundRemover: React.FC = () => {
 
           <div className={styles.actions}>
             <button className={styles.processBtn} onClick={removeBackground} disabled={!image || loading}>
-              {loading ? <RefreshCw className={styles.spinner} /> : 'Remove Background'}
+              Remove Background
             </button>
-            <button className={styles.downloadBtn} onClick={download} disabled={!image}>
+            <button className={styles.downloadBtn} onClick={download} disabled={!image || loading}>
               <Download size={18} /> Download PNG
             </button>
             <button 
