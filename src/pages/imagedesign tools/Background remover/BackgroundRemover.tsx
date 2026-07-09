@@ -11,6 +11,7 @@ const BackgroundRemover: React.FC = () => {
   const [removeMode, setRemoveMode] = useState<'contiguous' | 'global'>('contiguous');
   const [seedPoint, setSeedPoint] = useState<{ x: number; y: number } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [detectMode, setDetectMode] = useState<'auto' | 'custom'>('auto');
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Enhancement sliders
@@ -172,6 +173,7 @@ const BackgroundRemover: React.FC = () => {
       }).join('');
       
       setTargetColor(hex);
+      setDetectMode('custom');
       setSeedPoint({ x, y });
     } catch (err) {
       console.error('Error picking color from canvas:', err);
@@ -331,6 +333,7 @@ const BackgroundRemover: React.FC = () => {
     setBgBrightness(100);
     setBgContrast(100);
     setBgBlur(0);
+    setDetectMode('auto');
   };
 
   return (
@@ -387,7 +390,29 @@ const BackgroundRemover: React.FC = () => {
 
           <div className={styles.controlGroupRow}>
             <label className={styles.rowLabel}>Detect Color</label>
-            <div className={styles.colorPickerRow}>
+            <div className={styles.modeToggleGroupCompact}>
+              <button 
+                type="button"
+                className={`${styles.modeBtnCompact} ${detectMode === 'auto' ? styles.activeMode : ''}`}
+                onClick={() => setDetectMode('auto')}
+                title="Automatically samples corner pixels to find background color"
+              >
+                Automatic
+              </button>
+              <button 
+                type="button"
+                className={`${styles.modeBtnCompact} ${detectMode === 'custom' ? styles.activeMode : ''}`}
+                onClick={() => setDetectMode('custom')}
+                title="Manually select key background color or sample from canvas"
+              >
+                Custom Color
+              </button>
+            </div>
+          </div>
+
+          {detectMode === 'custom' && (
+            <div className={styles.controlGroupRow}>
+              <label className={styles.rowLabel}>Select Color</label>
               <div className={styles.colorPickerWrapperCompact}>
                 <input 
                   type="color" 
@@ -398,7 +423,7 @@ const BackgroundRemover: React.FC = () => {
                 <span className={styles.colorText}>{targetColor.toUpperCase()}</span>
               </div>
             </div>
-          </div>
+          )}
 
           <div className={styles.sliderRow}>
             <label className={styles.rowLabelSlider}>Tolerance</label>
