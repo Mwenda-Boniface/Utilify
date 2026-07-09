@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Layout from './layout/Layout';
 import Dashboard from './pages/Dashboard';
 
 function App() {
   const [activeTab, setActiveTab] = useState('Tools');
   const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
+  const lastScrollY = useRef(0);
 
   // Sync state changes to browser hash
   useEffect(() => {
@@ -21,6 +22,23 @@ function App() {
       window.location.hash = targetHash;
     }
   }, [activeTab, selectedToolId]);
+
+  // Keep track of and restore landing page scroll position when navigating back
+  useEffect(() => {
+    if (activeTab === 'Tools') {
+      if (selectedToolId) {
+        lastScrollY.current = window.scrollY;
+      } else {
+        const timer = setTimeout(() => {
+          window.scrollTo({
+            top: lastScrollY.current,
+            behavior: 'instant' as ScrollBehavior
+          });
+        }, 50);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [selectedToolId, activeTab]);
 
   // Listen to browser back/forward clicks (hash changes)
   useEffect(() => {
