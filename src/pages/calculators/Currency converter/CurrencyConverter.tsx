@@ -276,6 +276,7 @@ interface SearchableDropdownProps {
 const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ value, onChange, currencies }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openUpward, setOpenUpward] = useState(false);
+  const [maxOptionsHeight, setMaxOptionsHeight] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -304,8 +305,13 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ value, onChange
       // Dropdown menu max height is 250px + search box height + border is ~300px.
       if (spaceBelow < 300 && rect.top > spaceBelow) {
         setOpenUpward(true);
+        // Calculate available height between button top and bottom of sticky header (72px)
+        const availableHeight = rect.top - 72 - 12; // 12px padding buffer
+        const searchWrapperHeight = 54; // Search wrapper height
+        setMaxOptionsHeight(Math.max(100, availableHeight - searchWrapperHeight));
       } else {
         setOpenUpward(false);
+        setMaxOptionsHeight(null);
       }
     }
     setIsOpen(!isOpen);
@@ -339,7 +345,10 @@ const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ value, onChange
               autoFocus
             />
           </div>
-          <div className={styles.optionsList}>
+          <div 
+            className={styles.optionsList}
+            style={maxOptionsHeight ? { maxHeight: `${maxOptionsHeight}px` } : undefined}
+          >
             {filtered.length > 0 ? (
               filtered.map(c => (
                 <button
