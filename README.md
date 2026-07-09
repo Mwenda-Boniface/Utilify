@@ -115,10 +115,25 @@ graph TD
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is open-source software licensed under the **MIT License**. Under this license, you are free to download, modify, distribute, and build upon this codebase for both personal and commercial projects. See the [LICENSE](LICENSE) file for the full terms and conditions.
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Mwenda-Boniface/Utilify/issues) or submit a pull request.
 
 ---
 
 <div align="center">
+
+  ### Utilify • Open Source Utility Suite
+
+  [![GitHub Stars](https://img.shields.io/github/stars/Mwenda-Boniface/Utilify?style=social)](https://github.com/Mwenda-Boniface/Utilify)
+  [![GitHub Forks](https://img.shields.io/github/forks/Mwenda-Boniface/Utilify?style=social)](https://github.com/Mwenda-Boniface/Utilify)
+  
+  <sub>Copyright © 2026 [Mwenda Boniface](https://github.com/Mwenda-Boniface). All rights reserved.</sub>
+  
   <sub>Built with ❤️ locally inside your browser sandbox. 100% Secure. 100% Private.</sub>
+
 </div>
