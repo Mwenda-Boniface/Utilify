@@ -54,9 +54,10 @@ function App() {
       const hash = window.location.hash;
       if (hash.startsWith('#/tools/')) {
         const toolId = hash.replace('#/tools/', '');
-        // Capture scroll Y before we enter the tool if we are not already in one
-        if (!selectedToolId) {
+        // Capture scroll Y before we enter the tool if we are not already in one, and only if Y > 0
+        if (!selectedToolId && window.scrollY > 0) {
           lastScrollY.current = window.scrollY;
+          console.log('[Utilify] Hashchange scroll capture:', lastScrollY.current);
         }
         setActiveTab('Tools');
         setSelectedToolId(toolId);
@@ -88,9 +89,9 @@ function App() {
   };
 
   const handleSelectTool = (toolId: string | null) => {
-    if (toolId) {
+    if (toolId && window.scrollY > 0) {
       lastScrollY.current = window.scrollY;
-      console.log('[Utilify] Captured scroll Y position before tool load:', lastScrollY.current);
+      console.log('[Utilify] Synchronous click scroll Y capture:', lastScrollY.current);
     }
     setSelectedToolId(toolId);
   };
