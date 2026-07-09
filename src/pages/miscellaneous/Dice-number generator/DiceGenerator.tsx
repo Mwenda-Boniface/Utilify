@@ -79,11 +79,19 @@ const DiceGenerator: React.FC = () => {
         <div className={styles.resultsArea}>
           {results.length > 0 ? (
             <div className={styles.diceGrid}>
-              {results.map((n, i) => (
-                <div key={i} className={styles.die} style={{ animationDelay: `${i * 0.1}s` }}>
-                  <span className={styles.dieValue}>{n}</span>
-                </div>
-              ))}
+              {results.map((n, i) => {
+                const len = String(n).length;
+                let fontSize = '2.25rem';
+                if (len > 6) fontSize = '0.9rem';
+                else if (len > 4) fontSize = '1.15rem';
+                else if (len > 2) fontSize = '1.5rem';
+
+                return (
+                  <div key={i} className={styles.die} style={{ animationDelay: `${i * 0.1}s` }}>
+                    <span className={styles.dieValue} style={{ fontSize }}>{n}</span>
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <div className={styles.placeholder}>
