@@ -250,6 +250,26 @@
   padding-bottom: 1.5rem !important;
 }
 
+.noScrollLayout [class*="dashboard"] {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+.noScrollLayout [class*="toolDetail"] {
+  height: 100% !important;
+  min-height: unset !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.noScrollLayout [class*="toolContainer"] {
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .navigation, .rightSection {
