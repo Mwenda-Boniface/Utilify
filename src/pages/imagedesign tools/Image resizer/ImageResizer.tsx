@@ -81,10 +81,12 @@ const ImageResizer: React.FC = () => {
               <input type="file" accept="image/*" onChange={handleUpload} hidden />
             </label>
           ) : (
-            <div className={styles.previewContainer}>
-              <canvas ref={canvasRef} className={styles.canvasPreview} />
-              <div className={styles.overlay}>
-                {targetSize.w} x {targetSize.h}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', width: '100%' }}>
+              <div className={styles.previewContainer}>
+                <canvas ref={canvasRef} className={styles.canvasPreview} />
+              </div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Resized Target: <span style={{ color: '#2563eb' }}>{targetSize.w} × {targetSize.h} px</span>
               </div>
             </div>
           )}
