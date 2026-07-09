@@ -3,6 +3,8 @@
   flex-direction: column;
   gap: 2rem;
   animation: fadeIn 0.4s ease;
+  height: calc(100vh - 110px);
+  overflow: hidden;
 }
 
 .toolHeader {
@@ -38,10 +40,27 @@
   display: grid;
   grid-template-columns: 1fr 350px;
   gap: 2rem;
+  height: 100%;
+  overflow: hidden;
 }
 
 @media (max-width: 1000px) {
-  .workspace { grid-template-columns: 1fr; }
+  .container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .workspace { 
+    grid-template-columns: 1fr; 
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .previewSection {
+    height: 500px !important;
+  }
+  .controls {
+    height: auto !important;
+    overflow-y: visible !important;
+  }
 }
 
 .previewSection {
@@ -49,10 +68,11 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   padding: 2rem;
-  min-height: 500px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   background-image: 
     linear-gradient(45deg, var(--bg-surface) 25%, transparent 25%),
     linear-gradient(-45deg, var(--bg-surface) 25%, transparent 25%),
@@ -72,8 +92,11 @@
 }
 
 .previewWrapper {
-  max-width: 100%;
-  max-height: 600px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -81,7 +104,8 @@
 
 .mainCanvas {
   max-width: 100%;
-  max-height: 600px;
+  max-height: 100%;
+  object-fit: contain;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   transition: filter 0.3s ease;
@@ -120,7 +144,23 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  height: fit-content;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.controls::-webkit-scrollbar {
+  width: 6px;
+}
+
+.controls::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.controls::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 3px;
 }
 
 .controlGroup {
