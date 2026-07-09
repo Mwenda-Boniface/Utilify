@@ -294,7 +294,11 @@ const PDFTools: React.FC = () => {
                   onClick={triggerMergePrompt}
                 >
                   {processing ? <Loader2 className={styles.spinner} /> : <Combine size={20} />}
-                  {processing ? 'Processing...' : `Merge ${files.length} Files`}
+                  {processing 
+                    ? 'Processing...' 
+                    : files.length < 2 
+                    ? 'Upload 2+ Files to Merge' 
+                    : `Merge ${files.length} Files`}
                 </button>
               </div>
             ) : (
