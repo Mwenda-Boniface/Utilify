@@ -93,8 +93,8 @@
   width: 100%;
   height: 100%;
   padding: 1.5rem;
-  background: transparent;
-  border: none;
+  background: transparent !important;
+  border: none !important;
   color: #e4e4e7 !important;
   font-family: var(--font-mono);
   font-size: 0.925rem;
