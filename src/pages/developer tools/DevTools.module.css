@@ -104,6 +104,14 @@
   outline: none;
 }
 
+.textarea:focus {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
 .textarea::placeholder {
   color: #71717a !important;
 }
