@@ -1,21 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'dark';
 
 export const useTheme = () => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('theme') as Theme;
-    if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
+  const theme: Theme = 'dark';
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+  }, []);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    // Theme toggling is disabled as lightmode has been removed.
   };
 
   return { theme, toggleTheme };

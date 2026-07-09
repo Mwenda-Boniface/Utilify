@@ -65,14 +65,6 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
             <span className={styles.pulseDot}></span>
             <span className={styles.statusText}>Local Node</span>
           </div>
-          
-          <button
-            className={styles.themeToggle}
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-          >
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-          </button>
         </div>
       </header>
 
@@ -92,13 +84,6 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
             <span>{item.name}</span>
           </a>
         ))}
-        <button
-          className={styles.mobileNavItem}
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-        >
-          {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-        </button>
       </nav>
 
       {/* Main Workspace */}
