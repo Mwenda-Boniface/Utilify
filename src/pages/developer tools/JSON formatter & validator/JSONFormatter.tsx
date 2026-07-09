@@ -50,31 +50,33 @@ const JSONFormatter: React.FC = () => {
 
   return (
     <div className={styles.container}>
-
-      <div className={styles.settings}>
-        <div className={styles.settingItem}>
-          <span>Indentation:</span>
-          <select 
-            className={styles.select} 
-            value={indent} 
-            onChange={(e) => setIndent(Number(e.target.value))}
-          >
-            <option value={2}>2 Spaces</option>
-            <option value={4}>4 Spaces</option>
-            <option value={8}>8 Spaces</option>
-          </select>
-        </div>
-        <div className={styles.settingItem} style={{ marginLeft: 'auto' }}>
-          <button className={styles.button + ' ' + styles.secondary} onClick={clear}>
-            <Trash2 size={16} /> Clear
-          </button>
-        </div>
-      </div>
-
       <div className={styles.layout}>
         <div className={styles.editorSection}>
           <div className={styles.labelBar}>
             <span className={styles.label}>Input JSON</span>
+            <div className={styles.labelActions}>
+              <div className={styles.settingItemCompact}>
+                <span>Indent:</span>
+                <select 
+                  className={styles.selectCompact} 
+                  value={indent} 
+                  onChange={(e) => setIndent(Number(e.target.value))}
+                >
+                  <option value={2}>2 Spaces</option>
+                  <option value={4}>4 Spaces</option>
+                  <option value={8}>8 Spaces</option>
+                </select>
+              </div>
+              <button className={styles.buttonCompact + ' ' + styles.primary} onClick={formatJSON} disabled={!input}>
+                <Code size={14} /> Format
+              </button>
+              <button className={styles.buttonCompact + ' ' + styles.secondary} onClick={minifyJSON} disabled={!input}>
+                Minify
+              </button>
+              <button className={styles.buttonCompact + ' ' + styles.danger} onClick={clear} disabled={!input}>
+                <Trash2 size={14} /> Clear
+              </button>
+            </div>
           </div>
           <div className={styles.editorWrapper}>
             <textarea 
@@ -84,14 +86,6 @@ const JSONFormatter: React.FC = () => {
               onChange={(e) => setInput(e.target.value)}
             />
           </div>
-          <div className={styles.actionBar}>
-            <button className={styles.button + ' ' + styles.primary} onClick={formatJSON}>
-              <Code size={16} /> Format JSON
-            </button>
-            <button className={styles.button + ' ' + styles.secondary} onClick={minifyJSON}>
-              Minify
-            </button>
-          </div>
         </div>
 
         <div className={styles.editorSection}>
@@ -99,9 +93,8 @@ const JSONFormatter: React.FC = () => {
             <span className={styles.label}>Formatted Output</span>
             {output && (
               <button 
-                className={styles.button + ' ' + styles.secondary} 
+                className={styles.buttonCompact + ' ' + styles.secondary} 
                 onClick={copyToClipboard}
-                style={{ padding: '0.25rem 0.75rem' }}
               >
                 {copied ? <Check size={14} /> : <Copy size={14} />}
                 {copied ? 'Copied' : 'Copy'}

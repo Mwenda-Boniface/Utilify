@@ -202,3 +202,61 @@
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
 }
+
+.labelActions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.settingItemCompact {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.selectCompact {
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.selectCompact:focus {
+  border-color: var(--primary);
+}
+
+.buttonCompact {
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  transition: all var(--transition-base);
+  border: none;
+  cursor: pointer;
+  height: 28px;
+}
+
+.buttonCompact:hover {
+  transform: translateY(-1px);
+}
+
+.danger {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #ef4444 !important;
+}
+
+.danger:hover {
+  background: rgba(239, 68, 68, 0.25) !important;
+  border-color: #ef4444 !important;
+}
