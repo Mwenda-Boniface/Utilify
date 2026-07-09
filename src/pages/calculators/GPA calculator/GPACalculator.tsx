@@ -75,7 +75,7 @@ const GPACalculator: React.FC = () => {
 
       <div className={styles.layout}>
         <div className={styles.card} style={{ gap: '1rem' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxHeight: '400px', overflowY: 'auto', paddingRight: '0.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', maxHeight: '280px', overflowY: 'auto', paddingRight: '0.5rem' }}>
             {courses.map((course) => (
               <div key={course.id} style={{ display: 'grid', gridTemplateColumns: '1fr 100px 80px 40px', gap: '0.5rem', alignItems: 'center', padding: '0.5rem', background: 'var(--bg-app)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }}>
                 <input 
