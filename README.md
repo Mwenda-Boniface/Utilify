@@ -18,13 +18,13 @@
 
 ---
 
-## 🌟 Overview
+## <img src="https://api.iconify.design/lucide:info.svg?color=%233b82f6" height="22" valign="middle" /> Overview
 
 **Utilify** is a professional, high-fidelity browser-based workspace containing over 60 utility tools tailored for developers, designers, and power users. Unlike traditional online utility suites that upload your private files, documents, and credentials to remote servers, **Utilify operates entirely client-side**, guaranteeing absolute data privacy and sub-millisecond execution times.
 
 ---
 
-## 🔒 Privacy-First Architecture
+## <img src="https://api.iconify.design/lucide:shield-check.svg?color=%2310b981" height="22" valign="middle" /> Privacy-First Architecture
 
 Utilify processes all files, passwords, images, and data packets locally inside the browser sandbox:
 *   **Zero Server Uploads**: No external API endpoints are touched during document parsing, image extraction, or cryptographic functions.
@@ -33,9 +33,9 @@ Utilify processes all files, passwords, images, and data packets locally inside 
 
 ---
 
-## ✨ Key Features
+## <img src="https://api.iconify.design/lucide:list-todo.svg?color=%233b82f6" height="22" valign="middle" /> Key Features
 
-*   **⚡ Sub-Millisecond Speed**: Runs on React 19 and Vite for lighting-fast component mounts and real-time state changes.
+*   **<img src="https://api.iconify.design/lucide:zap.svg?color=%2310b981" height="16" valign="middle" /> Sub-Millisecond Speed**: Runs on React 19 and Vite for lighting-fast component mounts and real-time state changes.
 *   **Procedural Step Wizards**: Documents tools (Word to PDF, Word to TXT, etc.) guide users through a clean, stepwise path: **Upload ➔ Convert ➔ Download**.
 *   **Two-Column PDF Workspace**: PDF tools (Merger & Splitter) are partitioned into an Input control panel on the left and Output file queues / action controls on the right.
 *   **Filename Prompts & Progress Bars**: User-configurable naming dialogs and responsive animated progress loading bars for long-running batches.
@@ -44,22 +44,22 @@ Utilify processes all files, passwords, images, and data packets locally inside 
 
 ---
 
-## 📁 Tool Categories
+## <img src="https://api.iconify.design/lucide:layout-grid.svg?color=%233b82f6" height="22" valign="middle" /> Tool Categories
 
 Utilify divides its 60+ utilities into dedicated modules:
 
 | Category | Primary Tools | Core Libraries / APIs |
 | :--- | :--- | :--- |
-| **📄 Documents & PDF** | Word/Excel/PowerPoint to PDF, PDF Merger & Splitter, Image to PDF, OCR Image-to-Text, ZIP Compressor | `pdf-lib`, `mammoth`, `xlsx`, `jszip`, `tesseract.js` |
-| **🎨 Image & Design** | Background Remover, Favicon Generator, Image Resizer & Compressor, Canvas Logo Generator, Meme Creator | Canvas API, `browser-image-compression` |
-| **🔐 Security & Crypto**| Hash Generator (MD5, SHA), Password Strength Analyser, IP/VPN Lookup, Local Password Generator | `crypto-js`, `zxcvbn-ts` |
-| **💻 Developer Utilities**| API Tester, JSON Formatter & Validator, Code Minifier (HTML/CSS/JS), Regex Parser, Code Beautifier | `js-beautify`, Fetch API |
-| **🔍 Scanners & Codes** | Barcode/QR Code Generator, Custom QR Styler, Secure Encrypted QR Scanner, vCard Maker | `qrcode.react`, `html5-qrcode` |
-| **⚙️ Miscellaneous** | Random Fake Data Generator, Monospace Text Case Converter, Morse Code Translator, Dice/Number Generator | `@faker-js/faker` |
+| **<img src="https://api.iconify.design/lucide:file-text.svg?color=%233b82f6" height="16" valign="middle" /> Documents & PDF** | Word/Excel/PowerPoint to PDF, PDF Merger & Splitter, Image to PDF, OCR Image-to-Text, ZIP Compressor | `pdf-lib`, `mammoth`, `xlsx`, `jszip`, `tesseract.js` |
+| **<img src="https://api.iconify.design/lucide:palette.svg?color=%2310b981" height="16" valign="middle" /> Image & Design** | Background Remover, Favicon Generator, Image Resizer & Compressor, Canvas Logo Generator, Meme Creator | Canvas API, `browser-image-compression` |
+| **<img src="https://api.iconify.design/lucide:lock.svg?color=%233b82f6" height="16" valign="middle" /> Security & Crypto**| Hash Generator (MD5, SHA), Password Strength Analyser, IP/VPN Lookup, Local Password Generator | `crypto-js`, `zxcvbn-ts` |
+| **<img src="https://api.iconify.design/lucide:code.svg?color=%2310b981" height="16" valign="middle" /> Developer Utilities**| API Tester, JSON Formatter & Validator, Code Minifier (HTML/CSS/JS), Regex Parser, Code Beautifier | `js-beautify`, Fetch API |
+| **<img src="https://api.iconify.design/lucide:qr-code.svg?color=%233b82f6" height="16" valign="middle" /> Scanners & Codes** | Barcode/QR Code Generator, Custom QR Styler, Secure Encrypted QR Scanner, vCard Maker | `qrcode.react`, `html5-qrcode` |
+| **<img src="https://api.iconify.design/lucide:settings.svg?color=%2310b981" height="16" valign="middle" /> Miscellaneous** | Random Fake Data Generator, Monospace Text Case Converter, Morse Code Translator, Dice/Number Generator | `@faker-js/faker` |
 
 ---
 
-## 🛠️ Technology Stack
+## <img src="https://api.iconify.design/lucide:layers.svg?color=%2310b981" height="22" valign="middle" /> Technology Stack
 
 ```mermaid
 graph TD
@@ -80,7 +80,7 @@ graph TD
 
 ---
 
-## 🚀 Quick Start
+## <img src="https://api.iconify.design/lucide:terminal.svg?color=%233b82f6" height="22" valign="middle" /> Quick Start
 
 ### Prerequisites
 *   Node.js (v18.0.0 or higher)
@@ -113,13 +113,13 @@ graph TD
 
 ---
 
-## 📄 License
+## <img src="https://api.iconify.design/lucide:file-text.svg?color=%233b82f6" height="22" valign="middle" /> License
 
 This project is open-source software licensed under the **MIT License**. Under this license, you are free to download, modify, distribute, and build upon this codebase for both personal and commercial projects. See the [LICENSE](LICENSE) file for the full terms and conditions.
 
 ---
 
-## 🤝 Contributing
+## <img src="https://api.iconify.design/lucide:git-pull-request.svg?color=%2310b981" height="22" valign="middle" /> Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Mwenda-Boniface/Utilify/issues) or submit a pull request.
 
@@ -134,6 +134,6 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
   
   <sub>Copyright © 2026 [Mwenda Boniface](https://github.com/Mwenda-Boniface). All rights reserved.</sub>
   
-  <sub>Built with ❤️ locally inside your browser sandbox. 100% Secure. 100% Private.</sub>
+  <sub>Built with <img src="https://api.iconify.design/lucide:heart.svg?color=%23ef4444" height="12" valign="middle" /> locally inside your browser sandbox. 100% Secure. 100% Private.</sub>
 
 </div>
