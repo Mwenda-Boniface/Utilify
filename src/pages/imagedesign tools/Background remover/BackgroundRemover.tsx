@@ -7,7 +7,7 @@ const BackgroundRemover: React.FC = () => {
   const [tolerance, setTolerance] = useState(20);
   const [targetColor, setTargetColor] = useState('#ffffff');
   const [replacementColor, setReplacementColor] = useState('#ffffff');
-  const [isTransparent, setIsTransparent] = useState(false);
+  const [bgType, setBgType] = useState<'solid' | 'transparent'>('solid');
   const [removeMode, setRemoveMode] = useState<'contiguous' | 'global'>('contiguous');
   const [seedPoint, setSeedPoint] = useState<{ x: number; y: number } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -181,7 +181,7 @@ const BackgroundRemover: React.FC = () => {
           // Apply transparency or color replacement to visited pixels
           for (let i = 0; i < queue.length; i++) {
             const idx = queue[i] * 4;
-            if (isTransparent) {
+            if (bgType === 'transparent') {
               data[idx + 3] = 0;
             } else {
               data[idx] = repR;
@@ -194,7 +194,7 @@ const BackgroundRemover: React.FC = () => {
           // Global removal (Chroma key)
           for (let i = 0; i < data.length; i += 4) {
             if (isMatch(i)) {
-              if (isTransparent) {
+              if (bgType === 'transparent') {
                 data[i + 3] = 0;
               } else {
                 data[i] = repR;
@@ -292,27 +292,41 @@ const BackgroundRemover: React.FC = () => {
           </div>
 
           <div className={styles.controlGroup}>
-            <label>New Replacement Background Color</label>
-            <div className={styles.colorPickerWrapper} style={{ opacity: isTransparent ? 0.4 : 1 }}>
-              <input 
-                type="color" 
-                value={replacementColor} 
-                onChange={(e) => setReplacementColor(e.target.value)}
-                className={styles.colorInput}
-                disabled={isTransparent}
-              />
-              <span>{replacementColor.toUpperCase()}</span>
+            <label>Output Background Type</label>
+            <div className={styles.modeToggleGroup}>
+              <button 
+                type="button"
+                className={`${styles.modeBtn} ${bgType === 'solid' ? styles.activeMode : ''}`}
+                onClick={() => setBgType('solid')}
+                title="Replaces the background with a custom solid color"
+              >
+                Solid Color
+              </button>
+              <button 
+                type="button"
+                className={`${styles.modeBtn} ${bgType === 'transparent' ? styles.activeMode : ''}`}
+                onClick={() => setBgType('transparent')}
+                title="Replaces the background with transparency"
+              >
+                Transparent
+              </button>
             </div>
-            <label className={styles.checkboxLabel}>
-              <input 
-                type="checkbox" 
-                checked={isTransparent}
-                onChange={(e) => setIsTransparent(e.target.checked)}
-                className={styles.checkboxInput}
-              />
-              <span>Transparent Background Instead</span>
-            </label>
           </div>
+
+          {bgType === 'solid' && (
+            <div className={styles.controlGroup}>
+              <label>New Replacement Background Color</label>
+              <div className={styles.colorPickerWrapper}>
+                <input 
+                  type="color" 
+                  value={replacementColor} 
+                  onChange={(e) => setReplacementColor(e.target.value)}
+                  className={styles.colorInput}
+                />
+                <span>{replacementColor.toUpperCase()}</span>
+              </div>
+            </div>
+          )}
 
           <div className={styles.controlGroup}>
             <label>Tolerance Threshold: {tolerance}</label>
