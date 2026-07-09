@@ -106,6 +106,37 @@
   color: var(--text-muted);
 }
 
+.modeToggleGroup {
+  display: flex;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 0.25rem;
+}
+
+.modeBtn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.modeBtn:hover {
+  color: var(--text-main);
+}
+
+.activeMode {
+  background: var(--primary);
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
 .colorPickerWrapper {
   display: flex;
   align-items: center;

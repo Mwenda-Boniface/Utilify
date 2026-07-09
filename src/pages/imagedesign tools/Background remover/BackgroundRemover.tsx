@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Scissors, Upload, Download, RefreshCw, Pipette } from 'lucide-react';
+import { Scissors, Upload, Download, RefreshCw, Pipette, Layers } from 'lucide-react';
 import styles from './BackgroundRemover.module.css';
 
 const BackgroundRemover: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const [tolerance, setTolerance] = useState(20);
   const [targetColor, setTargetColor] = useState('#ffffff');
+  const [removeMode, setRemoveMode] = useState<'contiguous' | 'global'>('contiguous');
   const [loading, setLoading] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -77,23 +78,100 @@ const BackgroundRemover: React.FC = () => {
       if (!imageData) return;
       
       const { data } = imageData;
+      const W = canvas.width;
+      const H = canvas.height;
       const targetR = parseInt(targetColor.slice(1, 3), 16);
       const targetG = parseInt(targetColor.slice(3, 5), 16);
       const targetB = parseInt(targetColor.slice(5, 7), 16);
       
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-        
+      const isMatch = (idx: number) => {
+        if (data[idx + 3] === 0) return false;
+        const r = data[idx];
+        const g = data[idx + 1];
+        const b = data[idx + 2];
         const dist = Math.sqrt(
           Math.pow(r - targetR, 2) + 
           Math.pow(g - targetG, 2) + 
           Math.pow(b - targetB, 2)
         );
-        
-        if (dist < tolerance) {
-          data[i + 3] = 0; // Transparent
+        return dist < tolerance;
+      };
+
+      if (removeMode === 'contiguous') {
+        const visited = new Uint8Array(W * H);
+        const queue: number[] = [];
+
+        const isMatchXY = (x: number, y: number) => {
+          const idx = (y * W + x) * 4;
+          return isMatch(idx);
+        };
+
+        // Push edge pixels to queue
+        for (let x = 0; x < W; x++) {
+          if (isMatchXY(x, 0)) {
+            const idx = 0 * W + x;
+            visited[idx] = 1;
+            queue.push(idx);
+          }
+          if (isMatchXY(x, H - 1)) {
+            const idx = (H - 1) * W + x;
+            visited[idx] = 1;
+            queue.push(idx);
+          }
+        }
+        for (let y = 0; y < H; y++) {
+          if (isMatchXY(0, y)) {
+            const idx = y * W + 0;
+            if (!visited[idx]) {
+              visited[idx] = 1;
+              queue.push(idx);
+            }
+          }
+          if (isMatchXY(W - 1, y)) {
+            const idx = y * W + (W - 1);
+            if (!visited[idx]) {
+              visited[idx] = 1;
+              queue.push(idx);
+            }
+          }
+        }
+
+        // BFS loop
+        let head = 0;
+        while (head < queue.length) {
+          const currentIdx = queue[head++];
+          const cx = currentIdx % W;
+          const cy = Math.floor(currentIdx / W);
+
+          const neighbors = [
+            [cx + 1, cy],
+            [cx - 1, cy],
+            [cx, cy + 1],
+            [cx, cy - 1]
+          ];
+
+          for (const [nx, ny] of neighbors) {
+            if (nx >= 0 && nx < W && ny >= 0 && ny < H) {
+              const nIdx = ny * W + nx;
+              if (!visited[nIdx] && isMatchXY(nx, ny)) {
+                visited[nIdx] = 1;
+                queue.push(nIdx);
+              }
+            }
+          }
+        }
+
+        // Apply transparency to visited pixels
+        for (let i = 0; i < queue.length; i++) {
+          const idx = queue[i] * 4;
+          data[idx + 3] = 0;
+        }
+      } else {
+        // Global removal (Chroma key)
+        for (let i = 0; i < data.length; i += 4) {
+          if (isMatch(i)) {
+            data[i + 3] = 0;
+          }
         }
       }
       
@@ -136,6 +214,28 @@ const BackgroundRemover: React.FC = () => {
         </div>
 
         <div className={styles.controls}>
+          <div className={styles.controlGroup}>
+            <label>Removal Mode</label>
+            <div className={styles.modeToggleGroup}>
+              <button 
+                type="button"
+                className={`${styles.modeBtn} ${removeMode === 'contiguous' ? styles.activeMode : ''}`}
+                onClick={() => setRemoveMode('contiguous')}
+                title="Only removes the background connected to the borders, keeping interior colors solid"
+              >
+                Contiguous Area
+              </button>
+              <button 
+                type="button"
+                className={`${styles.modeBtn} ${removeMode === 'global' ? styles.activeMode : ''}`}
+                onClick={() => setRemoveMode('global')}
+                title="Removes target color everywhere, even if it is inside the subject"
+              >
+                Everywhere
+              </button>
+            </div>
+          </div>
+
           <div className={styles.controlGroup}>
             <label>Select Background Color</label>
             <div className={styles.colorPickerWrapper}>
