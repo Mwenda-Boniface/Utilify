@@ -338,20 +338,20 @@ const BackgroundRemover: React.FC = () => {
         </div>
 
         <div className={styles.controls}>
-          <div className={styles.controlGroup}>
-            <label>Removal Mode</label>
-            <div className={styles.modeToggleGroup}>
+          <div className={styles.controlGroupRow}>
+            <label className={styles.rowLabel}>Mode</label>
+            <div className={styles.modeToggleGroupCompact}>
               <button 
                 type="button"
-                className={`${styles.modeBtn} ${removeMode === 'contiguous' ? styles.activeMode : ''}`}
+                className={`${styles.modeBtnCompact} ${removeMode === 'contiguous' ? styles.activeMode : ''}`}
                 onClick={() => setRemoveMode('contiguous')}
                 title="Only removes the background connected to the borders, keeping interior colors solid"
               >
-                Contiguous Area
+                Contiguous
               </button>
               <button 
                 type="button"
-                className={`${styles.modeBtn} ${removeMode === 'global' ? styles.activeMode : ''}`}
+                className={`${styles.modeBtnCompact} ${removeMode === 'global' ? styles.activeMode : ''}`}
                 onClick={() => setRemoveMode('global')}
                 title="Removes target color everywhere, even if it is inside the subject"
               >
@@ -360,52 +360,51 @@ const BackgroundRemover: React.FC = () => {
             </div>
           </div>
 
-          <div className={styles.controlGroup}>
-            <label>Select Background Color (To Remove)</label>
-            <div className={styles.colorPickerWrapper}>
-              <input 
-                type="color" 
-                value={targetColor} 
-                onChange={(e) => setTargetColor(e.target.value)}
-                className={styles.colorInput}
-              />
-              <span>{targetColor.toUpperCase()}</span>
+          <div className={styles.controlGroupRow}>
+            <label className={styles.rowLabel}>Detect Color</label>
+            <div className={styles.colorPickerRow}>
+              <div className={styles.colorPickerWrapperCompact}>
+                <input 
+                  type="color" 
+                  value={targetColor} 
+                  onChange={(e) => setTargetColor(e.target.value)}
+                  className={styles.colorInputCompact}
+                />
+                <span className={styles.colorText}>{targetColor.toUpperCase()}</span>
+              </div>
             </div>
-            <p className={styles.hintText}>
-              <Pipette size={14} style={{ marginRight: '4px', verticalAlign: 'middle' }} />
-              Or click directly on the image to pick color
-            </p>
           </div>
 
-          <div className={styles.controlGroup}>
-            <label>Tolerance Threshold: {tolerance}</label>
+          <div className={styles.sliderRow}>
+            <label className={styles.rowLabelSlider}>Tolerance</label>
             <input 
               type="range" min="1" max="255" value={tolerance}
               onChange={(e) => setTolerance(parseInt(e.target.value))}
               className={styles.slider}
             />
+            <span className={styles.sliderVal}>{tolerance}</span>
           </div>
 
-          <div className={styles.controlGroup}>
-            <label>Output Background Type</label>
-            <div className={styles.modeToggleGroup}>
+          <div className={styles.controlGroupRow}>
+            <label className={styles.rowLabel}>Bg Type</label>
+            <div className={styles.modeToggleGroupCompact}>
               <button 
                 type="button"
-                className={`${styles.modeBtn} ${bgType === 'solid' ? styles.activeMode : ''}`}
+                className={`${styles.modeBtnCompact} ${bgType === 'solid' ? styles.activeMode : ''}`}
                 onClick={() => setBgType('solid')}
               >
-                Solid Color
+                Solid
               </button>
               <button 
                 type="button"
-                className={`${styles.modeBtn} ${bgType === 'image' ? styles.activeMode : ''}`}
+                className={`${styles.modeBtnCompact} ${bgType === 'image' ? styles.activeMode : ''}`}
                 onClick={() => setBgType('image')}
               >
                 Image
               </button>
               <button 
                 type="button"
-                className={`${styles.modeBtn} ${bgType === 'transparent' ? styles.activeMode : ''}`}
+                className={`${styles.modeBtnCompact} ${bgType === 'transparent' ? styles.activeMode : ''}`}
                 onClick={() => setBgType('transparent')}
               >
                 Transparent
@@ -414,38 +413,38 @@ const BackgroundRemover: React.FC = () => {
           </div>
 
           {bgType === 'solid' && (
-            <div className={styles.controlGroup}>
-              <label>New Replacement Background Color</label>
-              <div className={styles.colorPickerWrapper}>
+            <div className={styles.controlGroupRow}>
+              <label className={styles.rowLabel}>Replacement</label>
+              <div className={styles.colorPickerWrapperCompact}>
                 <input 
                   type="color" 
                   value={replacementColor} 
                   onChange={(e) => setReplacementColor(e.target.value)}
-                  className={styles.colorInput}
+                  className={styles.colorInputCompact}
                 />
-                <span>{replacementColor.toUpperCase()}</span>
+                <span className={styles.colorText}>{replacementColor.toUpperCase()}</span>
               </div>
             </div>
           )}
 
           {bgType === 'image' && (
-            <div className={styles.controlGroup}>
-              <label>Upload Background Image</label>
+            <div className={styles.controlGroupRow}>
+              <label className={styles.rowLabel}>Bg Image</label>
               {!bgImage ? (
-                <label className={styles.bgDropzone}>
-                  <Upload size={18} />
-                  <span>Choose Background Image</span>
+                <label className={styles.bgDropzoneCompact}>
+                  <Upload size={14} />
+                  <span>Choose Image</span>
                   <input type="file" accept="image/*" onChange={handleBgUpload} hidden />
                 </label>
               ) : (
-                <div className={styles.bgThumbnailContainer}>
-                  <img src={bgImage} alt="Background preview" className={styles.bgThumbnail} />
+                <div className={styles.bgThumbnailContainerCompact}>
+                  <img src={bgImage} alt="Background preview" className={styles.bgThumbnailCompact} />
                   <button 
                     type="button" 
-                    className={styles.removeBgImgBtn}
+                    className={styles.removeBgImgBtnCompact}
                     onClick={() => setBgImage(null)}
                   >
-                    Remove Image
+                    Remove
                   </button>
                 </div>
               )}
@@ -456,92 +455,94 @@ const BackgroundRemover: React.FC = () => {
           {transparentForegroundRef.current && (
             <div className={styles.enhancementsSection}>
               <div className={styles.divider} />
-              <label className={styles.sectionHeader}>Foreground Enhancements</label>
               
-              <div className={styles.controlGroup}>
-                <label>Foreground Opacity: {fgOpacity}%</label>
-                <input 
-                  type="range" min="10" max="100" value={fgOpacity}
-                  onChange={(e) => setFgOpacity(parseInt(e.target.value))}
-                  className={styles.slider}
-                />
+              <div className={styles.enhancementGroup}>
+                <div className={styles.sliderRow}>
+                  <label className={styles.rowLabelSlider}>Fg Opacity</label>
+                  <input 
+                    type="range" min="10" max="100" value={fgOpacity}
+                    onChange={(e) => setFgOpacity(parseInt(e.target.value))}
+                    className={styles.slider}
+                  />
+                  <span className={styles.sliderVal}>{fgOpacity}%</span>
+                </div>
+
+                <div className={styles.sliderRow}>
+                  <label className={styles.rowLabelSlider}>Fg Bright</label>
+                  <input 
+                    type="range" min="50" max="150" value={fgBrightness}
+                    onChange={(e) => setFgBrightness(parseInt(e.target.value))}
+                    className={styles.slider}
+                  />
+                  <span className={styles.sliderVal}>{fgBrightness}%</span>
+                </div>
+
+                <div className={styles.sliderRow}>
+                  <label className={styles.rowLabelSlider}>Fg Contrast</label>
+                  <input 
+                    type="range" min="50" max="150" value={fgContrast}
+                    onChange={(e) => setFgContrast(parseInt(e.target.value))}
+                    className={styles.slider}
+                  />
+                  <span className={styles.sliderVal}>{fgContrast}%</span>
+                </div>
               </div>
 
-              <div className={styles.controlGroup}>
-                <label>Foreground Brightness: {fgBrightness}%</label>
-                <input 
-                  type="range" min="50" max="150" value={fgBrightness}
-                  onChange={(e) => setFgBrightness(parseInt(e.target.value))}
-                  className={styles.slider}
-                />
-              </div>
+              {/* Background Enhancements */}
+              {bgType === 'image' && bgImage && (
+                <div className={styles.enhancementGroup} style={{ marginTop: '0.4rem' }}>
+                  <div className={styles.sliderRow}>
+                    <label className={styles.rowLabelSlider}>Bg Opacity</label>
+                    <input 
+                      type="range" min="10" max="100" value={bgOpacity}
+                      onChange={(e) => setBgOpacity(parseInt(e.target.value))}
+                      className={styles.slider}
+                    />
+                    <span className={styles.sliderVal}>{bgOpacity}%</span>
+                  </div>
 
-              <div className={styles.controlGroup}>
-                <label>Foreground Contrast: {fgContrast}%</label>
-                <input 
-                  type="range" min="50" max="150" value={fgContrast}
-                  onChange={(e) => setFgContrast(parseInt(e.target.value))}
-                  className={styles.slider}
-                />
-              </div>
+                  <div className={styles.sliderRow}>
+                    <label className={styles.rowLabelSlider}>Bg Bright</label>
+                    <input 
+                      type="range" min="50" max="150" value={bgBrightness}
+                      onChange={(e) => setBgBrightness(parseInt(e.target.value))}
+                      className={styles.slider}
+                    />
+                    <span className={styles.sliderVal}>{bgBrightness}%</span>
+                  </div>
+
+                  <div className={styles.sliderRow}>
+                    <label className={styles.rowLabelSlider}>Bg Contrast</label>
+                    <input 
+                      type="range" min="50" max="150" value={bgContrast}
+                      onChange={(e) => setBgContrast(parseInt(e.target.value))}
+                      className={styles.slider}
+                    />
+                    <span className={styles.sliderVal}>{bgContrast}%</span>
+                  </div>
+
+                  <div className={styles.sliderRow}>
+                    <label className={styles.rowLabelSlider}>Bg Blur</label>
+                    <input 
+                      type="range" min="0" max="20" value={bgBlur}
+                      onChange={(e) => setBgBlur(parseInt(e.target.value))}
+                      className={styles.slider}
+                    />
+                    <span className={styles.sliderVal}>{bgBlur}px</span>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
-          {/* Background Enhancements */}
-          {transparentForegroundRef.current && bgType === 'image' && bgImage && (
-            <div className={styles.enhancementsSection}>
-              <div className={styles.divider} />
-              <label className={styles.sectionHeader}>Background Enhancements</label>
-              
-              <div className={styles.controlGroup}>
-                <label>Background Opacity: {bgOpacity}%</label>
-                <input 
-                  type="range" min="10" max="100" value={bgOpacity}
-                  onChange={(e) => setBgOpacity(parseInt(e.target.value))}
-                  className={styles.slider}
-                />
-              </div>
-
-              <div className={styles.controlGroup}>
-                <label>Background Brightness: {bgBrightness}%</label>
-                <input 
-                  type="range" min="50" max="150" value={bgBrightness}
-                  onChange={(e) => setBgBrightness(parseInt(e.target.value))}
-                  className={styles.slider}
-                />
-              </div>
-
-              <div className={styles.controlGroup}>
-                <label>Background Contrast: {bgContrast}%</label>
-                <input 
-                  type="range" min="50" max="150" value={bgContrast}
-                  onChange={(e) => setBgContrast(parseInt(e.target.value))}
-                  className={styles.slider}
-                />
-              </div>
-
-              <div className={styles.controlGroup}>
-                <label>Background Blur: {bgBlur}px</label>
-                <input 
-                  type="range" min="0" max="20" value={bgBlur}
-                  onChange={(e) => setBgBlur(parseInt(e.target.value))}
-                  className={styles.slider}
-                />
-              </div>
-            </div>
-          )}
-
-          <div className={styles.actions}>
-            <button className={styles.processBtn} onClick={removeBackground} disabled={!image || loading}>
-              Remove Background
+          <div className={styles.actionsCompact}>
+            <button className={styles.processBtnCompact} onClick={removeBackground} disabled={!image || loading}>
+              Remove Bg
             </button>
-            <button className={styles.downloadBtn} onClick={download} disabled={!image || loading}>
-              <Download size={18} /> Download PNG
+            <button className={styles.downloadBtnCompact} onClick={download} disabled={!image || loading}>
+              <Download size={14} /> Download
             </button>
-            <button 
-              className={styles.resetBtn} 
-              onClick={resetAll}
-            >
+            <button className={styles.resetBtnCompact} onClick={resetAll}>
               Reset
             </button>
           </div>

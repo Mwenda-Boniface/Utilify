@@ -140,10 +140,10 @@
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 2rem;
+  padding: 1rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0.8rem;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -400,5 +400,227 @@
 .enhancementsSection {
   display: flex;
   flex-direction: column;
+  gap: 0.6rem;
+}
+
+.controlGroupRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 1rem;
+  width: 100%;
+}
+
+.rowLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.rowLabelSlider {
+  width: 75px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.modeToggleGroupCompact {
+  display: flex;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 2px;
+  max-width: 220px;
+}
+
+.modeBtnCompact {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.modeBtnCompact:hover {
+  color: var(--text-main);
+}
+
+.colorPickerRow {
+  display: flex;
+  align-items: center;
+}
+
+.colorPickerWrapperCompact {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 3px 6px;
+}
+
+.colorInputCompact {
+  border: none;
+  outline: none;
+  background: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 4px;
+  -webkit-appearance: none;
+}
+
+.colorInputCompact::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.colorInputCompact::-webkit-color-swatch {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.colorText {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+}
+
+.sliderRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.sliderVal {
+  width: 40px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+.bgDropzoneCompact {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  padding: 4px 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+  background: var(--bg-surface);
+  transition: all var(--transition-fast);
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.bgDropzoneCompact:hover {
+  border-color: var(--primary);
+  color: var(--text-main);
+}
+
+.bgThumbnailContainerCompact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+}
+
+.bgThumbnailCompact {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.removeBgImgBtnCompact {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.removeBgImgBtnCompact:hover {
+  background: #ef4444;
+  color: white;
+}
+
+.enhancementGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.actionsCompact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.processBtnCompact {
+  flex: 1.2;
+  background: #ef4444;
+  color: white;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.downloadBtnCompact {
+  flex: 1.2;
+  background: #10b981;
+  color: white;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.resetBtnCompact {
+  flex: 0.6;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.resetBtnCompact:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
 }
