@@ -92,6 +92,50 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
           {children}
         </section>
       </main>
+
+      {/* Footer Section */}
+      {!isToolOpen && (
+        <footer className={styles.footer}>
+          <div className={styles.footerContent}>
+            <div className={styles.footerBrand}>
+              <div className={styles.logoSection}>
+                <div className={styles.logoIcon}>
+                  <img src={utilifyLogo} alt="Utilify" className={styles.logoIconImage} />
+                </div>
+                <span className={styles.logoText}>Utilify</span>
+              </div>
+              <p className={styles.footerDescription}>
+                A premium, client-side utility suite for developers and designers.
+              </p>
+            </div>
+            
+            <div className={styles.footerLinksGroup}>
+              <div className={styles.linksCol}>
+                <h4>Navigation</h4>
+                <a href="#/tools" onClick={() => setActiveTab('Tools')}>Home</a>
+                <a href="#/history" onClick={() => setActiveTab('History')}>History</a>
+                <a href="#/about" onClick={() => setActiveTab('About')}>About Us</a>
+              </div>
+              <div className={styles.linksCol}>
+                <h4>Legal & Support</h4>
+                <a href="#/contact" onClick={() => setActiveTab('Contact')}>Contact</a>
+                <a href="#/privacy" onClick={() => setActiveTab('Privacy')}>Privacy Policy</a>
+                <a href="#/terms" onClick={() => setActiveTab('Terms')}>Terms of Service</a>
+              </div>
+              <div className={styles.linksCol}>
+                <h4>SEO & Discovery</h4>
+                <a href="#/sitemap" onClick={() => setActiveTab('Sitemap')}>Sitemap</a>
+                <a href="/sitemap.xml" target="_blank" rel="noreferrer">Sitemap XML</a>
+                <a href="/robots.txt" target="_blank" rel="noreferrer">robots.txt</a>
+              </div>
+            </div>
+          </div>
+          <div className={styles.footerBottom}>
+            <span>© 2026 Utilify. All rights locally reserved.</span>
+            <span>Security Level: SSL Secured (HTTPS)</span>
+          </div>
+        </footer>
+      )}
     </div>
   );
 };

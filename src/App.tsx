@@ -14,11 +14,21 @@ function App() {
       targetHash = '#/history';
     } else if (activeTab === 'About') {
       targetHash = '#/about';
+    } else if (activeTab === 'Contact') {
+      targetHash = '#/contact';
+    } else if (activeTab === 'Privacy') {
+      targetHash = '#/privacy';
+    } else if (activeTab === 'Terms') {
+      targetHash = '#/terms';
+    } else if (activeTab === 'Sitemap') {
+      targetHash = '#/sitemap';
+    } else if (activeTab === '404') {
+      targetHash = '#/404';
     } else if (activeTab === 'Tools' && selectedToolId) {
       targetHash = `#/tools/${selectedToolId}`;
     }
     
-    if (window.location.hash !== targetHash) {
+    if (window.location.hash !== targetHash && activeTab !== '404') {
       window.location.hash = targetHash;
     }
   }, [activeTab, selectedToolId]);
@@ -67,8 +77,23 @@ function App() {
       } else if (hash === '#/about') {
         setActiveTab('About');
         setSelectedToolId(null);
-      } else {
+      } else if (hash === '#/contact') {
+        setActiveTab('Contact');
+        setSelectedToolId(null);
+      } else if (hash === '#/privacy') {
+        setActiveTab('Privacy');
+        setSelectedToolId(null);
+      } else if (hash === '#/terms') {
+        setActiveTab('Terms');
+        setSelectedToolId(null);
+      } else if (hash === '#/sitemap') {
+        setActiveTab('Sitemap');
+        setSelectedToolId(null);
+      } else if (hash === '' || hash === '#/' || hash === '#/tools') {
         setActiveTab('Tools');
+        setSelectedToolId(null);
+      } else {
+        setActiveTab('404');
         setSelectedToolId(null);
       }
     };

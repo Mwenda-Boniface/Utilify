@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.utilifytools.dpdns.org/</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.utilifytools.dpdns.org/#/history</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.utilifytools.dpdns.org/#/about</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.utilifytools.dpdns.org/#/contact</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.utilifytools.dpdns.org/#/privacy</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.utilifytools.dpdns.org/#/terms</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.utilifytools.dpdns.org/#/sitemap</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- Security Tools -->
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/pass-gen</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/pass-strength</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/hash-gen</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/ip-lookup</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/vpn-check</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- Calculators -->
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/age-calc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/bmi-calc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/loan-calc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/currency-conv</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/percent-calc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/timezone-conv</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/gpa-calc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- Image & Design -->
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/bg-remover</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/img-compress</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/img-resizer</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/meme-gen</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/thumb-maker</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/color-picker</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/logo-gen</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/favicon-gen</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- File & Document -->
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/pdf-merge</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/img-to-pdf</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/ocr-text</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/tts-tool</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/stt-tool</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/file-compress</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/word-to-pdf</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/word-to-txt</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.utilifytools.dpdns.org/#/tools/excel-to-pdf</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+</urlset>

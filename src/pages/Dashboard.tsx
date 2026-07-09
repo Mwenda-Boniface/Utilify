@@ -256,7 +256,7 @@ interface DashboardProps {
   setSelectedToolId: (id: string | null) => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ activeTab, selectedToolId, setSelectedToolId }) => {
+const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selectedToolId, setSelectedToolId }) => {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<ToolCategory>('All');
   const [history, setHistory] = useState<string[]>(() => 
@@ -512,6 +512,157 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, selectedToolId, setSel
               <span className={styles.statLabel}>Release Version</span>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle alternative subpages
+  if (activeTab === 'Contact') {
+    return (
+      <div className={styles.aboutPage}>
+        <div className={`${styles.aboutCard} glass`}>
+          <h2>Contact Utilify</h2>
+          <p className={styles.tagline}>Get in touch with the development and support team.</p>
+          
+          <div className={styles.contactContainer}>
+            <div className={styles.contactInfo}>
+              <h4>📬 Reach Us Directly</h4>
+              <p>For support, feature requests, or enterprise licensing inquiries, feel free to contact us via email:</p>
+              <div className={styles.contactEmailBox}>
+                <span>Support Email:</span>
+                <strong>support@utilifytools.dpdns.org</strong>
+              </div>
+              <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                Response Time: Typically within 24 business hours.
+              </p>
+            </div>
+
+            <div className={styles.contactForm}>
+              <h4>💬 Send a Message</h4>
+              <form onSubmit={(e) => { e.preventDefault(); alert('Message sent successfully! Thank you for reaching out.'); }}>
+                <div className={styles.formGroup}>
+                  <label>Name</label>
+                  <input type="text" placeholder="John Doe" required className={styles.formInput} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Email</label>
+                  <input type="email" placeholder="john@example.com" required className={styles.formInput} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Message</label>
+                  <textarea placeholder="Your feedback or support request..." rows={4} required className={styles.formInput} />
+                </div>
+                <button type="submit" className={styles.submitBtn}>Send Message</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'Privacy') {
+    return (
+      <div className={styles.aboutPage}>
+        <div className={`${styles.aboutCard} glass`}>
+          <h2>Privacy Policy</h2>
+          <p className={styles.tagline}>Last Updated: July 2026</p>
+          
+          <div className={styles.policyContent}>
+            <h3>1. Local-First Execution</h3>
+            <p>Utilify operates exclusively as a client-side tool suite. All calculations, document conversions (e.g. Word to PDF), image compression, and key generation are processed 100% inside your web browser. No files or private data are ever uploaded, transmitted, or saved to our servers.</p>
+            
+            <h3>2. Data Collection</h3>
+            <p>We do not collect any personal data, usage telemetry, or search queries. Your search inputs, custom credentials, and documents never leave your local hardware node.</p>
+            
+            <h3>3. Local Storage</h3>
+            <p>Your launch history logs are saved strictly in your local browser storage (localStorage) for convenience. You can clear this data at any time via the "Clear Launch History" button in the History tab.</p>
+            
+            <h3>4. SSL Security (HTTPS)</h3>
+            <p>All traffic between your browser and our CDN is secured using Industry-Standard SSL encryption (HTTPS), ensuring that third parties cannot inspect or manipulate the web application assets.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'Terms') {
+    return (
+      <div className={styles.aboutPage}>
+        <div className={`${styles.aboutCard} glass`}>
+          <h2>Terms of Service</h2>
+          <p className={styles.tagline}>Last Updated: July 2026</p>
+          
+          <div className={styles.policyContent}>
+            <h3>1. Acceptable Use</h3>
+            <p>Utilify is provided as a free utility suite for personal, developer, and educational purposes. You agree to use these tools only for lawful purposes and in accordance with local regulations.</p>
+            
+            <h3>2. Disclaimer of Warranties</h3>
+            <p>This software is provided "as is" and "as available", without warranty of any kind, express or implied. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability arising from the use of the tools.</p>
+            
+            <h3>3. Client-Side Integrity</h3>
+            <p>Since all processing is client-side, the speed, quality, and limits of file operations (such as large PDF merges) depend entirely on your local hardware CPU and memory capacity.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === 'Sitemap') {
+    return (
+      <div className={styles.aboutPage}>
+        <div className={`${styles.aboutCard} glass`}>
+          <h2>Website Sitemap</h2>
+          <p className={styles.tagline}>Browse all available categories and utility modules on Utilify.</p>
+          
+          <div className={styles.sitemapGroup}>
+            {CATEGORIES.filter(c => c !== 'All').map(cat => {
+              const catTools = TOOLS.filter(t => t.category === cat);
+              return (
+                <div key={cat} className={styles.sitemapCategory}>
+                  <h3>{cat}</h3>
+                  <div className={styles.sitemapLinksGrid}>
+                    {catTools.map(tool => (
+                      <a 
+                        key={tool.id} 
+                        href={`#/tools/${tool.id}`} 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSelectedToolId(tool.id);
+                        }}
+                      >
+                        {tool.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === '404') {
+    return (
+      <div className={styles.aboutPage} style={{ textAlign: 'center' }}>
+        <div className={`${styles.aboutCard} glass`} style={{ maxWidth: '500px', margin: '4rem auto' }}>
+          <div className={styles.errorIconWrapper}>
+            <ShieldAlert size={48} color="#ef4444" />
+          </div>
+          <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>404 - Page Not Found</h2>
+          <p className={styles.tagline} style={{ marginBottom: '2rem' }}>
+            The requested page hash does not exist or has been relocated.
+          </p>
+          <button 
+            onClick={() => setActiveTab('Tools')} 
+            className={styles.submitBtn}
+            style={{ width: 'auto', display: 'inline-flex', alignSelf: 'center', padding: '0.85rem 2rem' }}
+          >
+            Return to Workspace Hub
+          </button>
         </div>
       </div>
     );
