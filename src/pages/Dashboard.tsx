@@ -252,12 +252,13 @@ const CATEGORY_COLORS: Record<string, string> = {
 interface DashboardProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  selectedToolId: string | null;
+  setSelectedToolId: (id: string | null) => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ activeTab }) => {
+const Dashboard: React.FC<DashboardProps> = ({ activeTab, selectedToolId, setSelectedToolId }) => {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<ToolCategory>('All');
-  const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>(() => 
     JSON.parse(localStorage.getItem('mrbit_history') || '[]')
   );
@@ -272,11 +273,6 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab }) => {
       });
     }
   }, [selectedToolId]);
-
-  // Reset selected tool when changing tabs
-  useEffect(() => {
-    setSelectedToolId(null);
-  }, [activeTab]);
 
   const clearHistory = () => {
     localStorage.removeItem('mrbit_history');

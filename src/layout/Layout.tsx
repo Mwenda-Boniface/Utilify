@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutGrid, Moon, Sun, Info, Box, History } from 'lucide-react';
+import { LayoutGrid, Moon, Sun, Info, History, ArrowLeft, ArrowRight, RotateCw } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import styles from './Layout.module.css';
 import { motion } from 'framer-motion';
@@ -9,9 +9,23 @@ interface LayoutProps {
   children: React.ReactNode;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  onBack: () => void;
+  onForward: () => void;
+  onRefresh: () => void;
+  canGoBack: boolean;
+  canGoForward: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) => {
+const Layout: React.FC<LayoutProps> = ({ 
+  children, 
+  activeTab, 
+  setActiveTab,
+  onBack,
+  onForward,
+  onRefresh,
+  canGoBack,
+  canGoForward
+}) => {
   const { theme, toggleTheme } = useTheme();
 
   const menuItems = [
@@ -30,6 +44,33 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
               <img src={utilifyLogo} alt="Utilify" className={styles.logoIconImage} />
             </div>
             <span className={styles.logoText}>Utilify</span>
+            
+            {/* Browser Navigation Controls */}
+            <div className={styles.navControls}>
+              <button 
+                className={`${styles.controlBtn} ${!canGoBack ? styles.disabled : ''}`} 
+                onClick={onBack} 
+                disabled={!canGoBack}
+                title="Go Back"
+              >
+                <ArrowLeft size={16} />
+              </button>
+              <button 
+                className={`${styles.controlBtn} ${!canGoForward ? styles.disabled : ''}`} 
+                onClick={onForward} 
+                disabled={!canGoForward}
+                title="Go Forward"
+              >
+                <ArrowRight size={16} />
+              </button>
+              <button 
+                className={styles.controlBtn} 
+                onClick={onRefresh} 
+                title="Refresh Page"
+              >
+                <RotateCw size={15} />
+              </button>
+            </div>
           </div>
         </div>
 
