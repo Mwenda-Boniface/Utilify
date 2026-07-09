@@ -25,18 +25,14 @@ function App() {
 
   // Keep track of and restore landing page scroll position when navigating back
   useEffect(() => {
-    if (activeTab === 'Tools') {
-      if (selectedToolId) {
-        lastScrollY.current = window.scrollY;
-      } else {
-        const timer = setTimeout(() => {
-          window.scrollTo({
-            top: lastScrollY.current,
-            behavior: 'instant' as ScrollBehavior
-          });
-        }, 50);
-        return () => clearTimeout(timer);
-      }
+    if (activeTab === 'Tools' && !selectedToolId) {
+      const timer = setTimeout(() => {
+        window.scrollTo({
+          top: lastScrollY.current,
+          behavior: 'instant' as ScrollBehavior
+        });
+      }, 50);
+      return () => clearTimeout(timer);
     }
   }, [selectedToolId, activeTab]);
 
@@ -46,6 +42,10 @@ function App() {
       const hash = window.location.hash;
       if (hash.startsWith('#/tools/')) {
         const toolId = hash.replace('#/tools/', '');
+        // Capture scroll Y before we enter the tool if we are not already in one
+        if (!selectedToolId) {
+          lastScrollY.current = window.scrollY;
+        }
         setActiveTab('Tools');
         setSelectedToolId(toolId);
       } else if (hash === '#/history') {
@@ -68,11 +68,18 @@ function App() {
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
     };
-  }, []);
+  }, [selectedToolId]);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     setSelectedToolId(null);
+  };
+
+  const handleSelectTool = (toolId: string | null) => {
+    if (toolId) {
+      lastScrollY.current = window.scrollY;
+    }
+    setSelectedToolId(toolId);
   };
 
   return (
@@ -81,7 +88,7 @@ function App() {
         activeTab={activeTab} 
         setActiveTab={handleTabChange}
         selectedToolId={selectedToolId}
-        setSelectedToolId={setSelectedToolId}
+        setSelectedToolId={handleSelectTool}
       />
     </Layout>
   );
