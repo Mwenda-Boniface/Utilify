@@ -95,12 +95,16 @@
   padding: 1.5rem;
   background: transparent;
   border: none;
-  color: #e4e4e7;
+  color: #e4e4e7 !important;
   font-family: var(--font-mono);
   font-size: 0.925rem;
   line-height: 1.65;
   resize: none;
   outline: none;
+}
+
+.textarea::placeholder {
+  color: #71717a !important;
 }
 
 .actionBar {
