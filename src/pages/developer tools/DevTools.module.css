@@ -95,9 +95,10 @@
   padding: 1.5rem;
   background: transparent !important;
   border: none !important;
-  color: #e4e4e7 !important;
+  color: #ffffff !important;
   font-family: var(--font-mono);
-  font-size: 0.925rem;
+  font-size: 0.95rem;
+  font-weight: 600 !important;
   line-height: 1.65;
   resize: none;
   outline: none;
