@@ -35,9 +35,15 @@
 }
 
 .workspace {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
   gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
 }
 
 .previewArea {
@@ -47,6 +53,7 @@
   padding: 2rem;
   min-height: 400px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -59,7 +66,8 @@
   color: var(--text-dim);
   cursor: pointer;
   width: 100%;
-  height: 300px;
+  height: 100%;
+  min-height: 300px;
   justify-content: center;
   border: 2px dashed var(--border);
   border-radius: var(--radius-xl);
@@ -100,19 +108,24 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  align-items: center;
+  align-items: stretch;
+  justify-content: center;
+  height: min-content;
 }
 
 .sizeInputs {
   display: flex;
   align-items: flex-end;
-  gap: 1.5rem;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  flex: 1;
 }
 
 .inputGroup label {
@@ -129,8 +142,9 @@
   padding: 0.75rem 1rem;
   color: var(--text-main);
   font-weight: 700;
-  width: 120px;
+  width: 100%;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .lockBtn {
@@ -150,12 +164,13 @@
 
 .actions {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 0.75rem;
   width: 100%;
 }
 
 .mainBtn {
-  flex: 1;
+  width: 100%;
   background: #2563eb;
   color: white;
   padding: 1rem;
@@ -166,6 +181,8 @@
   justify-content: center;
   gap: 0.75rem;
   transition: all 0.2s;
+  border: none;
+  cursor: pointer;
 }
 
 .mainBtn:hover:not(:disabled) {
@@ -176,6 +193,20 @@
 .resetBtn {
   color: #ef4444;
   font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.resetBtn:hover {
+  background: rgba(239, 68, 68, 0.05);
 }
 
 .info {

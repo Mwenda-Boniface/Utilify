@@ -36,7 +36,7 @@
 
 .workspace {
   display: grid;
-  grid-template-columns: 1fr 350px;
+  grid-template-columns: 1.2fr 1fr;
   gap: 2rem;
 }
 
@@ -133,6 +133,15 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.mainBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
 }
 
 @keyframes fadeIn {
