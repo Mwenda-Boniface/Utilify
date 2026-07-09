@@ -1,0 +1,148 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.uploadArea {
+  background: var(--bg-surface);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-xl);
+  padding: 5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-align: center;
+}
+
+.uploadArea:hover {
+  border-color: var(--primary);
+  background: var(--primary-glow);
+}
+
+.loader {
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.primaryBtn, .secondaryBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all var(--transition-base);
+}
+
+.primaryBtn { background: var(--primary); color: white; }
+.secondaryBtn { background: var(--bg-app); border: 1px solid var(--border); color: #ff4444; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.itemCard {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.itemCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+}
+
+.qrBox {
+  padding: 1rem;
+  background: white;
+  border-radius: var(--radius-md);
+  line-height: 0;
+}
+
+.itemInfo {
+  text-align: center;
+  width: 100%;
+}
+
+.itemInfo strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.itemInfo p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deleteBtn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.4rem;
+  color: var(--text-dim);
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.itemCard:hover .deleteBtn {
+  opacity: 1;
+}
+
+.deleteBtn:hover {
+  color: #ff4444;
+}
+
+.proTip {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-xl);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}

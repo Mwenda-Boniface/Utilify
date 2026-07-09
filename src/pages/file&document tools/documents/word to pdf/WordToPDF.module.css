@@ -1,0 +1,341 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.toolHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.iconBox {
+  width: 48px;
+  height: 48px;
+  background: #2563eb15;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+  border: 1px solid #2563eb30;
+}
+
+.toolHeader h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--text-main);
+}
+
+.toolHeader p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.workspace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.dropZone {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 16 / 9;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  background: var(--bg-surface);
+}
+
+.dropZone:hover {
+  border-color: var(--primary);
+  background: var(--bg-app);
+}
+
+.uploadPrompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.uploadPrompt p {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.fileIcon {
+  color: #2563eb;
+}
+
+.fileName {
+  font-size: 1.1rem;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileSize {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.errorMsg {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ef4444;
+  font-weight: 600;
+  background: #ef444410;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.mainBtn {
+  background: var(--primary);
+  color: white;
+  padding: 1rem 3rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all var(--transition-base);
+}
+
+.mainBtn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px var(--primary-glow);
+}
+
+.mainBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondaryBtn {
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 600;
+  transition: all var(--transition-base);
+}
+
+.secondaryBtn:hover {
+  background: var(--bg-app);
+  color: var(--text-main);
+}
+
+.spinner {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Procedural Step Wizard Styles */
+.stepsBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.stepIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.stepNum {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background-color: var(--bg-sidebar);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: all var(--transition-base);
+}
+
+.stepLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all var(--transition-base);
+}
+
+.stepConnector {
+  flex: 1;
+  height: 2px;
+  background-color: var(--border);
+  margin: -1.5rem 1rem 0 1rem;
+  z-index: 1;
+  transition: all var(--transition-base);
+}
+
+.stepConnectorActive {
+  background-color: var(--primary);
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.stepActive .stepNum {
+  border-color: var(--primary);
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+.stepActive .stepLabel {
+  color: var(--text-main);
+}
+
+.stepContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  animation: fadeIn var(--transition-base);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.uploadIcon {
+  color: var(--primary);
+}
+
+/* Step 2 File Details Card */
+.fileDetailsCard {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem 2rem;
+  border: 1px solid var(--border);
+  background-color: rgba(255, 255, 255, 0.015);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.fileDetailsIcon {
+  color: var(--primary);
+}
+
+.fileDetailsInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.fileName {
+  font-weight: 700;
+  color: var(--text-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1rem;
+}
+
+.fileSize {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Step 3 Success state card */
+.successCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.successIconWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1.5px solid #10b981;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.2);
+}
+
+.successCard h3 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
+}
+
+.successCard p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.downloadLink {
+  background: var(--primary-gradient);
+  color: white !important;
+  font-weight: 700;
+  padding: 1rem 3rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px var(--primary-glow);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all var(--transition-base);
+  border: none;
+  text-decoration: none;
+}
+
+.downloadLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--primary-glow);
+}

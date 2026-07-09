@@ -1,0 +1,164 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.scannerBox {
+  position: relative;
+  background: black;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.reader {
+  width: 100%;
+  height: 100%;
+}
+
+.reader :global(video) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.resultView {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-surface);
+  padding: 2rem;
+}
+
+.resultContent {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 400px;
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.iconCircle {
+  width: 80px;
+  height: 80px;
+  background: var(--primary-glow);
+  color: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dataBox {
+  background: var(--bg-app);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  width: 100%;
+  word-break: break-all;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.primaryBtn, .secondaryBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  transition: all var(--transition-base);
+}
+
+.primaryBtn {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.secondaryBtn {
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+}
+
+.primaryBtn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.secondaryBtn:hover { border-color: var(--primary); color: var(--primary); }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.targetFrame {
+  width: 300px;
+  height: 150px;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 4000px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.targetFrame::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background: rgba(255, 0, 0, 0.5);
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+  animation: scanLine 2s infinite ease-in-out;
+}
+
+@keyframes scanLine {
+  0%, 100% { transform: translateY(-40px); opacity: 0.5; }
+  50% { transform: translateY(40px); opacity: 1; }
+}
+
+.hintText {
+  color: white;
+  margin-top: 1.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.infoCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.infoCard strong { color: var(--primary); }
