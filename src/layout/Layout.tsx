@@ -3,6 +3,7 @@ import { LayoutGrid, Moon, Sun, Info, Box, History } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import styles from './Layout.module.css';
 import { motion } from 'framer-motion';
+import utilifyLogo from '../assets/images/UTILIFY.png';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -26,7 +27,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
         <div className={styles.leftSection}>
           <div className={styles.logoSection}>
             <div className={styles.logoIcon}>
-              <Box size={20} className={styles.logoIconSvg} />
+              <img src={utilifyLogo} alt="Utilify" className={styles.logoIconImage} />
             </div>
             <span className={styles.logoText}>Utilify</span>
           </div>

@@ -1,6 +1,8 @@
 <div align="center">
   
-  # 🛠️ Utilify
+  <img src="src/assets/images/UTILIFY.png" alt="Utilify Logo" width="220" />
+  
+  # Utilify
   
   ### *A Premium, Developer-Focused, 100% Client-Side Web Utility Suite*
   
