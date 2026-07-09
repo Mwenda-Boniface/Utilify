@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import { 
   Search, ArrowRight, LayoutGrid, Key, Hash, Activity, 
   Calendar, DollarSign, RefreshCw, Percent, Clock, GraduationCap, 
@@ -7,103 +7,103 @@ import {
   Database, Dices, Layers, Table, Binary, ChevronLeft, Star, Barcode as BarcodeIcon, Mail, Mic,
   FileImage, FileSpreadsheet, Presentation, FileWarning, FileType,
   Layout, Map as MapIcon, Shield, Gauge, Globe, ShieldAlert, List, Users,
-  FileCode, Lock, Heart
+  FileCode, Lock, Heart, Loader2
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import QRCodeGenerator from './code scanner&generator/qrcode generator/QRCodeGenerator';
-import QRCodeScanner from './code scanner&generator/qrcode scanner/QRCodeScanner';
-import WiFiQRCodeGenerator from './code scanner&generator/WiFi QR Code Generator/WiFiQRCodeGenerator';
-import VCardQRCodeGenerator from './code scanner&generator/vCard QR Code Generator/VCardQRCodeGenerator';
-import ImageUploadScanner from './code scanner&generator/Image Upload Scanner/ImageUploadScanner';
-import QRCodeValidator from './code scanner&generator/QR Code Validator/QRCodeValidator';
-import QRCodeCustomizer from './code scanner&generator/QR Code Customizer/QRCodeCustomizer';
-import QRCodeTracker from './code scanner&generator/QR Code Tracker/QRCodeTracker';
-import EmailSMSGenerator from './code scanner&generator/Email - SMS QR Generator/EmailSMSGenerator';
-import EventQRGenerator from './code scanner&generator/Event QR Code Generator (calendar events)/EventQRGenerator';
-import BulkQRGenerator from './code scanner&generator/Bulk QR Generator/BulkQRGenerator';
-import BarcodeGenerator from './code scanner&generator/barcode generator/BarcodeGenerator';
-import BarcodeScanner from './code scanner&generator/barcode scanner/BarcodeScanner';
-import BarcodeConverter from './code scanner&generator/Barcode Format Converter/BarcodeConverter';
-import BatchQRScanner from './code scanner&generator/Batch QR Scanner/BatchQRScanner';
-import DynamicQRGenerator from './code scanner&generator/Dynamic QR Code Generator/DynamicQRGenerator';
-import HistorySaver from './code scanner&generator/History Saver/HistorySaver';
+
+const QRCodeGenerator = lazy(() => import('./code scanner&generator/qrcode generator/QRCodeGenerator'));
+const QRCodeScanner = lazy(() => import('./code scanner&generator/qrcode scanner/QRCodeScanner'));
+const WiFiQRCodeGenerator = lazy(() => import('./code scanner&generator/WiFi QR Code Generator/WiFiQRCodeGenerator'));
+const VCardQRCodeGenerator = lazy(() => import('./code scanner&generator/vCard QR Code Generator/VCardQRCodeGenerator'));
+const ImageUploadScanner = lazy(() => import('./code scanner&generator/Image Upload Scanner/ImageUploadScanner'));
+const QRCodeValidator = lazy(() => import('./code scanner&generator/QR Code Validator/QRCodeValidator'));
+const QRCodeCustomizer = lazy(() => import('./code scanner&generator/QR Code Customizer/QRCodeCustomizer'));
+const QRCodeTracker = lazy(() => import('./code scanner&generator/QR Code Tracker/QRCodeTracker'));
+const EmailSMSGenerator = lazy(() => import('./code scanner&generator/Email - SMS QR Generator/EmailSMSGenerator'));
+const EventQRGenerator = lazy(() => import('./code scanner&generator/Event QR Code Generator (calendar events)/EventQRGenerator'));
+const BulkQRGenerator = lazy(() => import('./code scanner&generator/Bulk QR Generator/BulkQRGenerator'));
+const BarcodeGenerator = lazy(() => import('./code scanner&generator/barcode generator/BarcodeGenerator'));
+const BarcodeScanner = lazy(() => import('./code scanner&generator/barcode scanner/BarcodeScanner'));
+const BarcodeConverter = lazy(() => import('./code scanner&generator/Barcode Format Converter/BarcodeConverter'));
+const BatchQRScanner = lazy(() => import('./code scanner&generator/Batch QR Scanner/BatchQRScanner'));
+const DynamicQRGenerator = lazy(() => import('./code scanner&generator/Dynamic QR Code Generator/DynamicQRGenerator'));
+const HistorySaver = lazy(() => import('./code scanner&generator/History Saver/HistorySaver'));
 
 // Calculators
-import AgeCalculator from './calculators/Age calculator/AgeCalculator';
-import BMICalculator from './calculators/BMI calculator/BMICalculator';
-import CurrencyConverter from './calculators/Currency converter/CurrencyConverter';
-import GPACalculator from './calculators/GPA calculator/GPACalculator';
-import LoanCalculator from './calculators/Loan calculator/LoanCalculator';
-import PercentageCalculator from './calculators/Percentage calculator/PercentageCalculator';
-import TimeZoneConverter from './calculators/Time zone converter/TimeZoneConverter';
+const AgeCalculator = lazy(() => import('./calculators/Age calculator/AgeCalculator'));
+const BMICalculator = lazy(() => import('./calculators/BMI calculator/BMICalculator'));
+const CurrencyConverter = lazy(() => import('./calculators/Currency converter/CurrencyConverter'));
+const GPACalculator = lazy(() => import('./calculators/GPA calculator/GPACalculator'));
+const LoanCalculator = lazy(() => import('./calculators/Loan calculator/LoanCalculator'));
+const PercentageCalculator = lazy(() => import('./calculators/Percentage calculator/PercentageCalculator'));
+const TimeZoneConverter = lazy(() => import('./calculators/Time zone converter/TimeZoneConverter'));
 
 // Developer Tools
-import JSONFormatter from './developer tools/JSON formatter & validator/JSONFormatter';
-import CodeBeautifier from './developer tools/Code beautifier/CodeBeautifier';
-import Minifier from './developer tools/HTML-CSS-JS minifier/Minifier';
-import APITester from './developer tools/API tester (basic)/APITester';
-import RegexTester from './developer tools/Regex tester/RegexTester';
+const JSONFormatter = lazy(() => import('./developer tools/JSON formatter & validator/JSONFormatter'));
+const CodeBeautifier = lazy(() => import('./developer tools/Code beautifier/CodeBeautifier'));
+const Minifier = lazy(() => import('./developer tools/HTML-CSS-JS minifier/Minifier'));
+const APITester = lazy(() => import('./developer tools/API tester (basic)/APITester'));
+const RegexTester = lazy(() => import('./developer tools/Regex tester/RegexTester'));
 
 // Encoders & Decoders
-// Encoders & Decoders
-import Base64Tools from './encoders&decoders/Base64 Encoder - Decoder/Base64Tools';
-import BinaryConverter from './encoders&decoders/Binary - Text Converter/BinaryConverter';
-import URLEncoder from './encoders&decoders/URL Encoder - Decoder/URLEncoder';
-import HTMLEntities from './encoders&decoders/HTML Encoder - Decoder/HTMLEntities';
-import MorseTranslator from './encoders&decoders/Morse Code Translator/MorseTranslator';
+const Base64Tools = lazy(() => import('./encoders&decoders/Base64 Encoder - Decoder/Base64Tools'));
+const BinaryConverter = lazy(() => import('./encoders&decoders/Binary - Text Converter/BinaryConverter'));
+const URLEncoder = lazy(() => import('./encoders&decoders/URL Encoder - Decoder/URLEncoder'));
+const HTMLEntities = lazy(() => import('./encoders&decoders/HTML Encoder - Decoder/HTMLEntities'));
+const MorseTranslator = lazy(() => import('./encoders&decoders/Morse Code Translator/MorseTranslator'));
 
 // File & Document Tools
-import PDFTools from './file&document tools/PDF merger & splitter/PDFTools';
-import OCRTool from './file&document tools/OCR (Image - Text)/OCRTool';
-import ZIPTool from './file&document tools/File compressor (ZIP, RAR)/ZIPTool';
-import TTSTool from './file&document tools/Text to speech/TTSTool';
-import STTTool from './file&document tools/Speech to text/STTTool';
-import ImageToPDF from './file&document tools/Image to PDF/ImageToPDF';
+const PDFTools = lazy(() => import('./file&document tools/PDF merger & splitter/PDFTools'));
+const OCRTool = lazy(() => import('./file&document tools/OCR (Image - Text)/OCRTool'));
+const ZIPTool = lazy(() => import('./file&document tools/File compressor (ZIP, RAR)/ZIPTool'));
+const TTSTool = lazy(() => import('./file&document tools/Text to speech/TTSTool'));
+const STTTool = lazy(() => import('./file&document tools/Speech to text/STTTool'));
+const ImageToPDF = lazy(() => import('./file&document tools/Image to PDF/ImageToPDF'));
 
 // Document Conversion Tools
-import WordToPDF from './file&document tools/documents/word to pdf/WordToPDF';
-import WordToTXT from './file&document tools/documents/word to txt/WordToTXT';
-import ExcelToPDF from './file&document tools/documents/excel to pdf/ExcelToPDF';
-import ExcelToWord from './file&document tools/documents/excel to word/ExcelToWord';
-import PDFToImage from './file&document tools/documents/pdf to image/PDFToImage';
-import PDFToWord from './file&document tools/documents/pdf to word/PDFToWord';
-import PDFToExcel from './file&document tools/documents/pdf to excel/PDFToExcel';
-import PDFToPowerPoint from './file&document tools/documents/pdf to powerpoint/PDFToPowerPoint';
-import PowerPointToPDF from './file&document tools/documents/powerpoint to pdf/PowerPointToPDF';
-import UniversalDocTool from './file&document tools/documents/UniversalDocTool';
+const WordToPDF = lazy(() => import('./file&document tools/documents/word to pdf/WordToPDF'));
+const WordToTXT = lazy(() => import('./file&document tools/documents/word to txt/WordToTXT'));
+const ExcelToPDF = lazy(() => import('./file&document tools/documents/excel to pdf/ExcelToPDF'));
+const ExcelToWord = lazy(() => import('./file&document tools/documents/excel to word/ExcelToWord'));
+const PDFToImage = lazy(() => import('./file&document tools/documents/pdf to image/PDFToImage'));
+const PDFToWord = lazy(() => import('./file&document tools/documents/pdf to word/PDFToWord'));
+const PDFToExcel = lazy(() => import('./file&document tools/documents/pdf to excel/PDFToExcel'));
+const PDFToPowerPoint = lazy(() => import('./file&document tools/documents/pdf to powerpoint/PDFToPowerPoint'));
+const PowerPointToPDF = lazy(() => import('./file&document tools/documents/powerpoint to pdf/PowerPointToPDF'));
+const UniversalDocTool = lazy(() => import('./file&document tools/documents/UniversalDocTool'));
 
 // SEO & Website Tools
-import KeywordChecker from './SEO & Website tools/Keyword density checker/KeywordChecker';
-import MetaGenerator from './SEO & Website tools/Meta tag generator/MetaGenerator';
-import SitemapGenerator from './SEO & Website tools/Sitemap generator/SitemapGenerator';
-import RobotsGenerator from './SEO & Website tools/Robots.txt generator/RobotsGenerator';
-import SpeedChecker from './SEO & Website tools/Website speed checker/SpeedChecker';
-import WhoisLookup from './SEO & Website tools/Domain WHOIS lookup/WhoisLookup';
+const KeywordChecker = lazy(() => import('./SEO & Website tools/Keyword density checker/KeywordChecker'));
+const MetaGenerator = lazy(() => import('./SEO & Website tools/Meta tag generator/MetaGenerator'));
+const SitemapGenerator = lazy(() => import('./SEO & Website tools/Sitemap generator/SitemapGenerator'));
+const RobotsGenerator = lazy(() => import('./SEO & Website tools/Robots.txt generator/RobotsGenerator'));
+const SpeedChecker = lazy(() => import('./SEO & Website tools/Website speed checker/SpeedChecker'));
+const WhoisLookup = lazy(() => import('./SEO & Website tools/Domain WHOIS lookup/WhoisLookup'));
 
 // Security Tools
-import HashGenerator from './security/Hash generator (MD5, SHA)/HashGenerator';
-import PasswordGenerator from './security/Password generator/PasswordGenerator';
-import StrengthChecker from './security/Password strength checker/StrengthChecker';
-import IPLookup from './security/IP lookup/IPLookup';
-import VPNCheck from './security/VPN check tool/VPNCheck';
+const HashGenerator = lazy(() => import('./security/Hash generator (MD5, SHA)/HashGenerator'));
+const PasswordGenerator = lazy(() => import('./security/Password generator/PasswordGenerator'));
+const StrengthChecker = lazy(() => import('./security/Password strength checker/StrengthChecker'));
+const IPLookup = lazy(() => import('./security/IP lookup/IPLookup'));
+const VPNCheck = lazy(() => import('./security/VPN check tool/VPNCheck'));
 
 // Miscellaneous Tools
-import DiceGenerator from './miscellaneous/Dice-number generator/DiceGenerator';
-import FakeDataGenerator from './miscellaneous/Fake data generator (for testing)/FakeDataGenerator';
-import NameGenerator from './miscellaneous/Random name generator/NameGenerator';
-import PasswordList from './miscellaneous/Random password list/PasswordList';
-import CaseConverter from './miscellaneous/Text case converter (UPPERCASE-lowercase)/CaseConverter';
+const DiceGenerator = lazy(() => import('./miscellaneous/Dice-number generator/DiceGenerator'));
+const FakeDataGenerator = lazy(() => import('./miscellaneous/Fake data generator (for testing)/FakeDataGenerator'));
+const NameGenerator = lazy(() => import('./miscellaneous/Random name generator/NameGenerator'));
+const PasswordList = lazy(() => import('./miscellaneous/Random password list/PasswordList'));
+const CaseConverter = lazy(() => import('./miscellaneous/Text case converter (UPPERCASE-lowercase)/CaseConverter'));
 
 // Image & Design Tools
-import ImageCompressor from './imagedesign tools/Image compressor/ImageCompressor';
-import ColorPicker from './imagedesign tools/Color picker/ColorPicker';
-import FaviconGenerator from './imagedesign tools/Favicon generator/FaviconGenerator';
-import ImageResizer from './imagedesign tools/Image resizer/ImageResizer';
-import BackgroundRemover from './imagedesign tools/Background remover/BackgroundRemover';
-import LogoGenerator from './imagedesign tools/Logo generator/LogoGenerator';
-import MemeGenerator from './imagedesign tools/Meme generator/MemeGenerator';
-import ThumbnailMaker from './imagedesign tools/Thumbnail maker/ThumbnailMaker';
+const ImageCompressor = lazy(() => import('./imagedesign tools/Image compressor/ImageCompressor'));
+const ColorPicker = lazy(() => import('./imagedesign tools/Color picker/ColorPicker'));
+const FaviconGenerator = lazy(() => import('./imagedesign tools/Favicon generator/FaviconGenerator'));
+const ImageResizer = lazy(() => import('./imagedesign tools/Image resizer/ImageResizer'));
+const BackgroundRemover = lazy(() => import('./imagedesign tools/Background remover/BackgroundRemover'));
+const LogoGenerator = lazy(() => import('./imagedesign tools/Logo generator/LogoGenerator'));
+const MemeGenerator = lazy(() => import('./imagedesign tools/Meme generator/MemeGenerator'));
+const ThumbnailMaker = lazy(() => import('./imagedesign tools/Thumbnail maker/ThumbnailMaker'));
 
 interface Tool {
   id: string;
@@ -313,162 +313,176 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
       <div className={styles.dashboard}>
         <div className={`${styles.toolDetail} ${styles[categoryClass]}`}>
           <div className={styles.toolContainer}>
-            {selectedTool.id === 'qr-gen' ? (
-              <QRCodeGenerator />
-            ) : selectedTool.id === 'qr-scan' ? (
-              <QRCodeScanner />
-            ) : selectedTool.id === 'wifi-qr' ? (
-              <WiFiQRCodeGenerator />
-            ) : selectedTool.id === 'vcard-qr' ? (
-              <VCardQRCodeGenerator />
-            ) : selectedTool.id === 'img-scan' ? (
-              <ImageUploadScanner />
-            ) : selectedTool.id === 'qr-valid' ? (
-              <QRCodeValidator />
-            ) : selectedTool.id === 'qr-custom' ? (
-              <QRCodeCustomizer />
-            ) : selectedTool.id === 'qr-track' ? (
-              <QRCodeTracker />
-            ) : selectedTool.id === 'email-qr' ? (
-              <EmailSMSGenerator />
-            ) : selectedTool.id === 'event-qr' ? (
-              <EventQRGenerator />
-            ) : selectedTool.id === 'bulk-qr' ? (
-              <BulkQRGenerator />
-            ) : selectedTool.id === 'barcode-gen' ? (
-              <BarcodeGenerator />
-            ) : selectedTool.id === 'barcode-scan' ? (
-              <BarcodeScanner />
-            ) : selectedTool.id === 'barcode-conv' ? (
-              <BarcodeConverter />
-            ) : selectedTool.id === 'batch-qr-scan' ? (
-              <BatchQRScanner />
-            ) : selectedTool.id === 'dynamic-qr' ? (
-              <DynamicQRGenerator />
-            ) : selectedTool.id === 'hist-save' ? (
-              <HistorySaver />
-            ) : selectedTool.id === 'age-calc' ? (
-              <AgeCalculator />
-            ) : selectedTool.id === 'bmi-calc' ? (
-              <BMICalculator />
-            ) : selectedTool.id === 'currency-conv' ? (
-              <CurrencyConverter />
-            ) : selectedTool.id === 'gpa-calc' ? (
-              <GPACalculator />
-            ) : selectedTool.id === 'loan-calc' ? (
-              <LoanCalculator />
-            ) : selectedTool.id === 'percent-calc' ? (
-              <PercentageCalculator />
-            ) : selectedTool.id === 'timezone-conv' ? (
-              <TimeZoneConverter />
-            ) : selectedTool.id === 'json-format' ? (
-              <JSONFormatter />
-            ) : selectedTool.id === 'code-beautifier' ? (
-              <CodeBeautifier />
-            ) : selectedTool.id === 'code-minifier' ? (
-              <Minifier />
-            ) : selectedTool.id === 'api-tester' ? (
-              <APITester />
-            ) : selectedTool.id === 'regex-tester' ? (
-              <RegexTester />
-            ) : selectedTool.id === 'b64-enc' ? (
-              <Base64Tools />
-            ) : selectedTool.id === 'binary-conv' ? (
-              <BinaryConverter />
-            ) : selectedTool.id === 'url-enc' ? (
-              <URLEncoder />
-            ) : selectedTool.id === 'html-enc' ? (
-              <HTMLEntities />
-            ) : selectedTool.id === 'morse-conv' ? (
-              <MorseTranslator />
-            ) : selectedTool.id === 'pdf-merge' ? (
-              <PDFTools />
-            ) : selectedTool.id === 'ocr-text' ? (
-              <OCRTool />
-            ) : selectedTool.id === 'file-compress' ? (
-              <ZIPTool />
-            ) : selectedTool.id === 'tts-tool' ? (
-              <TTSTool />
-            ) : selectedTool.id === 'stt-tool' ? (
-              <STTTool />
-            ) : selectedTool.id === 'img-to-pdf' ? (
-              <ImageToPDF />
-            ) : selectedTool.id === 'word-to-pdf' ? (
-              <WordToPDF />
-            ) : selectedTool.id === 'word-to-txt' ? (
-              <WordToTXT />
-            ) : selectedTool.id === 'excel-to-pdf' ? (
-              <ExcelToPDF />
-            ) : selectedTool.id === 'excel-to-word' ? (
-              <ExcelToWord />
-            ) : selectedTool.id === 'pdf-to-image' ? (
-              <PDFToImage />
-            ) : selectedTool.id === 'pdf-to-word' ? (
-              <PDFToWord />
-            ) : selectedTool.id === 'pdf-to-excel' ? (
-              <PDFToExcel />
-            ) : selectedTool.id === 'pdf-to-ppt' ? (
-              <PDFToPowerPoint />
-            ) : selectedTool.id === 'ppt-to-pdf' ? (
-              <PowerPointToPDF />
-            ) : selectedTool.id === 'pub-to-pdf' ? (
-              <UniversalDocTool title="Publisher to PDF" description="Convert Microsoft Publisher documents to PDF." />
-            ) : selectedTool.id === 'pdf-to-pub' ? (
-              <UniversalDocTool title="PDF to Publisher" description="Convert PDF files to Microsoft Publisher format." />
-            ) : selectedTool.id === 'keyword-checker' ? (
-              <KeywordChecker />
-            ) : selectedTool.id === 'meta-gen' ? (
-              <MetaGenerator />
-            ) : selectedTool.id === 'sitemap-gen' ? (
-              <SitemapGenerator />
-            ) : selectedTool.id === 'robots-gen' ? (
-              <RobotsGenerator />
-            ) : selectedTool.id === 'speed-checker' ? (
-              <SpeedChecker />
-            ) : selectedTool.id === 'whois-lookup' ? (
-              <WhoisLookup />
-            ) : selectedTool.id === 'hash-gen' ? (
-              <HashGenerator />
-            ) : selectedTool.id === 'pass-gen' ? (
-              <PasswordGenerator />
-            ) : selectedTool.id === 'pass-strength' ? (
-              <StrengthChecker />
-            ) : selectedTool.id === 'ip-lookup' ? (
-              <IPLookup />
-            ) : selectedTool.id === 'vpn-check' ? (
-              <VPNCheck />
-            ) : selectedTool.id === 'dice-gen' ? (
-              <DiceGenerator />
-            ) : selectedTool.id === 'fake-data' ? (
-              <FakeDataGenerator />
-            ) : selectedTool.id === 'name-gen' ? (
-              <NameGenerator />
-            ) : selectedTool.id === 'pass-list' ? (
-              <PasswordList />
-            ) : selectedTool.id === 'case-conv' ? (
-              <CaseConverter />
-            ) : selectedTool.id === 'img-compress' ? (
-              <ImageCompressor />
-            ) : selectedTool.id === 'color-picker' ? (
-              <ColorPicker />
-            ) : selectedTool.id === 'favicon-gen' ? (
-              <FaviconGenerator />
-            ) : selectedTool.id === 'img-resizer' ? (
-              <ImageResizer />
-            ) : selectedTool.id === 'bg-remover' ? (
-              <BackgroundRemover />
-            ) : selectedTool.id === 'logo-gen' ? (
-              <LogoGenerator />
-            ) : selectedTool.id === 'meme-gen' ? (
-              <MemeGenerator />
-            ) : selectedTool.id === 'thumb-maker' ? (
-              <ThumbnailMaker />
-            ) : (
-              <div style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                <Box size={48} strokeWidth={1} style={{ marginBottom: '1rem', opacity: 0.5 }} />
-                <p>Tool implementation coming soon...</p>
+            <Suspense fallback={
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '320px',
+                color: 'var(--text-muted)'
+              }}>
+                <Loader2 className={styles.spinner} size={40} style={{ marginBottom: '1.25rem' }} />
+                <p style={{ fontWeight: 600, fontSize: '0.95rem' }}>Loading tool module...</p>
               </div>
-            )}
+            }>
+              {selectedTool.id === 'qr-gen' ? (
+                <QRCodeGenerator />
+              ) : selectedTool.id === 'qr-scan' ? (
+                <QRCodeScanner />
+              ) : selectedTool.id === 'wifi-qr' ? (
+                <WiFiQRCodeGenerator />
+              ) : selectedTool.id === 'vcard-qr' ? (
+                <VCardQRCodeGenerator />
+              ) : selectedTool.id === 'img-scan' ? (
+                <ImageUploadScanner />
+              ) : selectedTool.id === 'qr-valid' ? (
+                <QRCodeValidator />
+              ) : selectedTool.id === 'qr-custom' ? (
+                <QRCodeCustomizer />
+              ) : selectedTool.id === 'qr-track' ? (
+                <QRCodeTracker />
+              ) : selectedTool.id === 'email-qr' ? (
+                <EmailSMSGenerator />
+              ) : selectedTool.id === 'event-qr' ? (
+                <EventQRGenerator />
+              ) : selectedTool.id === 'bulk-qr' ? (
+                <BulkQRGenerator />
+              ) : selectedTool.id === 'barcode-gen' ? (
+                <BarcodeGenerator />
+              ) : selectedTool.id === 'barcode-scan' ? (
+                <BarcodeScanner />
+              ) : selectedTool.id === 'barcode-conv' ? (
+                <BarcodeConverter />
+              ) : selectedTool.id === 'batch-qr-scan' ? (
+                <BatchQRScanner />
+              ) : selectedTool.id === 'dynamic-qr' ? (
+                <DynamicQRGenerator />
+              ) : selectedTool.id === 'hist-save' ? (
+                <HistorySaver />
+              ) : selectedTool.id === 'age-calc' ? (
+                <AgeCalculator />
+              ) : selectedTool.id === 'bmi-calc' ? (
+                <BMICalculator />
+              ) : selectedTool.id === 'currency-conv' ? (
+                <CurrencyConverter />
+              ) : selectedTool.id === 'gpa-calc' ? (
+                <GPACalculator />
+              ) : selectedTool.id === 'loan-calc' ? (
+                <LoanCalculator />
+              ) : selectedTool.id === 'percent-calc' ? (
+                <PercentageCalculator />
+              ) : selectedTool.id === 'timezone-conv' ? (
+                <TimeZoneConverter />
+              ) : selectedTool.id === 'json-format' ? (
+                <JSONFormatter />
+              ) : selectedTool.id === 'code-beautifier' ? (
+                <CodeBeautifier />
+              ) : selectedTool.id === 'code-minifier' ? (
+                <Minifier />
+              ) : selectedTool.id === 'api-tester' ? (
+                <APITester />
+              ) : selectedTool.id === 'regex-tester' ? (
+                <RegexTester />
+              ) : selectedTool.id === 'b64-enc' ? (
+                <Base64Tools />
+              ) : selectedTool.id === 'binary-conv' ? (
+                <BinaryConverter />
+              ) : selectedTool.id === 'url-enc' ? (
+                <URLEncoder />
+              ) : selectedTool.id === 'html-enc' ? (
+                <HTMLEntities />
+              ) : selectedTool.id === 'morse-conv' ? (
+                <MorseTranslator />
+              ) : selectedTool.id === 'pdf-merge' ? (
+                <PDFTools />
+              ) : selectedTool.id === 'ocr-text' ? (
+                <OCRTool />
+              ) : selectedTool.id === 'file-compress' ? (
+                <ZIPTool />
+              ) : selectedTool.id === 'tts-tool' ? (
+                <TTSTool />
+              ) : selectedTool.id === 'stt-tool' ? (
+                <STTTool />
+              ) : selectedTool.id === 'img-to-pdf' ? (
+                <ImageToPDF />
+              ) : selectedTool.id === 'word-to-pdf' ? (
+                <WordToPDF />
+              ) : selectedTool.id === 'word-to-txt' ? (
+                <WordToTXT />
+              ) : selectedTool.id === 'excel-to-pdf' ? (
+                <ExcelToPDF />
+              ) : selectedTool.id === 'excel-to-word' ? (
+                <ExcelToWord />
+              ) : selectedTool.id === 'pdf-to-image' ? (
+                <PDFToImage />
+              ) : selectedTool.id === 'pdf-to-word' ? (
+                <PDFToWord />
+              ) : selectedTool.id === 'pdf-to-excel' ? (
+                <PDFToExcel />
+              ) : selectedTool.id === 'pdf-to-ppt' ? (
+                <PDFToPowerPoint />
+              ) : selectedTool.id === 'ppt-to-pdf' ? (
+                <PowerPointToPDF />
+              ) : selectedTool.id === 'pub-to-pdf' ? (
+                <UniversalDocTool title="Publisher to PDF" description="Convert Microsoft Publisher documents to PDF." />
+              ) : selectedTool.id === 'pdf-to-pub' ? (
+                <UniversalDocTool title="PDF to Publisher" description="Convert PDF files to Microsoft Publisher format." />
+              ) : selectedTool.id === 'keyword-checker' ? (
+                <KeywordChecker />
+              ) : selectedTool.id === 'meta-gen' ? (
+                <MetaGenerator />
+              ) : selectedTool.id === 'sitemap-gen' ? (
+                <SitemapGenerator />
+              ) : selectedTool.id === 'robots-gen' ? (
+                <RobotsGenerator />
+              ) : selectedTool.id === 'speed-checker' ? (
+                <SpeedChecker />
+              ) : selectedTool.id === 'whois-lookup' ? (
+                <WhoisLookup />
+              ) : selectedTool.id === 'hash-gen' ? (
+                <HashGenerator />
+              ) : selectedTool.id === 'pass-gen' ? (
+                <PasswordGenerator />
+              ) : selectedTool.id === 'pass-strength' ? (
+                <StrengthChecker />
+              ) : selectedTool.id === 'ip-lookup' ? (
+                <IPLookup />
+              ) : selectedTool.id === 'vpn-check' ? (
+                <VPNCheck />
+              ) : selectedTool.id === 'dice-gen' ? (
+                <DiceGenerator />
+              ) : selectedTool.id === 'fake-data' ? (
+                <FakeDataGenerator />
+              ) : selectedTool.id === 'name-gen' ? (
+                <NameGenerator />
+              ) : selectedTool.id === 'pass-list' ? (
+                <PasswordList />
+              ) : selectedTool.id === 'case-conv' ? (
+                <CaseConverter />
+              ) : selectedTool.id === 'img-compress' ? (
+                <ImageCompressor />
+              ) : selectedTool.id === 'color-picker' ? (
+                <ColorPicker />
+              ) : selectedTool.id === 'favicon-gen' ? (
+                <FaviconGenerator />
+              ) : selectedTool.id === 'img-resizer' ? (
+                <ImageResizer />
+              ) : selectedTool.id === 'bg-remover' ? (
+                <BackgroundRemover />
+              ) : selectedTool.id === 'logo-gen' ? (
+                <LogoGenerator />
+              ) : selectedTool.id === 'meme-gen' ? (
+                <MemeGenerator />
+              ) : selectedTool.id === 'thumb-maker' ? (
+                <ThumbnailMaker />
+              ) : (
+                <div style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                  <Box size={48} strokeWidth={1} style={{ marginBottom: '1rem', opacity: 0.5 }} />
+                  <p>Tool implementation coming soon...</p>
+                </div>
+              )}
+            </Suspense>
           </div>
         </div>
       </div>

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
 :root {
   /* Fonts */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -120,7 +118,6 @@ body {
   font-size: var(--font-body);
   background-color: var(--bg-app);
   color: var(--text-main);
-  transition: background-color var(--transition-base), color var(--transition-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
@@ -134,13 +131,11 @@ button {
   background: none;
   font: inherit;
   color: inherit;
-  transition: all var(--transition-fast);
 }
 
 a {
   text-decoration: none;
   color: inherit;
-  transition: all var(--transition-fast);
 }
 
 .glass {
@@ -186,7 +181,6 @@ select {
   font-size: 0.925rem;
   font-weight: 500;
   outline: none;
-  transition: all var(--transition-base);
 }
 
 [data-theme='light'] input[type="text"],
@@ -235,7 +229,6 @@ button[type="submit"] {
   border-radius: var(--radius-md) !important;
   box-shadow: 0 4px 12px var(--primary-glow) !important;
   border: none !important;
-  transition: all var(--transition-base) !important;
 }
 
 .btn-primary:hover, 
@@ -243,5 +236,6 @@ button[type="submit"] {
 button[type="submit"]:hover {
   transform: translateY(-1px);
   box-shadow: 0 6px 18px var(--primary-glow) !important;
+  transition: transform var(--transition-base) !important;
 }
 
