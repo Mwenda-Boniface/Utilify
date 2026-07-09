@@ -26,13 +26,25 @@ function App() {
   // Keep track of and restore landing page scroll position when navigating back
   useEffect(() => {
     if (activeTab === 'Tools' && !selectedToolId) {
-      const timer = setTimeout(() => {
+      const target = lastScrollY.current;
+      console.log('[Utilify] Returning to Tools landing page. Target scroll Y:', target);
+      if (target === 0) return;
+
+      let attempts = 0;
+      const interval = setInterval(() => {
         window.scrollTo({
-          top: lastScrollY.current,
+          top: target,
           behavior: 'instant' as ScrollBehavior
         });
+        attempts++;
+        console.log(`[Utilify] Scroll restore attempt ${attempts}. Current scrollY:`, window.scrollY);
+        if (attempts >= 12 || window.scrollY >= target - 5) {
+          clearInterval(interval);
+          console.log('[Utilify] Scroll restoration completed successfully.');
+        }
       }, 50);
-      return () => clearTimeout(timer);
+
+      return () => clearInterval(interval);
     }
   }, [selectedToolId, activeTab]);
 
@@ -78,6 +90,7 @@ function App() {
   const handleSelectTool = (toolId: string | null) => {
     if (toolId) {
       lastScrollY.current = window.scrollY;
+      console.log('[Utilify] Captured scroll Y position before tool load:', lastScrollY.current);
     }
     setSelectedToolId(toolId);
   };
