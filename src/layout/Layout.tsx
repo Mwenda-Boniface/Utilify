@@ -9,9 +9,10 @@ interface LayoutProps {
   children: React.ReactNode;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  isToolOpen?: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) => {
+const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isToolOpen }) => {
   const { theme, toggleTheme } = useTheme();
 
   const menuItems = [
@@ -21,7 +22,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
   ];
 
   return (
-    <div className={styles.layout}>
+    <div className={`${styles.layout} ${isToolOpen ? styles.noScrollLayout : ''}`}>
       {/* Top Header Navigation */}
       <header className={styles.header}>
         <div className={styles.leftSection}>

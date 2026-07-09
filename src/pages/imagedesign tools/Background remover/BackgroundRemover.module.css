@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 2rem;
   animation: fadeIn 0.4s ease;
-  height: calc(100vh - 170px);
+  height: 100%;
   overflow: hidden;
 }
 

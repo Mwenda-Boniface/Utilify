@@ -58,7 +58,7 @@ function App() {
   };
 
   return (
-    <Layout activeTab={activeTab} setActiveTab={handleTabChange}>
+    <Layout activeTab={activeTab} setActiveTab={handleTabChange} isToolOpen={!!selectedToolId}>
       <Dashboard 
         activeTab={activeTab} 
         setActiveTab={handleTabChange}
