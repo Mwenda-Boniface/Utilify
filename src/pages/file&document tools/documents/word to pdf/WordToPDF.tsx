@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import mammoth from 'mammoth';
 import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 import { FileText, Upload, Download, Loader2, Check, AlertCircle, ArrowRight, RefreshCw } from 'lucide-react';
 import styles from './WordToPDF.module.css';
 
@@ -11,6 +12,7 @@ const WordToPDF: React.FC = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadName, setDownloadName] = useState<string>('');
+  const [htmlContent, setHtmlContent] = useState<string>('');
 
   // Clean up Blob URL to avoid memory leaks
   useEffect(() => {
@@ -40,56 +42,50 @@ const WordToPDF: React.FC = () => {
     try {
       const arrayBuffer = await file.arrayBuffer();
       
-      const doc = new jsPDF();
-      doc.setFont("Helvetica", "normal");
-      doc.setFontSize(11);
+      // Convert DOCX to styled HTML using Mammoth
+      const result = await mammoth.convertToHtml({ arrayBuffer });
+      setHtmlContent(result.value);
       
-      // Local conversion for better performance and privacy
-      const plainText = await mammoth.extractRawText({ arrayBuffer });
-      const paragraphs = plainText.value.split(/\r?\n/);
-      
-      const splitLines: string[] = [];
-      paragraphs.forEach((p) => {
-        // If the paragraph is empty but is followed by other paragraphs, preserve the spacing
-        if (p.trim() === '') {
-          splitLines.push('');
+      // Wait for React to render the HTML into the hidden DOM container
+      setTimeout(() => {
+        const element = document.getElementById('word-temp-container');
+        if (!element) {
+          setError('Failed to render document preview.');
+          setProcessing(false);
           return;
         }
-        const lines = doc.splitTextToSize(p, 180);
-        splitLines.push(...lines);
-        // Add paragraph spacing
-        splitLines.push('');
-      });
-      
-      const pageHeight = doc.internal.pageSize.height;
-      const marginX = 15;
-      const marginTop = 20;
-      const marginBottom = 20;
-      const lineHeight = 6; // 6mm line height
-      let cursorY = marginTop;
 
-      for (let i = 0; i < splitLines.length; i++) {
-        const line = splitLines[i];
-        if (cursorY + lineHeight > pageHeight - marginBottom) {
-          doc.addPage();
-          cursorY = marginTop;
-        }
-        if (line !== '') {
-          doc.text(line, marginX, cursorY);
-        }
-        cursorY += lineHeight;
-      }
-      
-      const blob = doc.output('blob');
-      const url = URL.createObjectURL(blob);
-      
-      setDownloadUrl(url);
-      setDownloadName(`${file.name.replace('.docx', '')}.pdf`);
-      setStep(3);
+        const doc = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4'
+        });
+
+        // Convert the HTML element containing standard DOCX formats to A4 PDF pages in high-resolution vector format
+        doc.html(element, {
+          html2canvas: {
+            scale: 2, // High resolution crisp text rendering
+            useCORS: true,
+            logging: false
+          },
+          callback: (doc) => {
+            const blob = doc.output('blob');
+            const url = URL.createObjectURL(blob);
+            setDownloadUrl(url);
+            setDownloadName(`${file.name.replace('.docx', '')}.pdf`);
+            setStep(3);
+            setProcessing(false);
+          },
+          x: 0,
+          y: 0,
+          width: 210, // Fit layout to A4 width
+          windowWidth: 794, // 794px width matches A4 width in browser at standard DPI, preserving original page break proportions
+          autoPaging: 'slice' // Splice canvas element perfectly between page breaks
+        });
+      }, 500);
     } catch (err) {
       console.error(err);
       setError('Failed to convert document. Make sure it is a valid .docx file.');
-    } finally {
       setProcessing(false);
     }
   };
@@ -101,6 +97,7 @@ const WordToPDF: React.FC = () => {
     setFile(null);
     setDownloadUrl(null);
     setDownloadName('');
+    setHtmlContent('');
     setStep(1);
   };
 
@@ -205,6 +202,13 @@ const WordToPDF: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Hidden container to hold Mammoth generated HTML for exact styled conversion */}
+      <div 
+        id="word-temp-container" 
+        className={styles.hiddenContainer}
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
     </div>
   );
 };
