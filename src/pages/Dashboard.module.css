@@ -214,7 +214,6 @@
   color: var(--text-main);
   font-size: 0.95rem;
   font-weight: 500;
-  transition: all var(--transition-base);
 }
 
 .searchInput:focus {
@@ -446,7 +445,7 @@
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--cat-color);
-  opacity: 0.6;
+  opacity: 0.85;
   transform: translateX(-4px);
   transition: opacity var(--transition-base), transform var(--transition-base);
 }

@@ -156,9 +156,9 @@
 }
 
 @keyframes pulse {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 12px rgba(16, 185, 129, 0.9); }
-  100% { transform: scale(0.9); opacity: 0.6; }
+  0% { transform: scale(0.85); opacity: 0.6; }
+  50% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(0.85); opacity: 0.6; }
 }
 
 .statusText {
@@ -350,7 +350,6 @@
   font-size: 0.9rem;
   color: var(--text-muted);
   text-decoration: none;
-  transition: color var(--transition-fast);
 }
 
 .linksCol a:hover {

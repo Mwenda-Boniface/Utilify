@@ -1,0 +1,13 @@
+# Utilify - Online Utility Tools
+
+> A premium, client-side utility suite for developers, designers, and everyday tasks.
+
+All operations on Utilify are processed locally inside your web browser. No files or data are uploaded to external servers, ensuring maximum privacy and security.
+
+## Main Sections
+
+- [Utility Tools](https://www.utilifytools.dpdns.org/#/tools) - A collection of over 60 utility tools, categorized into Encoders, Decoders, Calculators, Image/Design, File/Document, SEO, and Security.
+- [Scan & Activity History](https://www.utilifytools.dpdns.org/#/history) - Access stored scanning logs, conversion histories, and local metadata.
+- [About Utilify](https://www.utilifytools.dpdns.org/#/about) - Technical design overview, local-first computing details, and offline availability.
+- [Terms of Service](https://www.utilifytools.dpdns.org/#/terms) - Standard local-use terms and user agreements.
+- [Privacy Policy](https://www.utilifytools.dpdns.org/#/privacy) - Client-side processing declaration and privacy metrics.
