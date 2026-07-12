@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import {
+  GitFork, Package, GitBranch, Code2, Upload, GitPullRequest,
+  Wrench, Bug, Paintbrush, Zap, BookOpen, Flag,
+  CheckCircle2, Info,
+} from 'lucide-react';
 import styles from './Contribute.module.css';
 
 interface ContributeProps {
@@ -12,88 +17,95 @@ const STEPS = [
     title: 'Fork the Repository',
     description: 'Start by forking the Utilify repository to your own GitHub account. This creates a personal copy where you can safely make changes.',
     code: 'gh repo fork https://github.com/Mwenda-Boniface/Utilify.git\n# or click "Fork" on GitHub',
-    icon: '🍴',
+    Icon: GitFork,
   },
   {
     number: '02',
     title: 'Clone & Install',
     description: 'Clone your fork locally and install the project dependencies with npm.',
     code: 'git clone https://github.com/<your-username>/Utilify.git\ncd Utilify\nnpm install',
-    icon: '📦',
+    Icon: Package,
   },
   {
     number: '03',
     title: 'Create a Branch',
     description: 'Create a descriptive feature branch. Use the prefix feat/, fix/, docs/, or perf/ depending on your change type.',
     code: 'git checkout -b feat/my-new-tool\n# or: git checkout -b fix/bug-description',
-    icon: '🌿',
+    Icon: GitBranch,
   },
   {
     number: '04',
     title: 'Make Your Changes',
     description: 'Run the dev server, build your feature, fix a bug, or improve the docs. The project uses React 19 + TypeScript + Vite.',
     code: 'npm run dev\n# Dev server runs at http://localhost:5173',
-    icon: '⚙️',
+    Icon: Code2,
   },
   {
     number: '05',
     title: 'Commit & Push',
     description: 'Commit your changes with a clear, conventional commit message and push your branch to your fork.',
     code: 'git add .\ngit commit -m "feat: add new utility tool"\ngit push origin feat/my-new-tool',
-    icon: '🚀',
+    Icon: Upload,
   },
   {
     number: '06',
     title: 'Open a Pull Request',
     description: 'Navigate to the original Utilify repository on GitHub and open a Pull Request from your branch. Describe your changes clearly.',
     code: '# Visit:\n# https://github.com/Mwenda-Boniface/Utilify/pulls\n# Click "New Pull Request"',
-    icon: '🔀',
+    Icon: GitPullRequest,
   },
 ];
 
 const CONTRIBUTION_TYPES = [
   {
-    icon: '🛠️',
+    Icon: Wrench,
     title: 'Build a New Tool',
     description: 'Create a new utility tool. Each tool is a self-contained React component in its own folder under src/pages/.',
     badge: 'Most Welcome',
     badgeColor: 'green',
   },
   {
-    icon: '🐛',
+    Icon: Bug,
     title: 'Fix a Bug',
     description: 'Found something broken? Open an issue, then submit a PR with the fix. Label your issue with the "bug" tag.',
     badge: 'Always Needed',
     badgeColor: 'blue',
   },
   {
-    icon: '🎨',
+    Icon: Paintbrush,
     title: 'Improve the UI/UX',
     description: 'Enhance accessibility, animations, responsive layouts, or visual polish. All styling uses Vanilla CSS modules.',
     badge: 'Creative',
     badgeColor: 'purple',
   },
   {
-    icon: '⚡',
+    Icon: Zap,
     title: 'Performance Optimization',
     description: 'Improve Lighthouse scores, reduce bundle sizes, optimize images, or improve Core Web Vitals metrics.',
     badge: 'Impactful',
     badgeColor: 'orange',
   },
   {
-    icon: '📝',
+    Icon: BookOpen,
     title: 'Write Documentation',
     description: 'Improve the README, add code comments, document props and hooks, or create usage guides for complex tools.',
     badge: 'Always Open',
     badgeColor: 'teal',
   },
   {
-    icon: '🌍',
+    Icon: Flag,
     title: 'Report Issues & Ideas',
     description: 'Open a GitHub Issue to report bugs, request features, or share improvement ideas. Every piece of feedback counts.',
     badge: 'Easy Start',
     badgeColor: 'yellow',
   },
+];
+
+const LICENSE_PERMS = [
+  { title: 'Use commercially', desc: 'Deploy or integrate Utilify tools in personal, commercial, or enterprise projects.' },
+  { title: 'Modify freely', desc: 'Customize, extend, or refactor any part of the codebase to fit your needs.' },
+  { title: 'Distribute', desc: 'Share your modified version with others, as long as you include the original license notice.' },
+  { title: 'Private use', desc: 'Use the software privately without any obligation to open-source your changes.' },
 ];
 
 const GitHubIcon = () => (
@@ -191,21 +203,23 @@ const Contribute: React.FC<ContributeProps> = ({ onNavigate }) => {
         </motion.div>
 
         <div className={styles.contributionGrid}>
-          {CONTRIBUTION_TYPES.map((type, i) => (
+          {CONTRIBUTION_TYPES.map(({ Icon, title, description, badge, badgeColor }, i) => (
             <motion.div
-              key={type.title}
+              key={title}
               className={styles.contributionCard}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.07, duration: 0.4 }}
             >
-              <div className={styles.cardIcon}>{type.icon}</div>
-              <div className={`${styles.cardBadge} ${styles[`badge_${type.badgeColor}`]}`}>
-                {type.badge}
+              <div className={styles.cardIconWrapper}>
+                <Icon size={22} strokeWidth={1.75} />
               </div>
-              <h3 className={styles.cardTitle}>{type.title}</h3>
-              <p className={styles.cardDesc}>{type.description}</p>
+              <div className={`${styles.cardBadge} ${styles[`badge_${badgeColor}`]}`}>
+                {badge}
+              </div>
+              <h3 className={styles.cardTitle}>{title}</h3>
+              <p className={styles.cardDesc}>{description}</p>
             </motion.div>
           ))}
         </div>
@@ -226,9 +240,9 @@ const Contribute: React.FC<ContributeProps> = ({ onNavigate }) => {
         </motion.div>
 
         <div className={styles.stepsContainer}>
-          {STEPS.map((step, i) => (
+          {STEPS.map(({ number, title, description, code, Icon }, i) => (
             <motion.div
-              key={step.number}
+              key={number}
               className={styles.stepCard}
               initial={{ opacity: 0, x: -16 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -236,15 +250,17 @@ const Contribute: React.FC<ContributeProps> = ({ onNavigate }) => {
               transition={{ delay: i * 0.07, duration: 0.4 }}
             >
               <div className={styles.stepLeft}>
-                <div className={styles.stepNumber}>{step.number}</div>
+                <div className={styles.stepNumber}>{number}</div>
                 <div className={styles.stepConnector} />
               </div>
               <div className={styles.stepRight}>
                 <div className={styles.stepHeader}>
-                  <span className={styles.stepIcon}>{step.icon}</span>
-                  <h3 className={styles.stepTitle}>{step.title}</h3>
+                  <div className={styles.stepIconWrapper}>
+                    <Icon size={18} strokeWidth={1.75} />
+                  </div>
+                  <h3 className={styles.stepTitle}>{title}</h3>
                 </div>
-                <p className={styles.stepDesc}>{step.description}</p>
+                <p className={styles.stepDesc}>{description}</p>
                 <div className={styles.codeBlock}>
                   <div className={styles.codeHeader}>
                     <div className={styles.codeDots}>
@@ -252,12 +268,12 @@ const Contribute: React.FC<ContributeProps> = ({ onNavigate }) => {
                     </div>
                     <button
                       className={styles.copyBtn}
-                      onClick={() => copyCode(step.code, i)}
+                      onClick={() => copyCode(code, i)}
                     >
                       {copiedIndex === i ? '✓ Copied!' : 'Copy'}
                     </button>
                   </div>
-                  <pre className={styles.codePre}><code>{step.code}</code></pre>
+                  <pre className={styles.codePre}><code>{code}</code></pre>
                 </div>
               </div>
             </motion.div>
@@ -280,14 +296,9 @@ const Contribute: React.FC<ContributeProps> = ({ onNavigate }) => {
             Utilify is released under the <strong>MIT License</strong> — one of the most permissive open-source licenses available. This means you are free to:
           </p>
           <div className={styles.licensePerms}>
-            {[
-              { icon: '✅', title: 'Use commercially', desc: 'Deploy or integrate Utilify tools in personal, commercial, or enterprise projects.' },
-              { icon: '✅', title: 'Modify freely', desc: 'Customize, extend, or refactor any part of the codebase to fit your needs.' },
-              { icon: '✅', title: 'Distribute', desc: 'Share your modified version with others, as long as you include the original license notice.' },
-              { icon: '✅', title: 'Private use', desc: 'Use the software privately without any obligation to open-source your changes.' },
-            ].map((perm) => (
+            {LICENSE_PERMS.map((perm) => (
               <div key={perm.title} className={styles.permItem}>
-                <span className={styles.permIcon}>{perm.icon}</span>
+                <CheckCircle2 size={20} strokeWidth={1.75} className={styles.permIcon} />
                 <div>
                   <strong>{perm.title}</strong>
                   <p>{perm.desc}</p>
@@ -296,8 +307,8 @@ const Contribute: React.FC<ContributeProps> = ({ onNavigate }) => {
             ))}
           </div>
           <div className={styles.licenseNote}>
-            <span>📄</span>
-            The only requirement is that the original MIT license and copyright notice must be included in any substantial copy or redistribution of the software.
+            <Info size={18} strokeWidth={1.75} style={{ flexShrink: 0, marginTop: 2 }} />
+            <span>The only requirement is that the original MIT license and copyright notice must be included in any substantial copy or redistribution of the software.</span>
           </div>
           <a
             href="https://github.com/Mwenda-Boniface/Utilify/blob/main/LICENSE"
