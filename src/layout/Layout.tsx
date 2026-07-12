@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
         <div className={styles.leftSection}>
           <div className={styles.logoSection}>
             <div className={styles.logoIcon}>
-              <img src={utilifyLogo} alt="Utilify" className={styles.logoIconImage} />
+              <img src={utilifyLogo} alt="Utilify" className={styles.logoIconImage} width={64} height={64} fetchPriority="low" />
             </div>
             <span className={styles.logoText}>Utilify</span>
           </div>
