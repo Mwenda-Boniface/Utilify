@@ -1,0 +1,609 @@
+/* =============================================
+   Contribute Page — Contribute.module.css
+   Premium open-source contribution page styles
+   ============================================= */
+
+.contributePage {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem var(--container-px) 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  animation: fadeIn var(--transition-slow);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Hero ──────────────────────────────────── */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 1rem 3rem;
+  position: relative;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.08);
+  color: #22c55e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+}
+
+.heroBadgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.7; }
+  50%       { transform: scale(1.2); opacity: 1; }
+}
+
+.heroTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+}
+
+.heroGradient {
+  background: linear-gradient(135deg, #22c55e 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSub {
+  max-width: 640px;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.heroCtas {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+/* ─── CTA Buttons ───────────────────────────── */
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-sans);
+}
+
+.ctaPrimary:hover {
+  opacity: 0.88;
+}
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  font-family: var(--font-sans);
+}
+
+.ctaSecondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.ctaGhost {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+}
+
+.ctaGhost:hover {
+  color: var(--text-main);
+  border-color: var(--border);
+}
+
+/* ─── Stats Strip ───────────────────────────── */
+.statsStrip {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem 2.5rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.statValue {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.statDesc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statDivider {
+  width: 1px;
+  height: 32px;
+  background: var(--border);
+}
+
+/* ─── Section Common ────────────────────────── */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sectionLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.sectionSub {
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+/* ─── Contribution Grid ─────────────────────── */
+.contributionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.contributionCard {
+  position: relative;
+  padding: 1.75rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contributionCard:hover {
+  border-color: var(--primary);
+}
+
+.cardIcon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.cardBadge {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.badge_green  { background: rgba(34, 197, 94, 0.12);  color: #22c55e; }
+.badge_blue   { background: rgba(59, 130, 246, 0.12); color: #3b82f6; }
+.badge_purple { background: rgba(139, 92, 246, 0.12); color: #a78bfa; }
+.badge_orange { background: rgba(249, 115, 22, 0.12); color: #fb923c; }
+.badge_teal   { background: rgba(20, 184, 166, 0.12); color: #2dd4bf; }
+.badge_yellow { background: rgba(234, 179, 8, 0.12);  color: #fbbf24; }
+
+.cardTitle {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.cardDesc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+/* ─── Steps ─────────────────────────────────── */
+.stepsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.stepCard {
+  display: flex;
+  gap: 1.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.stepLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.stepNumber {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #000;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stepConnector {
+  flex: 1;
+  width: 2px;
+  background: var(--border);
+  margin-top: 0.5rem;
+  min-height: 40px;
+}
+
+.stepCard:last-child .stepConnector {
+  display: none;
+}
+
+.stepRight {
+  flex: 1;
+  padding-bottom: 1rem;
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.stepIcon {
+  font-size: 1.35rem;
+}
+
+.stepTitle {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.stepDesc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+
+/* ─── Code Blocks ───────────────────────────── */
+.codeBlock {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border);
+}
+
+.codeDots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.codeDots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.codeDots span:nth-child(1) { background: #ff5f56; }
+.codeDots span:nth-child(2) { background: #ffbd2e; }
+.codeDots span:nth-child(3) { background: #27c93f; }
+
+.copyBtn {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 0.25rem 0.65rem;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.copyBtn:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.codePre {
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 0;
+}
+
+.codePre code {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: #86efac;
+  line-height: 1.7;
+  white-space: pre;
+}
+
+/* ─── License Section ───────────────────────── */
+.licenseSection {
+  width: 100%;
+}
+
+.licenseCard {
+  padding: clamp(2rem, 5vw, 3.5rem);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.licenseBadge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.licenseTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.licenseText {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  max-width: 680px;
+}
+
+.licensePerms {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.permItem {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+
+.permIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.permItem strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.permItem p {
+  margin: 0;
+  font-size: 0.825rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.licenseNote {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: rgba(251, 191, 36, 0.07);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.licenseLinkBtn {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.08);
+  color: #22c55e;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.licenseLinkBtn:hover {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+/* ─── Final CTA ─────────────────────────────── */
+.finalCta {
+  position: relative;
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 3rem);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.finalCtaGlow {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(34, 197, 94, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.finalCtaTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  position: relative;
+}
+
+.finalCtaSub {
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 520px;
+  line-height: 1.65;
+  position: relative;
+}
+
+.finalCtaBtns {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.75rem;
+  position: relative;
+}
+
+/* ─── Responsive ────────────────────────────── */
+@media (max-width: 640px) {
+  .statsStrip {
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .statDivider {
+    display: none;
+  }
+
+  .stepCard {
+    gap: 1rem;
+  }
+
+  .stepLeft {
+    display: none;
+  }
+}

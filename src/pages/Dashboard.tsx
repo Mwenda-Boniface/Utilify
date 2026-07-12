@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, lazy, Suspense } from 'react';
-import { 
+import {
   Search, ArrowRight, LayoutGrid, Key, Hash, Activity, 
   Calendar, DollarSign, RefreshCw, Percent, Clock, GraduationCap, 
   Scissors, Minimize, Maximize, Smile, Film, Palette, Box, FileText, 
@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
+import Contribute from './contribute/Contribute';
 
 const QRCodeGenerator = lazy(() => import('./code scanner&generator/qrcode generator/QRCodeGenerator'));
 const QRCodeScanner = lazy(() => import('./code scanner&generator/qrcode scanner/QRCodeScanner'));
@@ -487,6 +488,11 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
         </div>
       </div>
     );
+  }
+
+  // Contribute page
+  if (activeTab === 'Contribute') {
+    return <Contribute onNavigate={setActiveTab} />;
   }
 
   // Handle alternative subpages

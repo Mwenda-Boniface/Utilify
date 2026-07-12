@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutGrid, Moon, Sun, Info, History } from 'lucide-react';
+import { LayoutGrid, Moon, Sun, Info, History, GitMerge } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import styles from './Layout.module.css';
 import { motion } from 'framer-motion';
@@ -19,6 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
     { name: 'Tools', icon: <LayoutGrid size={18} /> },
     { name: 'History', icon: <History size={18} /> },
     { name: 'About', icon: <Info size={18} /> },
+    { name: 'Contribute', icon: <GitMerge size={18} /> },
   ];
 
   return (
@@ -115,6 +116,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
                 <a href="#/tools" onClick={() => setActiveTab('Tools')}>Home</a>
                 <a href="#/history" onClick={() => setActiveTab('History')}>History</a>
                 <a href="#/about" onClick={() => setActiveTab('About')}>About Us</a>
+                <a href="#/contribute" onClick={() => setActiveTab('Contribute')}>Contribute</a>
               </div>
               <div className={styles.linksCol}>
                 <h4>Legal Policies</h4>
