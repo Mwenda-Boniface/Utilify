@@ -77,13 +77,6 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
           </div>
         )}
 
-        {/* Right Section Actions & Status */}
-        <div className={styles.rightSection}>
-          <div className={styles.statusPanel}>
-            <span className={styles.pulseDot}></span>
-            <span className={styles.statusText}>Local Node</span>
-          </div>
-        </div>
       </header>
 
       {/* Mobile Bottom Navigation Bar */}

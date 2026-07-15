@@ -1,7 +1,9 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
   animation: fadeIn 0.4s ease;
 }
 
@@ -151,4 +153,79 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+/* Two-column layout grid */
+.workspaceGrid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .workspaceGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.leftPane {
+  display: flex;
+  flex-direction: column;
+}
+
+.leftPane .textarea {
+  flex: 1;
+  min-height: 250px;
+  margin-bottom: 0;
+}
+
+.rightPane {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+.rightPane .actions {
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.rightPane .mainBtn,
+.rightPane .ghostButton {
+  width: 100%;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.downloadBtn {
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: all var(--transition-base);
+  cursor: pointer;
+  width: 100%;
+}
+
+.downloadBtn:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-glow);
+}
+
+.downloadBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

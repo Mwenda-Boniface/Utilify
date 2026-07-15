@@ -7,7 +7,7 @@ import {
   Database, Dices, Layers, Table, Binary, ChevronLeft, Star, Barcode as BarcodeIcon, Mail, Mic,
   FileImage, FileSpreadsheet, Presentation, FileWarning, FileType,
   Layout, Map as MapIcon, Shield, Gauge, Globe, ShieldAlert, List, Users,
-  FileCode, Lock, Heart, Loader2
+  FileCode, Lock, Heart, Loader2, ShieldCheck, Scale
 } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -262,6 +262,7 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selectedToolId, setSelectedToolId, searchValue, onSearchChange }) => {
   const [activeCategory, setActiveCategory] = useState<ToolCategory>('All');
+  const [activeSection, setActiveSection] = useState<string>('');
   const [history, setHistory] = useState<string[]>(() => 
     JSON.parse(localStorage.getItem('mrbit_history') || '[]')
   );
@@ -276,6 +277,46 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
       });
     }
   }, [selectedToolId]);
+
+  useEffect(() => {
+    if (activeTab !== 'Privacy' && activeTab !== 'Terms') return;
+
+    // Set initial section
+    if (activeTab === 'Privacy') {
+      setActiveSection('scope');
+    } else if (activeTab === 'Terms') {
+      setActiveSection('agreement');
+    }
+
+    const sectionIds = activeTab === 'Privacy'
+      ? ['scope', 'local-first', 'isolation', 'storage', 'libraries', 'rights', 'network', 'children', 'updates', 'contact']
+      : ['agreement', 'ownership', 'license', 'conduct', 'dependencies', 'warranties', 'liability', 'dmca', 'law', 'mods'];
+
+    const handleScroll = () => {
+      const headerHeight = 160; // Offset threshold for header and page header
+      let currentSection = sectionIds[0];
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= headerHeight) {
+            currentSection = id;
+          }
+        }
+      }
+
+      setActiveSection(currentSection);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Trigger initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [activeTab]);
 
   const clearHistory = () => {
     localStorage.removeItem('mrbit_history');
@@ -548,24 +589,173 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
   }
 
   if (activeTab === 'Privacy') {
+    const sections = [
+      { id: 'scope', title: '1. Scope & Intro', icon: <FileText size={16} /> },
+      { id: 'local-first', title: '2. Local Processing', icon: <Lock size={16} /> },
+      { id: 'isolation', title: '3. Data Isolation', icon: <ShieldCheck size={16} /> },
+      { id: 'storage', title: '4. Storage & Cookies', icon: <Database size={16} /> },
+      { id: 'libraries', title: '5. Libraries & CDNs', icon: <FileCode size={16} /> },
+      { id: 'rights', title: '6. GDPR & CCPA Rights', icon: <Shield size={16} /> },
+      { id: 'network', title: '7. Network Logs', icon: <Globe size={16} /> },
+      { id: 'children', title: '8. Kids\' Privacy', icon: <Users size={16} /> },
+      { id: 'updates', title: '9. Updates', icon: <RefreshCw size={16} /> },
+      { id: 'contact', title: '10. Contact Info', icon: <Mail size={16} /> },
+    ];
+
+    const scrollToSection = (id: string) => {
+      setActiveSection(id);
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
       <div className={styles.aboutPage}>
         <div className={`${styles.aboutCard} glass`}>
           <h2>Privacy Policy</h2>
           <p className={styles.tagline}>Last Updated: July 2026</p>
-          
-          <div className={styles.policyContent}>
-            <h3>1. Local-First Execution</h3>
-            <p>Utilify operates exclusively as a client-side tool suite. All calculations, document conversions (e.g. Word to PDF), image compression, and key generation are processed 100% inside your web browser. No files or private data are ever uploaded, transmitted, or saved to our servers.</p>
-            
-            <h3>2. Data Collection</h3>
-            <p>We do not collect any personal data, usage telemetry, or search queries. Your search inputs, custom credentials, and documents never leave your local hardware node.</p>
-            
-            <h3>3. Local Storage</h3>
-            <p>Your launch history logs are saved strictly in your local browser storage (localStorage) for convenience. You can clear this data at any time via the "Clear Launch History" button in the History tab.</p>
-            
-            <h3>4. SSL Security (HTTPS)</h3>
-            <p>All traffic between your browser and our CDN is secured using Industry-Standard SSL encryption (HTTPS), ensuring that third parties cannot inspect or manipulate the web application assets.</p>
+
+          <div className={styles.legalLayout}>
+            {/* Sidebar Table of Contents */}
+            <aside className={styles.legalSidebar}>
+              {sections.map(sec => (
+                <button
+                  key={sec.id}
+                  onClick={() => scrollToSection(sec.id)}
+                  className={`${styles.legalSidebarLink} ${activeSection === sec.id ? styles.legalSidebarLinkActive : ''}`}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    {sec.icon}
+                    {sec.title}
+                  </span>
+                </button>
+              ))}
+            </aside>
+
+            {/* Document Content */}
+            <div className={styles.legalContent}>
+              {/* Callout Box */}
+              <div className={`${styles.legalCallout} ${styles.legalCalloutSuccess}`}>
+                <div className={styles.legalCalloutIcon}>
+                  <ShieldCheck size={24} />
+                </div>
+                <div className={styles.legalCalloutContent}>
+                  <h4>Zero-Data-Transmission Architecture Verified</h4>
+                  <p>
+                    All utility operations run 100% locally inside your browser sandbox. No files, passwords, or personal data ever leave your machine.
+                  </p>
+                </div>
+              </div>
+
+              <section id="scope" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <FileText size={18} />
+                  1. Introduction and Scope
+                </h3>
+                <p className={styles.legalText}>
+                  Utilify ("we," "our," or "us") is dedicated to protecting your digital privacy. This Privacy Policy outlines how our web applications and utility suite process, handle, and safeguard user data. By accessing or using Utilify, you agree to the processing activities described in this policy.
+                </p>
+              </section>
+
+              <section id="local-first" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Lock size={18} />
+                  2. Local-First Processing (Zero-Data Architecture)
+                </h3>
+                <p className={styles.legalText}>
+                  Unlike traditional web utilities, Utilify is designed with a strict zero-data-transmission architecture. Every utility—including cryptographic hashing, image compression, PDF operations, calculators, converters, and QR scanner/generator tools—executes 100% locally within your browser sandbox. No file uploads, inputs, strings, credentials, or keys are ever transmitted to our servers or any third-party APIs.
+                </p>
+              </section>
+
+              <section id="isolation" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <ShieldCheck size={18} />
+                  3. Complete Data Isolation
+                </h3>
+                <p className={styles.legalText}>
+                  All source code runs client-side using JavaScript, Web Workers, and WebAssembly. Your documents, text, passwords, and other inputs remain entirely on your local hardware node. When you close the browser tab, all transient data in the application's RAM state is permanently cleared.
+                </p>
+              </section>
+
+              <section id="storage" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Database size={18} />
+                  4. Browser Local Storage & Cookies
+                </h3>
+                <p className={styles.legalText}>
+                  We use standard browser local storage (<code>localStorage</code>) strictly to save your tool usage preferences and launch history for your convenience. This data is stored entirely on your device, is never shared, and can be cleared at any time.
+                </p>
+                <div className={`${styles.legalCallout} ${styles.legalCalloutInfo}`} style={{ padding: '1rem', marginTop: '0.5rem' }}>
+                  <div className={styles.legalCalloutIcon}>
+                    <Shield size={18} />
+                  </div>
+                  <div className={styles.legalCalloutContent}>
+                    <h4 style={{ fontSize: '0.9rem' }}>Cookie-Banner Exemption Notice</h4>
+                    <p style={{ fontSize: '0.85rem' }}>
+                      Utilify does not use any tracking, advertising, marketing, or profiling cookies. Under GDPR and ePrivacy regulations, this website is completely exempt from requiring a cookie consent banner.
+                    </p>
+                  </div>
+                </div>
+              </section>
+
+              <section id="libraries" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <FileCode size={18} />
+                  5. Third-Party Open-Source Libraries
+                </h3>
+                <p className={styles.legalText}>
+                  Utilify uses several third-party libraries (e.g., pdf-lib, Tesseract.js, sheetjs) to perform specialized actions (such as image OCR or spreadsheet parsing). These libraries run in-browser inside web workers. While we verify the source repositories of these libraries, we recommend developers audit the browser network inspector for complete peace of mind.
+                </p>
+              </section>
+
+              <section id="rights" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Shield size={18} />
+                  6. GDPR & CCPA Data Rights
+                </h3>
+                <p className={styles.legalText}>
+                  Under international privacy frameworks like GDPR (EU General Data Protection Regulation) and CCPA (California Consumer Privacy Act), you hold explicit rights to access, restrict, or delete your data. Because Utilify does not collect or transmit any data, you already exercise 100% control. Your data is stored on your device and can be cleared instantly by resetting your browser data or deleting your Utilify launch history.
+                </p>
+              </section>
+
+              <section id="network" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Globe size={18} />
+                  7. Server Infrastructure & Network Logs
+                </h3>
+                <p className={styles.legalText}>
+                  Our website assets are hosted on global Content Delivery Networks (CDNs) to ensure fast load times. When you request the website assets, the hosting provider (e.g., Netlify, GitHub Pages) may automatically log basic, non-identifying request data such as your IP address, browser type, and timestamp to prevent DDoS attacks and ensure service reliability. We do not link these server logs to your local tool utilization.
+                </p>
+              </section>
+
+              <section id="children" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Users size={18} />
+                  8. Children's Privacy
+                </h3>
+                <p className={styles.legalText}>
+                  Our services do not collect personal data from anyone, including children under the age of 13. Since we do not host user accounts or store data on remote databases, we are fully compliant with COPPA (Children's Online Privacy Protection Act) and similar global privacy frameworks.
+                </p>
+              </section>
+
+              <section id="updates" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <RefreshCw size={18} />
+                  9. Updates to This Policy
+                </h3>
+                <p className={styles.legalText}>
+                  We reserve the right to modify this Privacy Policy as our utility library expands. Any changes will be indicated by updating the "Last Updated" date at the top of this page. Your continued use of the website after changes are posted constitutes acceptance of those changes.
+                </p>
+              </section>
+
+              <section id="contact" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Mail size={18} />
+                  10. Contact Us
+                </h3>
+                <p className={styles.legalText}>
+                  If you have any questions or feedback regarding our privacy practices, please contact us at <strong>mwendaboniface146@gmail.com</strong>.
+                </p>
+              </section>
+            </div>
           </div>
         </div>
       </div>
@@ -573,21 +763,162 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
   }
 
   if (activeTab === 'Terms') {
+    const sections = [
+      { id: 'agreement', title: '1. Agreement', icon: <Scale size={16} /> },
+      { id: 'ownership', title: '2. Output Ownership', icon: <Heart size={16} /> },
+      { id: 'license', title: '3. License', icon: <FileText size={16} /> },
+      { id: 'conduct', title: '4. Conduct', icon: <ShieldAlert size={16} /> },
+      { id: 'dependencies', title: '5. Resources & CDN', icon: <Activity size={16} /> },
+      { id: 'warranties', title: '6. Warranty Disclaimer', icon: <FileWarning size={16} /> },
+      { id: 'liability', title: '7. Liability Limits', icon: <ShieldAlert size={16} /> },
+      { id: 'dmca', title: '8. DMCA Claims', icon: <Lock size={16} /> },
+      { id: 'law', title: '9. Governing Law', icon: <Globe size={16} /> },
+      { id: 'mods', title: '10. Modifications', icon: <RefreshCw size={16} /> },
+    ];
+
+    const scrollToSection = (id: string) => {
+      setActiveSection(id);
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
       <div className={styles.aboutPage}>
         <div className={`${styles.aboutCard} glass`}>
           <h2>Terms of Service</h2>
           <p className={styles.tagline}>Last Updated: July 2026</p>
-          
-          <div className={styles.policyContent}>
-            <h3>1. Acceptable Use</h3>
-            <p>Utilify is provided as a free utility suite for personal, developer, and educational purposes. You agree to use these tools only for lawful purposes and in accordance with local regulations.</p>
-            
-            <h3>2. Disclaimer of Warranties</h3>
-            <p>This software is provided "as is" and "as available", without warranty of any kind, express or implied. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability arising from the use of the tools.</p>
-            
-            <h3>3. Client-Side Integrity</h3>
-            <p>Since all processing is client-side, the speed, quality, and limits of file operations (such as large PDF merges) depend entirely on your local hardware CPU and memory capacity.</p>
+
+          <div className={styles.legalLayout}>
+            {/* Sidebar Table of Contents */}
+            <aside className={styles.legalSidebar}>
+              {sections.map(sec => (
+                <button
+                  key={sec.id}
+                  onClick={() => scrollToSection(sec.id)}
+                  className={`${styles.legalSidebarLink} ${activeSection === sec.id ? styles.legalSidebarLinkActive : ''}`}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    {sec.icon}
+                    {sec.title}
+                  </span>
+                </button>
+              ))}
+            </aside>
+
+            {/* Document Content */}
+            <div className={styles.legalContent}>
+              {/* Callout Box */}
+              <div className={`${styles.legalCallout} ${styles.legalCalloutWarning}`}>
+                <div className={styles.legalCalloutIcon}>
+                  <ShieldAlert size={24} />
+                </div>
+                <div className={styles.legalCalloutContent}>
+                  <h4>Important User Disclaimer</h4>
+                  <p>
+                    Utilify is provided as-is without any warranties. Please verify critical financial, cryptographic, or operational tool outputs independently.
+                  </p>
+                </div>
+              </div>
+
+              <section id="agreement" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Scale size={18} />
+                  1. Agreement to Terms
+                </h3>
+                <p className={styles.legalText}>
+                  By accessing or using Utilify, you agree to be bound by these Terms of Service and all applicable local, national, and international laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site.
+                </p>
+              </section>
+
+              <section id="ownership" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Heart size={18} />
+                  2. Intellectual Property & Output Ownership
+                </h3>
+                <p className={styles.legalText}>
+                  The Utilify software platform, brand tokens, interface layouts, and source code are the intellectual property of the project authors and contributors. However, <strong>you retain 100% ownership and copyright of any outputs created using the tools</strong>. This includes compressed images, generated QR codes, hashes, formatted code files, and calculations, all of which you may use for commercial purposes without attribution.
+                </p>
+              </section>
+
+              <section id="license" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <FileText size={18} />
+                  3. License and Permitted Use
+                </h3>
+                <p className={styles.legalText}>
+                  We grant you a free, non-exclusive, non-transferable, revocable license to access and use the tools for personal, academic, professional, and commercial purposes. You may build assets, compress images, generate codes, and format files freely for commercial distribution.
+                </p>
+              </section>
+
+              <section id="conduct" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <ShieldAlert size={18} />
+                  4. User Conduct & Restrictions
+                </h3>
+                <p className={styles.legalText}>
+                  You agree not to use the tools to generate malicious content, perform automated attacks, scan network targets without authorization, or engage in any behavior that violates the rights of others or applicable laws. You must not attempt to disrupt the integrity or security of our web infrastructure hosting assets.
+                </p>
+              </section>
+
+              <section id="dependencies" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Activity size={18} />
+                  5. Local Resource Dependencies & CDN Availability
+                </h3>
+                <p className={styles.legalText}>
+                  Since all utility operations occur client-side, the performance, speed, and execution capabilities (especially for large file merges, OCR, and complex document conversions) depend entirely on the CPU, RAM, and hardware configuration of your device. Utilify is not responsible for any application freezes or slow execution caused by local hardware constraints. While execution is offline-capable, asset retrieval requires connecting to our hosting CDNs.
+                </p>
+              </section>
+
+              <section id="warranties" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <FileWarning size={18} />
+                  6. Disclaimer of Warranties
+                </h3>
+                <p className={styles.legalText}>
+                  Utilify is provided "as is" and "as available," without warranties of any kind, express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, or non-infringement. We do not warrant that the outputs generated by our calculators, converters, encoders, or document processors are 100% error-free. Users are advised to verify critical financial, security, or scientific calculations independently.
+                </p>
+              </section>
+
+              <section id="liability" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <ShieldAlert size={18} />
+                  7. Limitation of Liability
+                </h3>
+                <p className={styles.legalText}>
+                  In no event shall Utilify, its developers, or its contributors be liable for any direct, indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, use, goodwill, or other intangible losses resulting from your access to, use of, or inability to use the tools.
+                </p>
+              </section>
+
+              <section id="dmca" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Lock size={18} />
+                  8. DMCA & Copyright Infringement Claims
+                </h3>
+                <p className={styles.legalText}>
+                  We respect the intellectual property of others. If you believe that any code library or contribution hosted on our repository infringes upon your copyright, you may submit a formal notification under the Digital Millennium Copyright Act (DMCA) by emailing our designated agent at <strong>mwendaboniface146@gmail.com</strong> with details of the alleged infringement.
+                </p>
+              </section>
+
+              <section id="law" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <Globe size={18} />
+                  9. Governing Law
+                </h3>
+                <p className={styles.legalText}>
+                  These terms and conditions are governed by and construed in accordance with the laws of Kenya, and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.
+                </p>
+              </section>
+
+              <section id="mods" className={styles.legalSection}>
+                <h3 className={styles.legalSectionTitle}>
+                  <RefreshCw size={18} />
+                  10. Modifications
+                </h3>
+                <p className={styles.legalText}>
+                  We reserve the right to revise these Terms of Service at any time without notice. By using this website, you agree to be bound by the then-current version of these Terms of Service.
+                </p>
+              </section>
+            </div>
           </div>
         </div>
       </div>
