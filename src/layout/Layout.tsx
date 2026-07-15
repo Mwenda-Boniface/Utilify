@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutGrid, Moon, Sun, Info, History, GitMerge } from 'lucide-react';
+import { LayoutGrid, Moon, Sun, Info, History, GitMerge, Search } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import styles from './Layout.module.css';
 import { motion } from 'framer-motion';
@@ -10,9 +10,12 @@ interface LayoutProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   isToolOpen?: boolean;
+  searchValue?: string;
+  onSearchChange?: (value: string) => void;
+  showSearch?: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isToolOpen }) => {
+const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isToolOpen, searchValue, onSearchChange, showSearch }) => {
   const { theme, toggleTheme } = useTheme();
 
   const menuItems = [
@@ -59,6 +62,20 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
             </a>
           ))}
         </nav>
+
+        {/* Search Bar */}
+        {showSearch && (
+          <div className={styles.headerSearch}>
+            <Search className={styles.headerSearchIcon} size={18} />
+            <input 
+              type="text" 
+              placeholder="Search tools..." 
+              className={styles.headerSearchInput}
+              value={searchValue}
+              onChange={(e) => onSearchChange?.(e.target.value)}
+            />
+          </div>
+        )}
 
         {/* Right Section Actions & Status */}
         <div className={styles.rightSection}>

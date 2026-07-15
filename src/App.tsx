@@ -3,8 +3,31 @@ import Layout from './layout/Layout';
 import Dashboard from './pages/Dashboard';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('Tools');
-  const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
+  // Initialize activeTab from URL hash to maintain state on page reload
+  const getInitialTab = () => {
+    const hash = window.location.hash;
+    if (hash.startsWith('#/tools/')) return 'Tools';
+    if (hash === '#/history') return 'History';
+    if (hash === '#/about') return 'About';
+    if (hash === '#/contact') return 'Contact';
+    if (hash === '#/privacy') return 'Privacy';
+    if (hash === '#/terms') return 'Terms';
+    if (hash === '#/sitemap') return 'Sitemap';
+    if (hash === '#/contribute') return 'Contribute';
+    return 'Tools';
+  };
+
+  const getInitialToolId = () => {
+    const hash = window.location.hash;
+    if (hash.startsWith('#/tools/')) {
+      return hash.replace('#/tools/', '');
+    }
+    return null;
+  };
+
+  const [activeTab, setActiveTab] = useState(getInitialTab);
+  const [selectedToolId, setSelectedToolId] = useState<string | null>(getInitialToolId);
+  const [searchValue, setSearchValue] = useState('');
   const lastScrollY = useRef(0);
 
   // Sync state changes to browser hash
@@ -22,6 +45,8 @@ function App() {
       targetHash = '#/terms';
     } else if (activeTab === 'Sitemap') {
       targetHash = '#/sitemap';
+    } else if (activeTab === 'Contribute') {
+      targetHash = '#/contribute';
     } else if (activeTab === '404') {
       targetHash = '#/404';
     } else if (activeTab === 'Tools' && selectedToolId) {
@@ -89,6 +114,9 @@ function App() {
       } else if (hash === '#/sitemap') {
         setActiveTab('Sitemap');
         setSelectedToolId(null);
+      } else if (hash === '#/contribute') {
+        setActiveTab('Contribute');
+        setSelectedToolId(null);
       } else if (hash === '' || hash === '#/' || hash === '#/tools') {
         setActiveTab('Tools');
         setSelectedToolId(null);
@@ -122,12 +150,21 @@ function App() {
   };
 
   return (
-    <Layout activeTab={activeTab} setActiveTab={handleTabChange} isToolOpen={!!selectedToolId}>
+    <Layout 
+      activeTab={activeTab} 
+      setActiveTab={handleTabChange} 
+      isToolOpen={!!selectedToolId}
+      searchValue={searchValue}
+      onSearchChange={setSearchValue}
+      showSearch={activeTab === 'Tools'}
+    >
       <Dashboard 
         activeTab={activeTab} 
         setActiveTab={handleTabChange}
         selectedToolId={selectedToolId}
         setSelectedToolId={handleSelectTool}
+        searchValue={searchValue}
+        onSearchChange={setSearchValue}
       />
     </Layout>
   );

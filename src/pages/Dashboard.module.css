@@ -186,7 +186,20 @@
   letter-spacing: -0.04em;
   line-height: 1.1;
   margin-bottom: 0.5rem;
-  background: var(--primary-gradient);
+  display: flex;
+  align-items: baseline;
+  gap: 0.1em;
+}
+
+.titleGradientGreen {
+  background: linear-gradient(135deg, #10b981 0%, #22c55e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.titleGradientBlue {
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -206,21 +219,27 @@
 
 .searchInput {
   width: 100%;
-  padding: 1.1rem 1.5rem 1.1rem 3.25rem;
+  padding: 1.25rem 1.5rem 1.25rem 3.5rem;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  background: var(--bg-card);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
   color: var(--text-main);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.searchInput::placeholder {
+  color: var(--text-dim);
+  font-weight: 400;
 }
 
 .searchInput:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 20px var(--primary-glow);
-  background: var(--bg-surface);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), 0 0 24px var(--primary-glow);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .searchIcon {
@@ -230,6 +249,11 @@
   transform: translateY(-50%);
   color: var(--text-dim);
   pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.searchInput:focus + .searchIcon {
+  color: var(--primary);
 }
 
 /* Filter Section */

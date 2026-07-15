@@ -12,6 +12,7 @@ import {
 import styles from './Dashboard.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import Contribute from './contribute/Contribute';
+import About from './about/About';
 
 const QRCodeGenerator = lazy(() => import('./code scanner&generator/qrcode generator/QRCodeGenerator'));
 const QRCodeScanner = lazy(() => import('./code scanner&generator/qrcode scanner/QRCodeScanner'));
@@ -255,10 +256,11 @@ interface DashboardProps {
   setActiveTab: (tab: string) => void;
   selectedToolId: string | null;
   setSelectedToolId: (id: string | null) => void;
+  searchValue: string;
+  onSearchChange: (value: string) => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selectedToolId, setSelectedToolId }) => {
-  const [search, setSearch] = useState('');
+const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selectedToolId, setSelectedToolId, searchValue, onSearchChange }) => {
   const [activeCategory, setActiveCategory] = useState<ToolCategory>('All');
   const [history, setHistory] = useState<string[]>(() => 
     JSON.parse(localStorage.getItem('mrbit_history') || '[]')
@@ -282,8 +284,8 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
 
   const filteredTools = useMemo(() => {
     return TOOLS.filter(tool => {
-      const matchesSearch = tool.name.toLowerCase().includes(search.toLowerCase()) || 
-                          tool.description.toLowerCase().includes(search.toLowerCase());
+      const matchesSearch = tool.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+                          tool.description.toLowerCase().includes(searchValue.toLowerCase());
       
       if (activeTab === 'History') {
         return matchesSearch && history.includes(tool.id);
@@ -292,7 +294,7 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
       const matchesCategory = activeCategory === 'All' || tool.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [search, activeCategory, activeTab, history]);
+  }, [searchValue, activeCategory, activeTab, history]);
 
   // Maintain original order for History view
   const orderedFilteredTools = useMemo(() => {
@@ -497,44 +499,7 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
 
   // Handle alternative subpages
   if (activeTab === 'About') {
-    return (
-      <div className={styles.aboutPage}>
-        <div className={`${styles.aboutCard} glass`}>
-          <h2>About Utilify</h2>
-          <p className={styles.tagline}>A premium, developer-focused client-side utility suite.</p>
-          
-          <div className={styles.aboutFeatures}>
-            <div className={styles.featItem}>
-              <h4>🔒 Privacy-First Design</h4>
-              <p>All operations execute 100% locally in your browser. No files, passwords, or data payloads are sent to external servers.</p>
-            </div>
-            <div className={styles.featItem}>
-              <h4>⚡ Sub-millisecond Execution</h4>
-              <p>Built on top of React 19, TypeScript, and Vite, utilizing WASM and optimized browser APIs for raw processing power.</p>
-            </div>
-            <div className={styles.featItem}>
-              <h4>🎨 High Fidelity Interface</h4>
-              <p>Designed with glassmorphic depth, micro-interactions, responsive sizing, and customizable category identity glows.</p>
-            </div>
-          </div>
-
-          <div className={styles.aboutStats}>
-            <div className={styles.statBox}>
-              <span className={styles.statNum}>{TOOLS.length}</span>
-              <span className={styles.statLabel}>Available Tools</span>
-            </div>
-            <div className={styles.statBox}>
-              <span className={styles.statNum}>100%</span>
-              <span className={styles.statLabel}>Local Processing</span>
-            </div>
-            <div className={styles.statBox}>
-              <span className={styles.statNum}>v0.1.0</span>
-              <span className={styles.statLabel}>Release Version</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <About toolCount={TOOLS.length} onNavigate={setActiveTab} />;
   }
 
   // Handle alternative subpages
@@ -551,7 +516,7 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
               <p>For support, feature requests, or enterprise licensing inquiries, feel free to contact us via email:</p>
               <div className={styles.contactEmailBox}>
                 <span>Support Email:</span>
-                <strong>support@utilifytools.dpdns.org</strong>
+                <strong>mwendaboniface146@gmail.com</strong>
               </div>
               <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
                 Response Time: Typically within 24 business hours.
@@ -690,30 +655,7 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
 
   return (
     <div className={styles.dashboard}>
-      <header className={styles.headerSection}>
-        <div className={styles.titleBox}>
-          <h1>
-            {activeTab === 'History' ? 'Launch History' : 'Workspace Hub'}
-          </h1>
-          <p>
-            {activeTab === 'History' 
-              ? 'Track and quickly relaunch your recently used scripts.' 
-              : 'Over 60 premium utility tools at your fingertips.'}
-          </p>
-        </div>
-
-        <div className={styles.searchBar}>
-          <Search className={styles.searchIcon} size={20} />
-          <input 
-            type="text" 
-            placeholder="Search for tools (e.g. 'PDF', 'Password'...)" 
-            className={styles.searchInput}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-
-        {activeTab === 'Tools' && (
+      {activeTab === 'Tools' && (
           <nav className={styles.filterSection}>
             {CATEGORIES.map(cat => (
               <button
@@ -733,10 +675,9 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
             ))}
           </nav>
         )}
-      </header>
 
         {/* Featured Tools - Only show on main Tools landing */}
-        {activeTab === 'Tools' && search === '' && activeCategory === 'All' && (
+        {activeTab === 'Tools' && searchValue === '' && activeCategory === 'All' && (
           <section className={styles.featuredSection}>
             <div className={styles.sectionHeader}>
               <Star size={18} fill="var(--primary)" color="var(--primary)" />
