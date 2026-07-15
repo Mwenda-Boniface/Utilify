@@ -71,7 +71,7 @@ const TTSTool: React.FC = () => {
       // 4. Fetch all audio chunk buffers
       const audioBuffers: ArrayBuffer[] = [];
       for (const chunk of chunks) {
-        const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&q=${encodeURIComponent(chunk)}&client=tw-ob`;
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&q=${encodeURIComponent(chunk)}&client=gtx`;
         const res = await fetch(url);
         if (!res.ok) throw new Error('Failed to fetch audio chunk');
         const arrayBuffer = await res.arrayBuffer();
@@ -126,7 +126,7 @@ const TTSTool: React.FC = () => {
         .replace(/[\/\\#+$~%*<>{}[\]:]/g, '')
         .substring(0, 180)
         .trim();
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&q=${encodeURIComponent(cleanFallbackText)}&client=tw-ob`;
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&q=${encodeURIComponent(cleanFallbackText)}&client=gtx`;
       window.open(url, '_blank');
     }
   };
