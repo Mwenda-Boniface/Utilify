@@ -48,9 +48,9 @@ const TTSTool: React.FC = () => {
       
       // 2. Clean the text to remove dots, paths, and special symbols that trigger Google WAF 404s
       const cleanedText = ttsText
-        .replace(/\.html?\b/gi, ' html') // convert .html to space-html
-        .replace(/\./g, ' ') // convert all remaining dots to spaces
+        .replace(/\./g, ' ') // convert all dots to spaces (e.g. index.html -> index html)
         .replace(/[\/\\#+$~%*<>{}[\]:]/g, '') // remove path, tag, and query symbols
+        .replace(/\s+/g, ' ') // consolidate spaces
         .trim();
       
       // 3. Split text into chunks of max 180 characters safely by word boundaries
@@ -122,7 +122,6 @@ const TTSTool: React.FC = () => {
       // Fallback: Open URL directly in a new window/tab for user to save (first 180 chars)
       const lang = voice ? voice.lang.split('-')[0].toLowerCase() : 'en';
       const cleanFallbackText = ttsText
-        .replace(/\.html?\b/gi, ' html')
         .replace(/\./g, ' ')
         .replace(/[\/\\#+$~%*<>{}[\]:]/g, '')
         .substring(0, 180)
