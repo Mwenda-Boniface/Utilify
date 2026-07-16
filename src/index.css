@@ -1,3 +1,7 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 :root {
   --primary: #3b82f6;
   --primary-rgb: 59, 130, 246;
@@ -108,6 +112,12 @@ input, textarea, select {
    horizontal bounds on smaller viewports.
    ========================================================================== */
 
+/* Prevent horizontal viewport scroll at the layout root */
+html, body, #root, [class*="layout"] {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+
 [class*="workspace"] {
   max-width: 100% !important;
   box-sizing: border-box !important;
@@ -119,16 +129,15 @@ input, textarea, select {
   box-sizing: border-box !important;
 }
 
-[class*="fileList"], [class*="fileItem"], [class*="fileCard"] {
+[class*="fileList"], [class*="fileItem"], [class*="fileCard"], [class*="fileInfo"] {
+  width: 100% !important;
   min-width: 0 !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
+  overflow: hidden !important;
 }
 
 [class*="fileInfo"] {
-  min-width: 0 !important;
-  max-width: 100% !important;
-  overflow: hidden !important;
   display: flex !important;
   align-items: center !important;
 }
@@ -140,9 +149,10 @@ input, textarea, select {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   min-width: 0 !important;
+  max-width: 100% !important;
 }
 
-/* Enforce max-widths on file labels inside flex layouts */
+/* Enforce max-widths and flex values on file labels inside flex layouts */
 [class*="fileInfo"] span:not([class*="fileSize"]),
 [class*="fileCard"] span:not([class*="fileSize"]),
 [class*="fileItem"] span:not([class*="fileSize"]) {
@@ -162,4 +172,5 @@ input, textarea, select {
     gap: 1.5rem !important;
   }
 }
+
 
