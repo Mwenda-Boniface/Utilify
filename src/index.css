@@ -118,18 +118,18 @@ html, body, #root, [class*="layout"] {
   overflow-x: hidden !important;
 }
 
-[class*="workspace"] {
+#root [class*="workspace"] {
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
 
-[class*="leftPane"], [class*="rightPane"] {
+#root [class*="leftPane"], #root [class*="rightPane"] {
   min-width: 0 !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
 
-[class*="fileList"], [class*="fileItem"], [class*="fileCard"], [class*="fileInfo"] {
+#root [class*="fileList"], #root [class*="fileItem"], #root [class*="fileCard"], #root [class*="fileInfo"] {
   width: 100% !important;
   min-width: 0 !important;
   max-width: 100% !important;
@@ -137,14 +137,14 @@ html, body, #root, [class*="layout"] {
   overflow: hidden !important;
 }
 
-[class*="fileInfo"] {
+#root [class*="fileInfo"] {
   display: flex !important;
   align-items: center !important;
 }
 
-[class*="fileInfo"] span,
-[class*="fileCard"] span,
-[class*="fileItem"] span {
+#root [class*="fileInfo"] span,
+#root [class*="fileCard"] span,
+#root [class*="fileItem"] span {
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -153,24 +153,22 @@ html, body, #root, [class*="layout"] {
 }
 
 /* Enforce max-widths and flex values on file labels inside flex layouts */
-[class*="fileInfo"] span:not([class*="fileSize"]),
-[class*="fileCard"] span:not([class*="fileSize"]),
-[class*="fileItem"] span:not([class*="fileSize"]) {
+#root [class*="fileInfo"] span:not([class*="fileSize"]),
+#root [class*="fileCard"] span:not([class*="fileSize"]),
+#root [class*="fileItem"] span:not([class*="fileSize"]) {
   flex: 1 !important;
 }
 
-[class*="dropZone"], [class*="dropzone"], [class*="addCard"] {
+#root [class*="dropZone"], #root [class*="dropzone"], #root [class*="addCard"] {
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
 
 @media (max-width: 992px) {
-  [class*="workspace"] {
+  #root [class*="workspace"] {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
     gap: 1.5rem !important;
   }
 }
-
-
