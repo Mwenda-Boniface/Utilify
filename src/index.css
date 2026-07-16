@@ -101,3 +101,65 @@ input, textarea, select {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-dim);
 }
+
+/* ==========================================================================
+   Responsive Layout & File Upload Overrides
+   Ensures that file lists, grids, dropzones, and text nodes do not overflow
+   horizontal bounds on smaller viewports.
+   ========================================================================== */
+
+[class*="workspace"] {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+[class*="leftPane"], [class*="rightPane"] {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+[class*="fileList"], [class*="fileItem"], [class*="fileCard"] {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+[class*="fileInfo"] {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+[class*="fileInfo"] span,
+[class*="fileCard"] span,
+[class*="fileItem"] span {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  min-width: 0 !important;
+}
+
+/* Enforce max-widths on file labels inside flex layouts */
+[class*="fileInfo"] span:not([class*="fileSize"]),
+[class*="fileCard"] span:not([class*="fileSize"]),
+[class*="fileItem"] span:not([class*="fileSize"]) {
+  flex: 1 !important;
+}
+
+[class*="dropZone"], [class*="dropzone"], [class*="addCard"] {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 992px) {
+  [class*="workspace"] {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 1.5rem !important;
+  }
+}
+
