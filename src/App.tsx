@@ -216,6 +216,9 @@ function App() {
       } else if (hash === '#/ns-misc') {
         setActiveTab('Miscellaneous');
         setSelectedToolId(null);
+      } else if (hash === '#/ns-libraries') {
+        setActiveTab('Libraries');
+        setSelectedToolId(null);
       } else if (hash === '' || hash === '#/' || hash === '#/tools') {
         setActiveTab('Tools');
         setSelectedToolId(null);
