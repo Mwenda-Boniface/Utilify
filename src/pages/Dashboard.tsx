@@ -31,6 +31,7 @@ import MobileCategory from './nosignups/mobile/Mobile';
 import LinuxMacOSCategory from './nosignups/linux-macos/LinuxMacOS';
 import NonEnglishCategory from './nosignups/non-english/NonEnglish';
 import MiscCategory from './nosignups/misc/Misc';
+import LibrariesCategory from './nosignups/libraries/Libraries';
 
 const QRCodeGenerator = lazy(() => import('./code scanner&generator/qrcode generator/QRCodeGenerator'));
 const QRCodeScanner = lazy(() => import('./code scanner&generator/qrcode scanner/QRCodeScanner'));
@@ -610,6 +611,9 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
   }
   if (activeTab === 'Miscellaneous') {
     return <MiscCategory />;
+  }
+  if (activeTab === 'Libraries') {
+    return <LibrariesCategory />;
   }
 
   // Handle alternative subpages

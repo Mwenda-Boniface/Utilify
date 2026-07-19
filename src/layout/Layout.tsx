@@ -152,12 +152,13 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
                     <div className={styles.megaColumnWithList}>
                       <span role="button"
                         onClick={() => toggleColumn('education')}
-                        className={`${styles.megaColumnListTitle} ${['Books / Comics / Manga','Educational'].includes(activeTab) ? styles.megaLinkActiveTitle : ''} ${expandedColumn === 'education' ? styles.megaColumnTitleExpanded : ''}`}>
+                        className={`${styles.megaColumnListTitle} ${['Books / Comics / Manga','Educational','Libraries'].includes(activeTab) ? styles.megaLinkActiveTitle : ''} ${expandedColumn === 'education' ? styles.megaColumnTitleExpanded : ''}`}>
                         Education <span className={styles.colChevron}>{expandedColumn === 'education' ? '▲' : '▼'}</span>
                       </span>
                       <div className={`${styles.megaColumnListItemsSingle} ${expandedColumn === 'education' ? styles.expanded : ''}`}>
                         <a href="#/ns-reading" onClick={() => { setActiveTab('Books / Comics / Manga'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Books / Comics / Manga' ? styles.megaSubLinkActive : ''}`}>Books / Comics / Manga</a>
                         <a href="#/ns-educational" onClick={() => { setActiveTab('Educational'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Educational' ? styles.megaSubLinkActive : ''}`}>Educational Resources</a>
+                        <a href="#/ns-libraries" onClick={() => { setActiveTab('Libraries'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Libraries' ? styles.megaSubLinkActive : ''}`}>Libraries</a>
                       </div>
                     </div>
 

@@ -30,6 +30,7 @@ function App() {
     if (hash === '#/ns-linux-macos') return 'Linux / macOS';
     if (hash === '#/ns-non-english') return 'Non-English';
     if (hash === '#/ns-misc') return 'Miscellaneous';
+    if (hash === '#/ns-libraries') return 'Libraries';
     return 'Tools';
   };
 
@@ -95,6 +96,8 @@ function App() {
       targetHash = '#/ns-non-english';
     } else if (activeTab === 'Miscellaneous') {
       targetHash = '#/ns-misc';
+    } else if (activeTab === 'Libraries') {
+      targetHash = '#/ns-libraries';
     } else if (activeTab === '404') {
       targetHash = '#/404';
     } else if (activeTab === 'Tools' && selectedToolId) {
