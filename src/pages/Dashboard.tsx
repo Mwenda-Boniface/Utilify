@@ -574,46 +574,46 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
 
   // Handle No Sign-ups sub-category directories
   if (activeTab === 'Adblocking / Privacy') {
-    return <PrivacyCategory />;
+    return <PrivacyCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Artificial Intelligence') {
-    return <AICategory />;
+    return <AICategory searchValue={searchValue} />;
   }
   if (activeTab === 'Movies / TV / Anime') {
-    return <VideoCategory />;
+    return <VideoCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Music / Podcasts / Radio') {
-    return <AudioCategory />;
+    return <AudioCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Gaming / Emulation') {
-    return <GamingCategory />;
+    return <GamingCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Books / Comics / Manga') {
-    return <ReadingCategory />;
+    return <ReadingCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Downloading') {
-    return <DownloadingCategory />;
+    return <DownloadingCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Torrenting') {
-    return <TorrentingCategory />;
+    return <TorrentingCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Educational') {
-    return <EducationalCategory />;
+    return <EducationalCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Android / iOS') {
-    return <MobileCategory />;
+    return <MobileCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Linux / macOS') {
-    return <LinuxMacOSCategory />;
+    return <LinuxMacOSCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Non-English') {
-    return <NonEnglishCategory />;
+    return <NonEnglishCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Miscellaneous') {
-    return <MiscCategory />;
+    return <MiscCategory searchValue={searchValue} />;
   }
   if (activeTab === 'Libraries') {
-    return <LibrariesCategory />;
+    return <LibrariesCategory searchValue={searchValue} />;
   }
 
   // Handle alternative subpages

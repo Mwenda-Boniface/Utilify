@@ -125,7 +125,15 @@ const SECTIONS: AISection[] = [
   }
 ];
 
-const AI: React.FC = () => {
+interface AIProps { searchValue?: string; }
+const AI: React.FC<AIProps> = ({ searchValue = '' }) => {
+  const filteredSections = SECTIONS.map(sec => ({
+    ...sec,
+    items: sec.items.filter(item => 
+      item.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+      item.desc.toLowerCase().includes(searchValue.toLowerCase())
+    )
+  })).filter(sec => sec.items.length > 0);
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -139,7 +147,11 @@ const AI: React.FC = () => {
       </header>
 
       <div className={styles.sectionsGrid}>
-        {SECTIONS.map((sec) => (
+        {filteredSections.length === 0 ? (
+          <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+            No tools found matching "{searchValue}"
+          </div>
+        ) : filteredSections.map((sec) => (
           <section key={sec.title} className={styles.sectionBlock}>
             <div className={styles.sectionHeader}>
               <Cpu size={18} className={styles.sectionIcon} />

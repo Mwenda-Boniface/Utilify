@@ -3,19 +3,22 @@ import { Library, ArrowUpRight, Search, BookMarked } from 'lucide-react';
 import styles from './Libraries.module.css';
 import { LIBRARY_SECTIONS } from './librariesData';
 
-const Libraries: React.FC = () => {
+interface LibrariesProps { searchValue?: string; }
+const Libraries: React.FC<LibrariesProps> = ({ searchValue = '' }) => {
   const [query, setQuery] = useState('');
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const totalCount = LIBRARY_SECTIONS.reduce((sum, s) => sum + s.items.length, 0);
 
+  const effectiveQuery = searchValue || query;
+
   const filteredSections = LIBRARY_SECTIONS.map(sec => ({
     ...sec,
     items: sec.items.filter(
       item =>
-        item.name.toLowerCase().includes(query.toLowerCase()) ||
-        item.desc.toLowerCase().includes(query.toLowerCase()) ||
-        (item.subject ?? '').toLowerCase().includes(query.toLowerCase())
+        item.name.toLowerCase().includes(effectiveQuery.toLowerCase()) ||
+        item.desc.toLowerCase().includes(effectiveQuery.toLowerCase()) ||
+        (item.subject ?? '').toLowerCase().includes(effectiveQuery.toLowerCase())
     )
   })).filter(sec => (activeSection ? sec.title === activeSection : true) && sec.items.length > 0);
 

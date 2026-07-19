@@ -42,7 +42,15 @@ const SECTIONS: MobileSection[] = [
   }
 ];
 
-const Mobile: React.FC = () => {
+interface MobileProps { searchValue?: string; }
+const Mobile: React.FC<MobileProps> = ({ searchValue = '' }) => {
+  const filteredSections = SECTIONS.map(sec => ({
+    ...sec,
+    items: sec.items.filter(item => 
+      item.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+      item.desc.toLowerCase().includes(searchValue.toLowerCase())
+    )
+  })).filter(sec => sec.items.length > 0);
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -56,7 +64,11 @@ const Mobile: React.FC = () => {
       </header>
 
       <div className={styles.sectionsGrid}>
-        {SECTIONS.map((sec) => (
+        {filteredSections.length === 0 ? (
+          <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+            No tools found matching "{searchValue}"
+          </div>
+        ) : filteredSections.map((sec) => (
           <section key={sec.title} className={styles.sectionBlock}>
             <div className={styles.sectionHeader}>
               <Grid size={18} className={styles.sectionIcon} />
