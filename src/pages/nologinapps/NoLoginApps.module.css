@@ -1,0 +1,289 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+/* Directory Section */
+.directorySection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.directoryHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.directoryTitleContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.directoryTitleContainer h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text, #f8fafc);
+}
+
+.directoryIcon {
+  color: #3b82f6; /* Blue Glow */
+}
+
+.directorySubtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted, #94a3b8);
+}
+
+.reliabilityNotice {
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  border-radius: var(--radius-md, 8px);
+  padding: 1.25rem 1.5rem;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.noticeHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ef4444;
+}
+
+.noticeBadge {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.reliabilityNotice p {
+  font-size: 0.9rem;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.5;
+}
+
+.controlsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filterSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 0;
+  width: 100%;
+  scrollbar-width: none;
+}
+
+.filterSection::-webkit-scrollbar {
+  display: none;
+}
+
+.filterChip {
+  position: relative;
+  padding: 0.6rem 1.25rem;
+  border-radius: 100px;
+  background-color: var(--bg-surface, rgba(15, 23, 42, 0.4));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  color: var(--text-muted, #94a3b8);
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.filterChip:hover {
+  border-color: #3b82f6;
+  color: var(--text, #f8fafc);
+}
+
+.filterChipActive {
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+.activeFilterBubble {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
+  border-radius: 100px;
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+}
+
+.filterText {
+  position: relative;
+  z-index: 2;
+}
+
+.toolsCount {
+  font-size: 0.9rem;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 600;
+}
+
+/* Tools 4-in-a-row Grid */
+.toolsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.toolCard {
+  text-decoration: none;
+  padding: 1.5rem;
+  border-radius: var(--radius-md, 8px);
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.05));
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toolCard:hover {
+  border-color: var(--border-hover, rgba(255, 255, 255, 0.15));
+  background: rgba(30, 41, 59, 0.3);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.categoryBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm, 4px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted, #94a3b8);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toolName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text, #f8fafc);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.arrowIcon {
+  opacity: 0;
+  transform: translate(-2px, 2px);
+  transition: all 0.2s ease;
+  color: var(--text-muted, #94a3b8);
+}
+
+.toolCard:hover .arrowIcon {
+  opacity: 1;
+  transform: translate(0, 0);
+  color: #3b82f6;
+}
+
+.toolDesc {
+  font-size: 0.85rem;
+  color: var(--text, #f8fafc);
+  line-height: 1.55;
+  flex-grow: 1;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.urlLabel {
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: var(--text-muted, #64748b);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Category Specific Highlight Hover Classes */
+.toolCard.security:hover { border-color: rgba(244, 63, 94, 0.3); box-shadow: 0 4px 20px rgba(244, 63, 94, 0.05); }
+.toolCard.calculators:hover { border-color: rgba(59, 130, 246, 0.3); box-shadow: 0 4px 20px rgba(59, 130, 246, 0.05); }
+.toolCard.design:hover { border-color: rgba(168, 85, 247, 0.3); box-shadow: 0 4px 20px rgba(168, 85, 247, 0.05); }
+.toolCard.file:hover { border-color: rgba(234, 179, 8, 0.3); box-shadow: 0 4px 20px rgba(234, 179, 8, 0.05); }
+.toolCard.seo:hover { border-color: rgba(20, 184, 166, 0.3); box-shadow: 0 4px 20px rgba(20, 184, 166, 0.05); }
+.toolCard.developer:hover { border-color: rgba(6, 182, 212, 0.3); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.05); }
+.toolCard.scanner:hover { border-color: rgba(236, 72, 153, 0.3); box-shadow: 0 4px 20px rgba(236, 72, 153, 0.05); }
+.toolCard.encoder:hover { border-color: rgba(139, 92, 246, 0.3); box-shadow: 0 4px 20px rgba(139, 92, 246, 0.05); }
+.toolCard.image:hover { border-color: rgba(244, 63, 94, 0.3); box-shadow: 0 4px 20px rgba(244, 63, 94, 0.05); }
+.toolCard.productivity:hover { border-color: rgba(249, 115, 22, 0.3); box-shadow: 0 4px 20px rgba(249, 115, 22, 0.05); }
+
+.noResults {
+  text-align: center;
+  padding: 4rem;
+  background: rgba(30, 41, 59, 0.15);
+  border: 1px dashed var(--border, rgba(255, 255, 255, 0.05));
+  border-radius: var(--radius-md, 8px);
+}
+
+.noResults h3 {
+  font-size: 1.2rem;
+  color: var(--text, #f8fafc);
+  margin-bottom: 0.5rem;
+}
+
+.noResults p {
+  color: var(--text-muted, #94a3b8);
+}
+
+@media (max-width: 1400px) {
+  .toolsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 968px) {
+  .toolsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .container {
+    padding: 2rem 1.25rem;
+    gap: 3rem;
+  }
+  .directoryTitleContainer h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .toolsGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -442,7 +442,7 @@
 }
 
 .downloadLink {
-  background: var(--primary-gradient);
+  background: var(--primary);
   color: white !important;
   font-weight: 700;
   padding: 1rem 3rem;
@@ -487,4 +487,30 @@
   align-items: flex-end;
   gap: 1.25rem;
   width: 100%;
+}
+
+.downloadTextMobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .successActions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+  
+  .downloadLink, .secondaryBtn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 1rem !important;
+  }
+
+  .downloadTextFull {
+    display: none !important;
+  }
+
+  .downloadTextMobile {
+    display: inline !important;
+  }
 }

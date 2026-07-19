@@ -13,6 +13,24 @@ import styles from './Dashboard.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import Contribute from './contribute/Contribute';
 import About from './about/About';
+import NoSignups from './nosignups/NoSignups';
+import AITools from './aitools/AITools';
+import NoLoginApps from './nologinapps/NoLoginApps';
+
+// No Sign-up category directories
+import PrivacyCategory from './nosignups/privacy/Privacy';
+import AICategory from './nosignups/ai/AI';
+import VideoCategory from './nosignups/video/Video';
+import AudioCategory from './nosignups/audio/Audio';
+import GamingCategory from './nosignups/gaming/Gaming';
+import ReadingCategory from './nosignups/reading/Reading';
+import DownloadingCategory from './nosignups/downloading/Downloading';
+import TorrentingCategory from './nosignups/torrenting/Torrenting';
+import EducationalCategory from './nosignups/educational/Educational';
+import MobileCategory from './nosignups/mobile/Mobile';
+import LinuxMacOSCategory from './nosignups/linux-macos/LinuxMacOS';
+import NonEnglishCategory from './nosignups/non-english/NonEnglish';
+import MiscCategory from './nosignups/misc/Misc';
 
 const QRCodeGenerator = lazy(() => import('./code scanner&generator/qrcode generator/QRCodeGenerator'));
 const QRCodeScanner = lazy(() => import('./code scanner&generator/qrcode scanner/QRCodeScanner'));
@@ -536,6 +554,62 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
   // Contribute page
   if (activeTab === 'Contribute') {
     return <Contribute onNavigate={setActiveTab} />;
+  }
+
+  // Handle No Sign-ups page
+  if (activeTab === 'No Sign-ups') {
+    return <NoSignups onNavigate={setActiveTab} searchValue={searchValue} />;
+  }
+
+  // Handle AI Tools page
+  if (activeTab === 'AI Tools') {
+    return <AITools onNavigate={setActiveTab} searchValue={searchValue} />;
+  }
+
+  // Handle No-Login Web Apps page
+  if (activeTab === 'No-Login Web Apps') {
+    return <NoLoginApps onNavigate={setActiveTab} searchValue={searchValue} />;
+  }
+
+  // Handle No Sign-ups sub-category directories
+  if (activeTab === 'Adblocking / Privacy') {
+    return <PrivacyCategory />;
+  }
+  if (activeTab === 'Artificial Intelligence') {
+    return <AICategory />;
+  }
+  if (activeTab === 'Movies / TV / Anime') {
+    return <VideoCategory />;
+  }
+  if (activeTab === 'Music / Podcasts / Radio') {
+    return <AudioCategory />;
+  }
+  if (activeTab === 'Gaming / Emulation') {
+    return <GamingCategory />;
+  }
+  if (activeTab === 'Books / Comics / Manga') {
+    return <ReadingCategory />;
+  }
+  if (activeTab === 'Downloading') {
+    return <DownloadingCategory />;
+  }
+  if (activeTab === 'Torrenting') {
+    return <TorrentingCategory />;
+  }
+  if (activeTab === 'Educational') {
+    return <EducationalCategory />;
+  }
+  if (activeTab === 'Android / iOS') {
+    return <MobileCategory />;
+  }
+  if (activeTab === 'Linux / macOS') {
+    return <LinuxMacOSCategory />;
+  }
+  if (activeTab === 'Non-English') {
+    return <NonEnglishCategory />;
+  }
+  if (activeTab === 'Miscellaneous') {
+    return <MiscCategory />;
   }
 
   // Handle alternative subpages

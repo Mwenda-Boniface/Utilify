@@ -267,7 +267,9 @@ const PDFTools: React.FC = () => {
                   download={downloadName} 
                   className={styles.downloadLink}
                 >
-                  <Download size={20} /> Download {downloadName}
+                  <Download size={20} />
+                  <span className={styles.downloadTextFull}>Download {downloadName}</span>
+                  <span className={styles.downloadTextMobile}>Download</span>
                 </a>
                 <button className={styles.secondaryBtn} onClick={handleReset}>
                   <RefreshCw size={16} /> Reset Workspace
