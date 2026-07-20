@@ -2,11 +2,46 @@ import { useState, useEffect, useRef } from 'react';
 import Layout from './layout/Layout';
 import Dashboard from './pages/Dashboard';
 
+const TAB_TO_HASH: Record<string, string> = {
+  'Software': '#/software',
+  'IDEs, Code Editors, and Development Environments': '#/dev-ides',
+  'Version Control and Collaboration': '#/dev-vcs',
+  'Build Tools, Package Managers, and Dependency Management': '#/dev-build',
+  'Containerization, Virtualization, and Infrastructure as Code (IaC)': '#/dev-containers',
+  'Testing, Quality Assurance (QA), and Automation': '#/dev-testing',
+  'Continuous Integration & Continuous Deployment (CI/CD)': '#/dev-cicd',
+  'Cloud Platforms, Backend-as-a-Service (BaaS), and Infrastructure': '#/dev-cloud',
+  'Database Management and Analytics': '#/dev-db',
+  'API Clients, Development, and Testing': '#/dev-api',
+  'AI-Assisted Development, Agents, and Copilots': '#/dev-ai',
+  'Monitoring, Observability, and Logging': '#/dev-monitoring',
+  'Project Management, Collaboration, and Team Communication': '#/dev-pm',
+  'Documentation, Code Search, and Learning': '#/dev-docs',
+  'Developer Utilities and Productivity Tools': '#/dev-utils',
+  'Web Frameworks and Libraries': '#/dev-web',
+  'Mobile Development and Cross-Platform Tools': '#/dev-mobile',
+  'Game Development Engines and Tools': '#/dev-game',
+  'Design, Prototyping, and Creative Tools': '#/dev-design',
+  'Data Science, Machine Learning, and AI Platforms': '#/dev-data',
+  'No-Code / Low-Code Development Platforms': '#/dev-nocode',
+  'Security, Secrets Management, and Authentication': '#/dev-security',
+  'Collaboration and Communication (Cross-Functional)': '#/dev-collab',
+  'Feature Flagging and Experimentation': '#/dev-flags',
+  'Platform Engineering and Internal Developer Platforms': '#/dev-platform'
+};
+
+const HASH_TO_TAB = Object.fromEntries(
+  Object.entries(TAB_TO_HASH).map(([k, v]) => [v, k])
+);
+
 function App() {
   // Initialize activeTab from URL hash to maintain state on page reload
   const getInitialTab = () => {
     const hash = window.location.hash;
+    if (HASH_TO_TAB[hash]) return HASH_TO_TAB[hash];
+    if (hash === '' || hash === '#/' || hash === '#/home') return 'Home';
     if (hash.startsWith('#/tools/')) return 'Tools';
+    if (hash === '#/tools') return 'Tools';
     if (hash === '#/history') return 'History';
     if (hash === '#/about') return 'About';
     if (hash === '#/contact') return 'Contact';
@@ -49,8 +84,12 @@ function App() {
 
   // Sync state changes to browser hash
   useEffect(() => {
-    let targetHash = '#/tools';
-    if (activeTab === 'History') {
+    let targetHash = '#/home';
+    if (TAB_TO_HASH[activeTab]) {
+      targetHash = TAB_TO_HASH[activeTab];
+    } else if (activeTab === 'Tools' && !selectedToolId) {
+      targetHash = '#/tools';
+    } else if (activeTab === 'History') {
       targetHash = '#/history';
     } else if (activeTab === 'About') {
       targetHash = '#/about';
@@ -138,7 +177,10 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash.startsWith('#/tools/')) {
+      if (HASH_TO_TAB[hash]) {
+        setActiveTab(HASH_TO_TAB[hash]);
+        setSelectedToolId(null);
+      } else if (hash.startsWith('#/tools/')) {
         const toolId = hash.replace('#/tools/', '');
         // Capture scroll Y before we enter the tool if we are not already in one, and only if Y > 0
         if (!selectedToolId && window.scrollY > 0) {
@@ -219,8 +261,11 @@ function App() {
       } else if (hash === '#/ns-libraries') {
         setActiveTab('Libraries');
         setSelectedToolId(null);
-      } else if (hash === '' || hash === '#/' || hash === '#/tools') {
+      } else if (hash === '#/tools') {
         setActiveTab('Tools');
+        setSelectedToolId(null);
+      } else if (hash === '' || hash === '#/' || hash === '#/home') {
+        setActiveTab('Home');
         setSelectedToolId(null);
       } else {
         setActiveTab('404');
@@ -258,7 +303,7 @@ function App() {
       isToolOpen={!!selectedToolId}
       searchValue={searchValue}
       onSearchChange={setSearchValue}
-      showSearch={activeTab === 'Tools' || activeTab === 'No Sign-ups' || activeTab === 'AI Tools' || activeTab === 'No-Login Web Apps'}
+      showSearch={activeTab === 'Tools' || activeTab === 'No Sign-ups' || activeTab === 'AI Tools' || activeTab === 'No-Login Web Apps' || activeTab === 'Software'}
     >
       <Dashboard 
         activeTab={activeTab} 

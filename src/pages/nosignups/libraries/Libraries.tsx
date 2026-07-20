@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { Library, ArrowUpRight, Search, BookMarked } from 'lucide-react';
+import { Library, ArrowUpRight, BookMarked } from 'lucide-react';
 import styles from './Libraries.module.css';
 import { LIBRARY_SECTIONS } from './librariesData';
 
 interface LibrariesProps { searchValue?: string; }
 const Libraries: React.FC<LibrariesProps> = ({ searchValue = '' }) => {
-  const [query, setQuery] = useState('');
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const totalCount = LIBRARY_SECTIONS.reduce((sum, s) => sum + s.items.length, 0);
 
-  const effectiveQuery = searchValue || query;
+  const effectiveQuery = searchValue;
 
   const filteredSections = LIBRARY_SECTIONS.map(sec => ({
     ...sec,
@@ -43,16 +42,6 @@ const Libraries: React.FC<LibrariesProps> = ({ searchValue = '' }) => {
 
       {/* Controls */}
       <div className={styles.controls}>
-        <div className={styles.searchWrap}>
-          <Search size={16} className={styles.searchIcon} />
-          <input
-            type="text"
-            className={styles.searchInput}
-            placeholder="Search libraries, subjects, regions…"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-          />
-        </div>
         <div className={styles.filters}>
           <button
             className={`${styles.filterBtn} ${activeSection === null ? styles.filterActive : ''}`}
@@ -77,7 +66,7 @@ const Libraries: React.FC<LibrariesProps> = ({ searchValue = '' }) => {
         {filteredSections.length === 0 ? (
           <div className={styles.empty}>
             <BookMarked size={40} opacity={0.3} />
-            <p>No libraries found for "<strong>{query}</strong>"</p>
+            <p>No libraries found for "<strong>{searchValue}</strong>"</p>
           </div>
         ) : (
           filteredSections.map(sec => (

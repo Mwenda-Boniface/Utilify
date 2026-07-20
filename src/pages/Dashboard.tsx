@@ -13,9 +13,34 @@ import styles from './Dashboard.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import Contribute from './contribute/Contribute';
 import About from './about/About';
+import Home from './home/Home';
 import NoSignups from './nosignups/NoSignups';
 import AITools from './aitools/AITools';
 import NoLoginApps from './nologinapps/NoLoginApps';
+import IdesCodeEditorsAndDevelopmentEnvironmentsCategory from './development/ides-code-editors-and-development-environments/IdesCodeEditorsAndDevelopmentEnvironments';
+import VersionControlAndCollaborationCategory from './development/version-control-and-collaboration/VersionControlAndCollaboration';
+import BuildToolsPackageManagersAndDependencyManagementCategory from './development/build-tools-package-managers-and-dependency-management/BuildToolsPackageManagersAndDependencyManagement';
+import ContainerizationVirtualizationAndInfrastructureAsCodeCategory from './development/containerization-virtualization-and-infrastructure-as-code/ContainerizationVirtualizationAndInfrastructureAsCode';
+import TestingQualityAssuranceQaAndAutomationCategory from './development/testing-quality-assurance-qa-and-automation/TestingQualityAssuranceQaAndAutomation';
+import ContinuousIntegrationContinuousDeploymentCicdCategory from './development/continuous-integration-continuous-deployment-cicd/ContinuousIntegrationContinuousDeploymentCicd';
+import CloudPlatformsBackendAsAServiceBaasAndInfrastructureCategory from './development/cloud-platforms-backend-as-a-service-baa-s-and-infrastructure/CloudPlatformsBackendAsAServiceBaasAndInfrastructure';
+import DatabaseManagementAndAnalyticsCategory from './development/database-management-and-analytics/DatabaseManagementAndAnalytics';
+import ApiClientsDevelopmentAndTestingCategory from './development/api-clients-development-and-testing/ApiClientsDevelopmentAndTesting';
+import AiassistedDevelopmentAgentsAndCopilotsCategory from './development/aiassisted-development-agents-and-copilots/AiassistedDevelopmentAgentsAndCopilots';
+import MonitoringObservabilityAndLoggingCategory from './development/monitoring-observability-and-logging/MonitoringObservabilityAndLogging';
+import ProjectManagementCollaborationAndTeamCommunicationCategory from './development/project-management-collaboration-and-team-communication/ProjectManagementCollaborationAndTeamCommunication';
+import DocumentationCodeSearchAndLearningCategory from './development/documentation-code-search-and-learning/DocumentationCodeSearchAndLearning';
+import DeveloperUtilitiesAndProductivityToolsCategory from './development/developer-utilities-and-productivity-tools/DeveloperUtilitiesAndProductivityTools';
+import WebFrameworksAndLibrariesCategory from './development/web-frameworks-and-libraries/WebFrameworksAndLibraries';
+import MobileDevelopmentAndCrossplatformToolsCategory from './development/mobile-development-and-cross-platform-tools/MobileDevelopmentAndCrossplatformTools';
+import GameDevelopmentEnginesAndToolsCategory from './development/game-development-engines-and-tools/GameDevelopmentEnginesAndTools';
+import DesignPrototypingAndCreativeToolsCategory from './development/design-prototyping-and-creative-tools/DesignPrototypingAndCreativeTools';
+import DataScienceMachineLearningAndAiPlatformsCategory from './development/data-science-machine-learning-and-ai-platforms/DataScienceMachineLearningAndAiPlatforms';
+import NocodeLowcodeDevelopmentPlatformsCategory from './development/no-code-low-code-development-platforms/NocodeLowcodeDevelopmentPlatforms';
+import SecuritySecretsManagementAndAuthenticationCategory from './development/security-secrets-management-and-authentication/SecuritySecretsManagementAndAuthentication';
+import CollaborationAndCommunicationCrossfunctionalCategory from './development/collaboration-and-communication-cross-functional/CollaborationAndCommunicationCrossfunctional';
+import FeatureFlaggingAndExperimentationCategory from './development/feature-flagging-and-experimentation/FeatureFlaggingAndExperimentation';
+import PlatformEngineeringAndInternalDeveloperPlatformsCategory from './development/platform-engineering-and-internal-developer-platforms/PlatformEngineeringAndInternalDeveloperPlatforms';
 
 // No Sign-up category directories
 import PrivacyCategory from './nosignups/privacy/Privacy';
@@ -32,6 +57,7 @@ import LinuxMacOSCategory from './nosignups/linux-macos/LinuxMacOS';
 import NonEnglishCategory from './nosignups/non-english/NonEnglish';
 import MiscCategory from './nosignups/misc/Misc';
 import LibrariesCategory from './nosignups/libraries/Libraries';
+import Software from './software/Software';
 
 const QRCodeGenerator = lazy(() => import('./code scanner&generator/qrcode generator/QRCodeGenerator'));
 const QRCodeScanner = lazy(() => import('./code scanner&generator/qrcode scanner/QRCodeScanner'));
@@ -552,6 +578,11 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
     );
   }
 
+  // Handle Home page
+  if (activeTab === 'Home') {
+    return <Home setActiveTab={setActiveTab} />;
+  }
+
   // Contribute page
   if (activeTab === 'Contribute') {
     return <Contribute onNavigate={setActiveTab} />;
@@ -614,6 +645,86 @@ const Dashboard: React.FC<DashboardProps> = ({ activeTab, setActiveTab, selected
   }
   if (activeTab === 'Libraries') {
     return <LibrariesCategory searchValue={searchValue} />;
+  }
+  
+
+  // Handle Development sub-category directories
+  if (activeTab === 'IDEs, Code Editors, and Development Environments') {
+    return <IdesCodeEditorsAndDevelopmentEnvironmentsCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Version Control and Collaboration') {
+    return <VersionControlAndCollaborationCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Build Tools, Package Managers, and Dependency Management') {
+    return <BuildToolsPackageManagersAndDependencyManagementCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Containerization, Virtualization, and Infrastructure as Code (IaC)') {
+    return <ContainerizationVirtualizationAndInfrastructureAsCodeCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Testing, Quality Assurance (QA), and Automation') {
+    return <TestingQualityAssuranceQaAndAutomationCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Continuous Integration & Continuous Deployment (CI/CD)') {
+    return <ContinuousIntegrationContinuousDeploymentCicdCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Cloud Platforms, Backend-as-a-Service (BaaS), and Infrastructure') {
+    return <CloudPlatformsBackendAsAServiceBaasAndInfrastructureCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Database Management and Analytics') {
+    return <DatabaseManagementAndAnalyticsCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'API Clients, Development, and Testing') {
+    return <ApiClientsDevelopmentAndTestingCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'AI-Assisted Development, Agents, and Copilots') {
+    return <AiassistedDevelopmentAgentsAndCopilotsCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Monitoring, Observability, and Logging') {
+    return <MonitoringObservabilityAndLoggingCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Project Management, Collaboration, and Team Communication') {
+    return <ProjectManagementCollaborationAndTeamCommunicationCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Documentation, Code Search, and Learning') {
+    return <DocumentationCodeSearchAndLearningCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Developer Utilities and Productivity Tools') {
+    return <DeveloperUtilitiesAndProductivityToolsCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Web Frameworks and Libraries') {
+    return <WebFrameworksAndLibrariesCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Mobile Development and Cross-Platform Tools') {
+    return <MobileDevelopmentAndCrossplatformToolsCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Game Development Engines and Tools') {
+    return <GameDevelopmentEnginesAndToolsCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Design, Prototyping, and Creative Tools') {
+    return <DesignPrototypingAndCreativeToolsCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Data Science, Machine Learning, and AI Platforms') {
+    return <DataScienceMachineLearningAndAiPlatformsCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'No-Code / Low-Code Development Platforms') {
+    return <NocodeLowcodeDevelopmentPlatformsCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Security, Secrets Management, and Authentication') {
+    return <SecuritySecretsManagementAndAuthenticationCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Collaboration and Communication (Cross-Functional)') {
+    return <CollaborationAndCommunicationCrossfunctionalCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Feature Flagging and Experimentation') {
+    return <FeatureFlaggingAndExperimentationCategory searchValue={searchValue} />;
+  }
+  if (activeTab === 'Platform Engineering and Internal Developer Platforms') {
+    return <PlatformEngineeringAndInternalDeveloperPlatformsCategory searchValue={searchValue} />;
+  }
+
+  // Handle Software directory
+  if (activeTab === 'Software') {
+    return <Software searchValue={searchValue} />;
   }
 
   // Handle alternative subpages

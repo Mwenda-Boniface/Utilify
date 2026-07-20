@@ -1,0 +1,12 @@
+.container { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 2.5rem; }
+.header { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 1.5rem; }
+.titleRow { display: flex; align-items: center; gap: 0.75rem; }
+.icon { color: #f59e0b; }
+.titleRow h2 { font-size: 1.8rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.02em; }
+.cardsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+.card { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.25rem; background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: var(--radius-lg, 12px); transition: all 0.2s ease; }
+.card:hover { transform: translateY(-2px); background: rgba(30, 41, 59, 0.5); border-color: rgba(245, 158, 11, 0.3); }
+.card h4 { font-size: 1rem; font-weight: 600; color: var(--text-main); }
+.cardDesc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; }
+.emptyState { padding: 4rem 1rem; text-align: center; color: var(--text-muted); font-size: 1.1rem; grid-column: 1 / -1; }
+@media (max-width: 768px) { .cardsGrid { grid-template-columns: 1fr; } }

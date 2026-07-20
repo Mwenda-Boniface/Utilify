@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { LayoutGrid, Moon, Sun, Info, History, GitMerge, Search, UserX, Brain } from 'lucide-react';
+import { LayoutGrid, Moon, Sun, Info, History, GitMerge, Search, UserX, Brain, Box, Code, Home as HomeIcon } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import styles from './Layout.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import utilifyLogo from '../assets/images/UTILIFY.png';
+import { HeaderMenu, MobileMenu } from '../components/menu/Menu';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -24,19 +25,12 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
     setExpandedColumn(prev => (prev === col ? null : col));
 
   const menuItems = [
+    { name: 'Home', icon: <HomeIcon size={18} /> },
     { name: 'Tools', icon: <LayoutGrid size={18} /> },
+    { name: 'Software', icon: <Box size={18} /> },
     { name: 'History', icon: <History size={18} /> },
     { name: 'About', icon: <Info size={18} /> },
     { name: 'Contribute', icon: <GitMerge size={18} /> },
-    { 
-      name: 'No Sign-ups', 
-      icon: <UserX size={18} />,
-      dropdown: [
-        { name: 'Free AI Tools', tab: 'AI Tools' },
-        { name: 'Productivity Tools', tab: 'No Sign-ups' },
-        { name: 'No-Login Web Apps', tab: 'No-Login Web Apps' }
-      ]
-    },
   ];
 
   return (
@@ -55,130 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
         {/* Desktop Navigation Links */}
         <nav className={styles.navigation}>
           {menuItems.map((item) => {
-            const isDropdown = 'dropdown' in item;
-            const isTabActive = isDropdown
-              ? (activeTab === 'No Sign-ups' || activeTab === 'AI Tools' || activeTab === 'No-Login Web Apps')
-              : activeTab === item.name;
-
-            if (isDropdown) {
-              return (
-                <div key={item.name} className={styles.dropdownContainer}>
-                  <a
-                    href="#"
-                    className={`${styles.navItem} ${isTabActive ? styles.navItemActive : ''}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    {item.icon}
-                    <span>{item.name}</span>
-                    {isTabActive && (
-                      <motion.div
-                        layoutId="activeHeaderNav"
-                        className={styles.activeIndicator}
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                      />
-                    )}
-                  </a>
-                  <div className={styles.megaDropdownMenu}>
-
-                    {/* Row 1, Column 1 — Free AI Tools */}
-                    <div className={styles.megaColumnWithList}>
-                      <a href="#/ai-tools"
-                        onClick={(e) => { e.preventDefault(); toggleColumn('ai-tools'); }}
-                        className={`${styles.megaColumnListTitle} ${activeTab === 'AI Tools' ? styles.megaLinkActiveTitle : ''} ${expandedColumn === 'ai-tools' ? styles.megaColumnTitleExpanded : ''}`}>
-                        Free AI Tools <span className={styles.colChevron}>{expandedColumn === 'ai-tools' ? '▲' : '▼'}</span>
-                      </a>
-                      <div className={`${styles.megaColumnListItemsSingle} ${expandedColumn === 'ai-tools' ? styles.expanded : ''}`}>
-                        <a href="#/ai-tools" onClick={() => { setActiveTab('AI Tools'); setExpandedColumn(null); }} className={styles.megaSubLink}>Chatbots &amp; Assistants</a>
-                        <a href="#/ai-tools" onClick={() => { setActiveTab('AI Tools'); setExpandedColumn(null); }} className={styles.megaSubLink}>Image Generation</a>
-                        <a href="#/ai-tools" onClick={() => { setActiveTab('AI Tools'); setExpandedColumn(null); }} className={styles.megaSubLink}>Photo &amp; Image Editing</a>
-                        <a href="#/ai-tools" onClick={() => { setActiveTab('AI Tools'); setExpandedColumn(null); }} className={styles.megaSubLink}>Video Generation</a>
-                        <a href="#/ai-tools" onClick={() => { setActiveTab('AI Tools'); setExpandedColumn(null); }} className={styles.megaSubLink}>Coding &amp; Dev</a>
-                      </div>
-                    </div>
-
-                    {/* Row 1, Column 2 — Productivity Tools */}
-                    <div className={styles.megaColumnWithList}>
-                      <a href="#/no-signups"
-                        onClick={(e) => { e.preventDefault(); toggleColumn('productivity'); }}
-                        className={`${styles.megaColumnListTitle} ${activeTab === 'No Sign-ups' ? styles.megaLinkActiveTitle : ''} ${expandedColumn === 'productivity' ? styles.megaColumnTitleExpanded : ''}`}>
-                        Productivity Tools <span className={styles.colChevron}>{expandedColumn === 'productivity' ? '▲' : '▼'}</span>
-                      </a>
-                      <div className={`${styles.megaColumnListItemsSingle} ${expandedColumn === 'productivity' ? styles.expanded : ''}`}>
-                        <a href="#/no-signups" onClick={() => { setActiveTab('No Sign-ups'); setExpandedColumn(null); }} className={styles.megaSubLink}>Productivity</a>
-                        <a href="#/no-signups" onClick={() => { setActiveTab('No Sign-ups'); setExpandedColumn(null); }} className={styles.megaSubLink}>Design &amp; Graphics</a>
-                        <a href="#/no-signups" onClick={() => { setActiveTab('No Sign-ups'); setExpandedColumn(null); }} className={styles.megaSubLink}>Development</a>
-                        <a href="#/no-signups" onClick={() => { setActiveTab('No Sign-ups'); setExpandedColumn(null); }} className={styles.megaSubLink}>Utilities</a>
-                      </div>
-                    </div>
-
-                    {/* Row 1, Column 3 — No-Login Web Apps */}
-                    <div className={styles.megaColumnWithList}>
-                      <a href="#/no-login-apps"
-                        onClick={(e) => { e.preventDefault(); toggleColumn('no-login'); }}
-                        className={`${styles.megaColumnListTitle} ${activeTab === 'No-Login Web Apps' ? styles.megaLinkActiveTitle : ''} ${expandedColumn === 'no-login' ? styles.megaColumnTitleExpanded : ''}`}>
-                        No-Login Web Apps <span className={styles.colChevron}>{expandedColumn === 'no-login' ? '▲' : '▼'}</span>
-                      </a>
-                      <div className={`${styles.megaColumnListItemsSingle} ${expandedColumn === 'no-login' ? styles.expanded : ''}`}>
-                        <a href="#/no-login-apps" onClick={() => { setActiveTab('No-Login Web Apps'); setExpandedColumn(null); }} className={styles.megaSubLink}>Code Editors &amp; IDEs</a>
-                        <a href="#/no-login-apps" onClick={() => { setActiveTab('No-Login Web Apps'); setExpandedColumn(null); }} className={styles.megaSubLink}>File Host &amp; Share</a>
-                        <a href="#/no-login-apps" onClick={() => { setActiveTab('No-Login Web Apps'); setExpandedColumn(null); }} className={styles.megaSubLink}>Document Editors</a>
-                        <a href="#/ns-ai" onClick={() => { setActiveTab('Artificial Intelligence'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Artificial Intelligence' ? styles.megaSubLinkActive : ''}`}>Artificial Intelligence</a>
-                        <a href="#/ns-downloading" onClick={() => { setActiveTab('Downloading'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Downloading' ? styles.megaSubLinkActive : ''}`}>Downloading</a>
-                        <a href="#/ns-torrenting" onClick={() => { setActiveTab('Torrenting'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Torrenting' ? styles.megaSubLinkActive : ''}`}>Torrenting</a>
-                        <a href="#/ns-mobile" onClick={() => { setActiveTab('Android / iOS'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Android / iOS' ? styles.megaSubLinkActive : ''}`}>Android / iOS</a>
-                        <a href="#/ns-linux-macos" onClick={() => { setActiveTab('Linux / macOS'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Linux / macOS' ? styles.megaSubLinkActive : ''}`}>Linux / macOS</a>
-                        <a href="#/ns-non-english" onClick={() => { setActiveTab('Non-English'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Non-English' ? styles.megaSubLinkActive : ''}`}>Non-English</a>
-                        <a href="#/ns-misc" onClick={() => { setActiveTab('Miscellaneous'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Miscellaneous' ? styles.megaSubLinkActive : ''}`}>Miscellaneous</a>
-                      </div>
-                    </div>
-
-                    {/* Row 2, Column 1 — Entertainment */}
-                    <div className={styles.megaColumnWithList}>
-                      <span role="button"
-                        onClick={() => toggleColumn('entertainment')}
-                        className={`${styles.megaColumnListTitle} ${['Movies / TV / Anime','Music / Podcasts / Radio','Gaming / Emulation'].includes(activeTab) ? styles.megaLinkActiveTitle : ''} ${expandedColumn === 'entertainment' ? styles.megaColumnTitleExpanded : ''}`}>
-                        Entertainment <span className={styles.colChevron}>{expandedColumn === 'entertainment' ? '▲' : '▼'}</span>
-                      </span>
-                      <div className={`${styles.megaColumnListItemsSingle} ${expandedColumn === 'entertainment' ? styles.expanded : ''}`}>
-                        <a href="#/ns-audio" onClick={() => { setActiveTab('Music / Podcasts / Radio'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Music / Podcasts / Radio' ? styles.megaSubLinkActive : ''}`}>Music / Podcasts / Radio</a>
-                        <a href="#/ns-gaming" onClick={() => { setActiveTab('Gaming / Emulation'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Gaming / Emulation' ? styles.megaSubLinkActive : ''}`}>Gaming / Emulation</a>
-                        <a href="#/ns-video" onClick={() => { setActiveTab('Movies / TV / Anime'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Movies / TV / Anime' ? styles.megaSubLinkActive : ''}`}>Movies / TV / Anime</a>
-                      </div>
-                    </div>
-
-                    {/* Row 2, Column 2 — Education */}
-                    <div className={styles.megaColumnWithList}>
-                      <span role="button"
-                        onClick={() => toggleColumn('education')}
-                        className={`${styles.megaColumnListTitle} ${['Books / Comics / Manga','Educational','Libraries'].includes(activeTab) ? styles.megaLinkActiveTitle : ''} ${expandedColumn === 'education' ? styles.megaColumnTitleExpanded : ''}`}>
-                        Education <span className={styles.colChevron}>{expandedColumn === 'education' ? '▲' : '▼'}</span>
-                      </span>
-                      <div className={`${styles.megaColumnListItemsSingle} ${expandedColumn === 'education' ? styles.expanded : ''}`}>
-                        <a href="#/ns-reading" onClick={() => { setActiveTab('Books / Comics / Manga'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Books / Comics / Manga' ? styles.megaSubLinkActive : ''}`}>Books / Comics / Manga</a>
-                        <a href="#/ns-educational" onClick={() => { setActiveTab('Educational'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Educational' ? styles.megaSubLinkActive : ''}`}>Educational Resources</a>
-                        <a href="#/ns-libraries" onClick={() => { setActiveTab('Libraries'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Libraries' ? styles.megaSubLinkActive : ''}`}>Libraries</a>
-                      </div>
-                    </div>
-
-                    {/* Row 2, Column 3 — Security */}
-                    <div className={styles.megaColumnWithList}>
-                      <span role="button"
-                        onClick={() => toggleColumn('security')}
-                        className={`${styles.megaColumnListTitle} ${['Adblocking / Privacy','No-Login Web Apps'].includes(activeTab) ? styles.megaLinkActiveTitle : ''} ${expandedColumn === 'security' ? styles.megaColumnTitleExpanded : ''}`}>
-                        Security <span className={styles.colChevron}>{expandedColumn === 'security' ? '▲' : '▼'}</span>
-                      </span>
-                      <div className={`${styles.megaColumnListItemsSingle} ${expandedColumn === 'security' ? styles.expanded : ''}`}>
-                        <a href="#/no-login-apps" onClick={() => { setActiveTab('No-Login Web Apps'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'No-Login Web Apps' ? styles.megaSubLinkActive : ''}`}>Security &amp; Privacy</a>
-                        <a href="#/ns-privacy" onClick={() => { setActiveTab('Adblocking / Privacy'); setExpandedColumn(null); }} className={`${styles.megaSubLink} ${activeTab === 'Adblocking / Privacy' ? styles.megaSubLinkActive : ''}`}>Adblocking / Privacy</a>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              );
-            }
+            const isTabActive = activeTab === item.name;
 
             return (
               <a
@@ -202,6 +73,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
               </a>
             );
           })}
+          <HeaderMenu activeTab={activeTab} setActiveTab={setActiveTab} />
         </nav>
 
         {/* Search Bar */}
@@ -223,54 +95,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
       {/* Mobile Bottom Navigation Bar */}
       <nav className={styles.mobileNav}>
         {menuItems.map((item) => {
-          const isDropdown = 'dropdown' in item;
-          const isTabActive = isDropdown
-            ? (activeTab === 'No Sign-ups' || activeTab === 'AI Tools' || activeTab === 'No-Login Web Apps')
-            : activeTab === item.name;
-
-          if (isDropdown) {
-            return (
-              <div key={item.name} className={styles.mobileDropdownWrapper}>
-                <a
-                  href="#"
-                  className={`${styles.mobileNavItem} ${isTabActive ? styles.mobileNavItemActive : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setMobileDropdownOpen(!mobileDropdownOpen);
-                  }}
-                >
-                  {item.icon}
-                  <span>{item.name}</span>
-                </a>
-                <AnimatePresence>
-                  {mobileDropdownOpen && (
-                    <motion.div 
-                      className={styles.mobileDropdownMenu}
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 15 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      {item.dropdown?.map((subItem) => (
-                        <a
-                          key={subItem.name}
-                          href="#"
-                          className={`${styles.mobileDropdownItem} ${activeTab === subItem.tab ? styles.mobileDropdownItemActive : ''}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setActiveTab(subItem.tab);
-                            setMobileDropdownOpen(false);
-                          }}
-                        >
-                          {subItem.name}
-                        </a>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          }
+          const isTabActive = activeTab === item.name;
 
           return (
             <a
@@ -288,6 +113,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
             </a>
           );
         })}
+        <MobileMenu activeTab={activeTab} setActiveTab={setActiveTab} />
       </nav>
 
       {/* Main Workspace */}
@@ -298,7 +124,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isTo
       </main>
 
       {/* Footer Section */}
-      {!isToolOpen && (
+      {!isToolOpen && activeTab === 'Home' && (
         <footer className={styles.footer}>
           <div className={styles.footerContent}>
             <div className={styles.footerBrand}>

@@ -13,8 +13,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1600px;
   z-index: 1000;
   border-bottom: 1px solid var(--border);
   background-color: var(--bg-sidebar);
@@ -267,6 +271,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  margin-top: var(--header-height);
 }
 
 .content {
@@ -446,8 +451,8 @@
 .megaDropdownMenu {
   position: absolute;
   top: 100%;
-  right: 0;
-  left: auto;
+  left: 0;
+  right: auto;
   transform: none;
   background: rgba(15, 23, 42, 0.98);
   border: 1px solid var(--border, rgba(255, 255, 255, 0.08));

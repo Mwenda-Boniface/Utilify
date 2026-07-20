@@ -1,0 +1,299 @@
+/* TimePicker.module.css */
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 360px;
+  height: 360px;
+  transition: all 0.3s ease;
+}
+
+.z50 { z-index: 50; }
+.z10 { z-index: 10; }
+
+.svgLayer {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.svgItem {
+  filter: drop-shadow(0 20px 13px rgba(0, 0, 0, 0.15)) drop-shadow(0 8px 5px rgba(0, 0, 0, 0.08));
+}
+
+.gElement {
+  pointer-events: auto;
+}
+
+.wedgePath {
+  fill: #f8fafc;
+  stroke: #ffffff;
+  stroke-width: 4px;
+  transition: fill 0.15s ease, stroke 0.15s ease;
+  cursor: pointer;
+}
+
+.wedgePathPos:hover { fill: #eff6ff; }
+.wedgePathPos:active { fill: #dbeafe; }
+
+.wedgePathNeg:hover { fill: #f1f5f9; }
+.wedgePathNeg:active { fill: #e2e8f0; }
+
+.wedgeText {
+  font-size: 13px;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+
+.wedgeTextPos { fill: #1d4ed8; }
+.wedgeTextNeg { fill: #334155; }
+
+/* Center Button */
+.centerButton {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  width: 5.5rem;
+  height: 5.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 1px #e5e7eb;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  color: #1f2937;
+}
+
+.centerButton:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 0 4px #f3f4f6;
+  transform: scale(1.05);
+}
+
+.centerButton:active {
+  transform: scale(0.95);
+}
+
+.centerButton span {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Orbit Nodes */
+.circleNode {
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-width: 2px;
+  border-style: solid;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  z-index: 20;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.circleNodePos {
+  color: #1d4ed8;
+  border-color: #dbeafe;
+  background-color: #ffffff;
+}
+.circleNodePos:hover {
+  background-color: #eff6ff;
+  border-color: #93c5fd;
+}
+.circleNodePos:active {
+  background-color: #dbeafe;
+  border-color: #60a5fa;
+}
+
+.circleNodeNeg {
+  color: #334155;
+  border-color: #e2e8f0;
+  background-color: #ffffff;
+}
+.circleNodeNeg:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+.circleNodeNeg:active {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+/* Demo wrapper styling */
+.demoContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  transition: background-color 0.3s ease;
+  overflow-x: hidden;
+}
+
+.demoHeader {
+  max-width: 36rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+.demoTitle {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+}
+
+@media (min-width: 640px) {
+  .demoTitle { font-size: 1.875rem; line-height: 2.25rem; }
+}
+
+.demoDesc {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #64748b;
+  line-height: 1.625;
+}
+
+@media (min-width: 640px) {
+  .demoDesc { font-size: 1rem; line-height: 1.5rem; }
+}
+
+.demoGrid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  width: 100%;
+  max-width: 64rem;
+}
+
+@media (min-width: 768px) {
+  .demoGrid {
+    flex-direction: row;
+    gap: 6rem;
+  }
+}
+
+.demoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  transform: scale(0.85);
+  transform-origin: center;
+}
+
+@media (min-width: 640px) {
+  .demoItem { transform: scale(1); }
+}
+
+.demoHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.demoLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+}
+
+.demoValue {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: #2563eb;
+}
+
+/* Dark mode overrides */
+:global(html.dark) .wedgePath {
+  fill: #18181b;
+  stroke: #09090b;
+}
+
+:global(html.dark) .wedgePathPos:hover { fill: rgba(30, 58, 138, 0.4); }
+:global(html.dark) .wedgePathPos:active { fill: rgba(30, 58, 138, 0.6); }
+
+:global(html.dark) .wedgePathNeg:hover { fill: #27272a; }
+:global(html.dark) .wedgePathNeg:active { fill: #3f3f46; }
+
+:global(html.dark) .wedgeTextPos { fill: #60a5fa; }
+:global(html.dark) .wedgeTextNeg { fill: #a1a1aa; }
+
+:global(html.dark) .centerButton {
+  background-color: #09090b;
+  box-shadow: 0 0 0 1px #27272a;
+  color: #f4f4f5;
+}
+
+:global(html.dark) .centerButton:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 0 0 4px #27272a;
+}
+
+:global(html.dark) .circleNodePos {
+  background-color: #18181b;
+  border-color: #1e3a8a;
+  color: #60a5fa;
+}
+:global(html.dark) .circleNodePos:hover {
+  background-color: rgba(30, 58, 138, 0.4);
+  border-color: #1d4ed8;
+}
+:global(html.dark) .circleNodePos:active {
+  background-color: rgba(30, 58, 138, 0.6);
+  border-color: #2563eb;
+}
+
+:global(html.dark) .circleNodeNeg {
+  background-color: #18181b;
+  border-color: #3f3f46;
+  color: #a1a1aa;
+}
+:global(html.dark) .circleNodeNeg:hover {
+  background-color: #27272a;
+  border-color: #52525b;
+}
+:global(html.dark) .circleNodeNeg:active {
+  background-color: #3f3f46;
+  border-color: #71717a;
+}
+
+:global(html.dark) .demoTitle { color: #f4f4f5; }
+:global(html.dark) .demoDesc { color: #a1a1aa; }
+:global(html.dark) .demoLabel { color: #71717a; }
+:global(html.dark) .demoValue { color: #60a5fa; }
