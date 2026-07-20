@@ -37,7 +37,10 @@
 - **🔒 100% Private** — All processing happens in your browser. Zero file uploads, zero tracking of your data.
 - **⚡ Instant & Fast** — Built on React 19 + Vite with code-splitting. Tools load on-demand in milliseconds.
 - **📦 60+ Tools in One Place** — QR codes, PDF conversion, image editing, password security, developer utilities, calculators, encoders, and more — all in a single app.
-- **📱 Responsive Design** — Works on desktop, tablet, and mobile browsers out of the box.
+- **🗂️ Unified Dashboard Hub** — A brand new Home portal organizing everything into distinct suites: Local Tools, Software Downloads, Developer Platforms, and No Sign-up Web Apps.
+- **💻 Expansive Developer Resources** — 24 dedicated development categories covering everything from IDEs and CI/CD pipelines to Game Engines and AI platforms.
+- **🌐 Curated External Repositories** — Extensive links to free software hubs, ad-blocking tools, free AI models, and zero-login resources.
+- **📱 Responsive Design** — Works seamlessly across devices, featuring a smart sticky header and bottom-mobile navigation.
 - **🌙 Dark Mode First** — Premium glassmorphic dark UI with smooth animations and clean visual design.
 - **🧠 No Sign-Up Required** — Open the site, use any tool, done. No registration, no email, no subscription.
 - **📖 Launch History** — Your last 24 launched tools are automatically remembered locally for quick re-access.
@@ -243,17 +246,14 @@ Utilify/
 ├── src/
 │   ├── assets/           # Images and static resources
 │   ├── hooks/            # Custom React hooks (useTheme, etc.)
-│   ├── layout/           # App shell — header, footer, navigation
-│   ├── pages/            # All 60+ tool components, organized by category
-│   │   ├── security/
-│   │   ├── calculators/
-│   │   ├── imagedesign tools/
-│   │   ├── file&document tools/
-│   │   ├── SEO & Website tools/
-│   │   ├── developer tools/
-│   │   ├── code scanner&generator/
-│   │   ├── encoders&decoders/
-│   │   └── miscellaneous/
+│   ├── components/       # Reusable components (e.g., interactive dropdown Menus)
+│   ├── layout/           # App shell — header, sticky nav, mobile navigation
+│   ├── pages/            # Page-level components
+│   │   ├── home/         # Unified Dashboard entry point
+│   │   ├── software/     # Curated software download hubs
+│   │   ├── development/  # 24+ Developer resource categories
+│   │   ├── nosignups/    # Free, no-signup web apps & external resources
+│   │   ├── [tool categories...]/ # Core 60+ offline browser utilities
 │   └── styles/           # Global CSS design tokens (theme.css)
 ├── index.html            # App entry point with SEO meta tags
 ├── vite.config.ts        # Vite build configuration
